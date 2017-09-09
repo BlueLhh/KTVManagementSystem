@@ -13,12 +13,13 @@ public class Employee {
 	private byte empAge;//员工年龄
 	private String empPhone;//员工联系方式
 	private String empPost;//员工职别
+	private String empCode;//账号密码
 	
 	public Employee() {
 		
 	}
 	
-	public Employee(Long empId, String empName, String empGender, byte empAge, String empPhone, String empPost) {
+	public Employee(Long empId, String empName, String empGender, byte empAge, String empPhone, String empPost,String empCode) {
 		super();
 		this.empId = empId;
 		this.empName = empName;
@@ -26,6 +27,7 @@ public class Employee {
 		this.empAge = empAge;
 		this.empPhone = empPhone;
 		this.empPost = empPost;
+		this.empCode = empCode;
 	}
 
 	public Long getEmpId() {
@@ -75,11 +77,19 @@ public class Employee {
 	public void setEmpPost(String empPost) {
 		this.empPost = empPost;
 	}
+	
+	public String getEmpCode() {
+		return empCode;
+	}
+
+	public void setEmpCode(String empCode) {
+		this.empCode = empCode;
+	}
 
 	@Override
 	public String toString() {
 		return "员工信息 [员工编号=" + empId + ", 员工姓名=" + empName + ", 员工性别=" + empGender + ", 员工年龄=" + empAge
-				+ ", 联系方式=" + empPhone + ", 员工职别=" + empPost + "]";
+				+ ", 联系方式=" + empPhone + ", 员工职别=" + empPost + ", 账号密码=" + empCode +"]";
 	}
 	
 }
