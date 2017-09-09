@@ -68,12 +68,11 @@ create table ktv.k_order(
 	order_room_id number(10)
 		constraint k_order_order_room_id_fk
 		references k_room(room_id),
-	order_reserve_pname varchar2(20)
-		constraint k_order_order_reserve_pname_fk
-		references k_reserve(reserve_pname),
-	order_opendate date default sysdate
+	order_reserve_pname varchar2(20),
+	order_opendate date default to_char(sysdate+'','yyyy-mm-dd HH24:MI:SS')
 		constraint k_order_order_opendate_nn not null,
-	order_enddate date,
+	order_enddate date default to_char(sysdate+'','yyyy-mm-dd HH24:MI:SS')
+		constraint k_order_order_enddate_nn not null,
 	order_room_price number(8,2),
 	order_amtall number(8,2),
 	order_allamtall number(8,2)
@@ -87,7 +86,6 @@ create table ktv.k_eorder(
 	eorder_order_id number(10)
 		constraint k_eorder_eorder_order_id_fk
 		references k_order(order_id),
-	eorder_goods_name 
 	eorder_goods_id number(10)
 		constraint k_eorder_eorder_goods_id_fk
 		references k_goods(goods_id),
@@ -105,9 +103,9 @@ create table ktv.k_reserve(
 	reserve_room_id number(10)
 		constraint k_reserve_reserve_room_id_fk
 		references k_room(room_id),
-	reserve_date date default to_char(sysdate,'yyyy-mm-dd HH24:MI:SS')
+	reserve_date date default to_char(sysdate+'','yyyy-mm-dd HH24:MI:SS')
 		constraint k_reserve_reserve_date_nn not null,
-	reserve_enddate date default to_char(sysdate+2/24,'yyyy-mm-dd HH24:MI:SS')
+	reserve_enddate date default to_char(sysdate+2/24+'','yyyy-mm-dd HH24:MI:SS')
 		constraint k_reserve_reserve_enddate_nn not null,
 	reserve_pname varchar2(20),
 	reserve_mem_id number(10),
