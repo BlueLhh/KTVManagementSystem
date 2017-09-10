@@ -10,7 +10,7 @@ import java.sql.Date;
  */
 public class Reserve {
 	private Long resId;// 预定编号
-	private Long resrmId;// 预定包房编号
+	private Room roomId;// 预定包房编号
 	private Date resTime;// 预定时间
 	private Date resendTime;// 保留时间
 	private String resPname;// 预定人姓名
@@ -21,11 +21,11 @@ public class Reserve {
 
 	}
 
-	public Reserve(Long resId, Long resrmId, Date resTime, Date resendTime, String resPname, Long resmemId,
+	public Reserve(Long resId, Room roomId, Date resTime, Date resendTime, String resPname, Long resmemId,
 			String resPhone) {
 		super();
 		this.resId = resId;
-		this.resrmId = resrmId;
+		this.roomId = roomId;
 		this.resTime = resTime;
 		this.resendTime = resendTime;
 		this.resPname = resPname;
@@ -41,12 +41,12 @@ public class Reserve {
 		this.resId = resId;
 	}
 
-	public Long getResrmId() {
-		return resrmId;
+	public Room getRoomId() {
+		return roomId;
 	}
 
-	public void setResrmId(Long resrmId) {
-		this.resrmId = resrmId;
+	public void setRoomId(Room roomId) {
+		this.roomId = roomId;
 	}
 
 	public Date getResTime() {
@@ -91,7 +91,7 @@ public class Reserve {
 
 	@Override
 	public String toString() {
-		return "预定信息 [预定编号=" + resId + ", 包房编号=" + resrmId + ", 预定时间=" + resTime + ", 保留时间="
+		return "预定信息 [预定编号=" + resId + ", 包房编号=" + roomId + ", 预定时间=" + resTime + ", 保留时间="
 				+ resendTime + ", 预订人姓名=" + resPname + ", 会员编号=" + resmemId + ", 预订人号码=" + resPhone + "]";
 	}
 

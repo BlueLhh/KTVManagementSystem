@@ -10,8 +10,8 @@ package com.lhh.ktv.model.entity;
  */
 public class EOrder {
 	private Long eId;//子订单编号
-	private Long eoId;//订单编号
-	private Long egId;//商品编号
+	private Order orderId;//订单编号
+	private Goods goodsId;//商品编号
 	private String egName;//商品名称
 	private int eCount;//数量
 	private double egPrice;//商品单价
@@ -21,11 +21,11 @@ public class EOrder {
 		
 	}
 	
-	public EOrder(Long eId, Long eoId, Long egId, String egName, int eCount, double egPrice, double eMoney) {
+	public EOrder(Long eId, Order orderId, Goods goodsId, String egName, int eCount, double egPrice, double eMoney) {
 		super();
 		this.eId = eId;
-		this.eoId = eoId;
-		this.egId = egId;
+		this.orderId = orderId;
+		this.goodsId = goodsId;
 		this.egName = egName;
 		this.eCount = eCount;
 		this.egPrice = egPrice;
@@ -40,20 +40,20 @@ public class EOrder {
 		this.eId = eId;
 	}
 
-	public Long getEoId() {
-		return eoId;
+	public Order getOrderId() {
+		return orderId;
 	}
 
-	public void setEoId(Long eoId) {
-		this.eoId = eoId;
+	public void setOrderId(Order orderId) {
+		this.orderId = orderId;
 	}
 
-	public Long getEgId() {
-		return egId;
+	public Goods getGoodsId() {
+		return goodsId;
 	}
 
-	public void setEgId(Long egId) {
-		this.egId = egId;
+	public void setGoodsId(Goods goodsId) {
+		this.goodsId = goodsId;
 	}
 
 	public String getEgName() {
@@ -90,7 +90,7 @@ public class EOrder {
 
 	@Override
 	public String toString() {
-		return "子订单表信息 [子订单=" + eId + ", 订单编号=" + eoId + ", 商品编号=" + egId + ", 商品名称=" + egName + ", 数量=" + eCount
+		return "子订单表信息 [子订单=" + eId + ", 订单编号=" + orderId + ", 商品编号=" + goodsId + ", 商品名称=" + egName + ", 数量=" + eCount
 				+ ", 单价=" + egPrice + ", 金额=" + eMoney + "]";
 	}
 	

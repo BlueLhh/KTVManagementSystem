@@ -11,7 +11,7 @@ import java.sql.Date;
  */
 public class Order {
 	private Long orderId;// 订单ID
-	private Long ormId;// 包房编号
+	private Room roomId;// 包房编号
 	private String orpName;// 消费者姓名
 	private Date ordOpentime;// 开包时间
 	private Date ordEndtime;// 结账时间
@@ -23,11 +23,11 @@ public class Order {
 
 	}
 
-	public Order(Long orderId, Long ormId, String orpName, Date ordOpentime, Date ordEndtime, double ordrmPrice,
+	public Order(Long orderId, Room roomId, String orpName, Date ordOpentime, Date ordEndtime, double ordrmPrice,
 			double ordAmtall, double ordAllamtall) {
 		super();
 		this.orderId = orderId;
-		this.ormId = ormId;
+		this.roomId = roomId;
 		this.orpName = orpName;
 		this.ordOpentime = ordOpentime;
 		this.ordEndtime = ordEndtime;
@@ -44,12 +44,12 @@ public class Order {
 		this.orderId = orderId;
 	}
 
-	public Long getOrmId() {
-		return ormId;
+	public Room getRoomId() {
+		return roomId;
 	}
 
-	public void setOrmId(Long ormId) {
-		this.ormId = ormId;
+	public void setRoomId(Room roomId) {
+		this.roomId = roomId;
 	}
 
 	public String getOrpName() {
@@ -102,7 +102,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "订单信息 [订单编号=" + orderId + ", 包房编号=" + ormId + ", 客户名字=" + orpName + ", 开包时间="
+		return "订单信息 [订单编号=" + orderId + ", 包房编号=" + roomId + ", 客户名字=" + orpName + ", 开包时间="
 				+ ordOpentime + ", 结账时间=" + ordEndtime + ", 包房费用=" + ordrmPrice + ", 商品消费总额=" + ordAmtall
 				+ ", 消费合计=" + ordAllamtall + "]";
 	}
