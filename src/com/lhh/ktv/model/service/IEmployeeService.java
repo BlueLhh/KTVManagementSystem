@@ -14,6 +14,6 @@ public interface IEmployeeService {
 	//增加员工功能
 	public void addEmployee(Employee employee) throws ServiceException;
 	//登录功能
-	public void login(String userId, String password) throws ServiceException;
+	public void login(String username, String password) throws ServiceException;
 	//删除功能
 }
