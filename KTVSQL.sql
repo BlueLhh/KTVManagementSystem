@@ -112,5 +112,70 @@ create table ktv.k_reserve(
 	reserve_phone number(11)
 );
 
+--创建序列
+create sequence k_emp_emp_id_seq
+increment by 1/*步长，即一次增长多少*/
+start with 1/*从几开始*/
+maxvalue 9999999/*最大值*/
+minvalue -9999999/*最小值*/
+cycle /*到达最大值或最小值后是否循环，可以是nocycle*/
+cache 10 /*缓存个数，默认20，也可以是nocache*/
+;
+
+create sequence k_mem_mem_id_seq
+increment by 1/*步长，即一次增长多少*/
+start with 1/*从几开始*/
+maxvalue 9999999/*最大值*/
+minvalue -9999999/*最小值*/
+cycle /*到达最大值或最小值后是否循环，可以是nocycle*/
+cache 10 /*缓存个数，默认20，也可以是nocache*/
+;
+
+create sequence k_room_room_id_seq
+increment by 1/*步长，即一次增长多少*/
+start with 1/*从几开始*/
+maxvalue 9999999/*最大值*/
+minvalue -9999999/*最小值*/
+cycle /*到达最大值或最小值后是否循环，可以是nocycle*/
+cache 10 /*缓存个数，默认20，也可以是nocache*/
+;
+
+create sequence k_goods_goods_id_seq
+increment by 1/*步长，即一次增长多少*/
+start with 1/*从几开始*/
+maxvalue 9999999/*最大值*/
+minvalue -9999999/*最小值*/
+cycle /*到达最大值或最小值后是否循环，可以是nocycle*/
+cache 10 /*缓存个数，默认20，也可以是nocache*/
+;
+
+create sequence k_order_order_id_seq
+increment by 1/*步长，即一次增长多少*/
+start with 1/*从几开始*/
+maxvalue 9999999/*最大值*/
+minvalue -9999999/*最小值*/
+cycle /*到达最大值或最小值后是否循环，可以是nocycle*/
+cache 10 /*缓存个数，默认20，也可以是nocache*/
+;
+
+create sequence k_eorder_eorder_id_seq
+increment by 1/*步长，即一次增长多少*/
+start with 1/*从几开始*/
+maxvalue 9999999/*最大值*/
+minvalue -9999999/*最小值*/
+cycle /*到达最大值或最小值后是否循环，可以是nocycle*/
+cache 10 /*缓存个数，默认20，也可以是nocache*/
+;
+
+create sequence k_reserve_reserve_id_seq
+increment by 1/*步长，即一次增长多少*/
+start with 1/*从几开始*/
+maxvalue 9999999/*最大值*/
+minvalue -9999999/*最小值*/
+cycle /*到达最大值或最小值后是否循环，可以是nocycle*/
+cache 10 /*缓存个数，默认20，也可以是nocache*/
+;
+
+
 
 
