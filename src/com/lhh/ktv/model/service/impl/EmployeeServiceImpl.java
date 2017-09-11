@@ -6,6 +6,7 @@ import java.util.List;
 import com.lhh.ktv.common.ConnectionFactory;
 import com.lhh.ktv.common.DBUtils;
 import com.lhh.ktv.common.JdbcTransaction;
+import com.lhh.ktv.exception.DataAccessException;
 import com.lhh.ktv.exception.ServiceException;
 import com.lhh.ktv.model.dao.IEmployeeDao;
 import com.lhh.ktv.model.dao.impl.EmployeeDaoImpl;
@@ -88,16 +89,131 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			// 启动事务
 			conn = ConnectionFactory.getConnection();
 			trans.beginTransaction(conn);
-			System.out.println("id=" + id);
 			employeeDao.deleteEmployee(id, conn);
 			// 提交事务
 			trans.commit(conn);
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("失败id=" + id);
 			// 回滚事务
 			trans.rollback(conn);
 			throw new ServiceException("删除员工失败！");
+		} finally {
+			DBUtils.close(null, null, conn);
 		}
 	}
+
+	// 修改员工信息
+	@Override
+	public void updateEmployee(Employee employee) throws ServiceException {
+		// TODO Auto-generated method stub
+		JdbcTransaction trans = new JdbcTransaction();
+		Connection conn = null;
+
+		try {
+			// 启动事务
+			conn = ConnectionFactory.getConnection();
+			trans.beginTransaction(conn);
+			employeeDao.updateEmployee(employee, conn);
+			// 提交事务
+			trans.commit(conn);
+		} catch (DataAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO: handle exception
+			// 回滚事务
+			trans.rollback(conn);
+			throw new ServiceException("更新员工失败！");
+		} finally {
+			DBUtils.close(null, null, conn);
+		}
+	}
+
+	// 单个查询
+	@Override
+	public Employee findEmployee(Long id) throws ServiceException {
+		// TODO Auto-generated method stub
+		JdbcTransaction trans = new JdbcTransaction();
+		Connection conn = null;
+		Employee employee = new Employee();
+		try {
+			// 启动事务
+			conn = ConnectionFactory.getConnection();
+			trans.beginTransaction(conn);
+			employee = employeeDao.findEmployee(id, conn);
+			// 提交事务
+			trans.commit(conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// 回滚事务
+			trans.rollback(conn);
+			throw new ServiceException("查找失败！");
+		} finally {
+			DBUtils.close(null, null, conn);
+		}
+		return employee;
+	}
+
+	// 批量查询
+	@Override
+	public List<Employee> findEmployee(Employee employee) throws ServiceException {
+		// TODO Auto-generated method stub
+		JdbcTransaction trans = new JdbcTransaction();
+		Connection conn = null;
+		List<Employee> list = null;
+		try {
+			// 启动事务
+			conn = ConnectionFactory.getConnection();
+			trans.beginTransaction(conn);
+			list = employeeDao.findEmployees(conn);
+			for (Employee emp : list) {
+				System.out.println(emp);
+			}
+			// 提交事务
+			trans.commit(conn);
+		} catch (DataAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// 回滚事务
+			trans.rollback(conn);
+			throw new ServiceException("查询失败失败！");
+		} finally {
+			DBUtils.close(null, null, conn);
+		}
+		return list;
+	}
+
+	// 动态查询
+	@Override
+	public List<Employee> findEmployee(List<String> conditions) {
+		// TODO Auto-generated method stub
+		JdbcTransaction trans = new JdbcTransaction();
+		Connection conn = null;
+		List<Employee> list = null;
+		try {
+			// 启动事务
+			conn = ConnectionFactory.getConnection();
+			trans.beginTransaction(conn);
+			list = employeeDao.findEmployees(conditions, conn);
+			System.out.println("动态查询成功！");
+			// 提交事务
+			trans.commit(conn);
+		} catch (DataAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// 回滚事务
+			trans.rollback(conn);
+			try {
+				throw new ServiceException("动态查询失败失败！");
+			} catch (ServiceException ee) {
+				// TODO Auto-generated catch block
+				ee.printStackTrace();
+			}
+		} finally {
+			DBUtils.close(null, null, conn);
+		}
+		return list;
+	}
+
 }

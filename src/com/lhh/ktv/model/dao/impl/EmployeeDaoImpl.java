@@ -111,7 +111,7 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 				pstmt.setString(5, employee.getEmpPost());
 				pstmt.setString(6, employee.getUsername());
 				pstmt.setString(7, employee.getPassword());
-				pstmt.setLong(8, id);
+				pstmt.setLong(8, employee.getEmpId());
 			}
 		});
 	}
@@ -153,6 +153,41 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 		String sql = "select emp_id,emp_name,emp_gender,emp_age,emp_phone,emp_post,emp_username,emp_password from k_emp";
 		jt.query(sql, new RowCallBackHandler() {
 			public void processRow(ResultSet rs) throws SQLException {
+				while (rs.next()) {
+					Employee employee = new Employee();
+					employee.setEmpId(rs.getLong(1));
+					employee.setEmpName(rs.getString(2));
+					employee.setEmpGender(rs.getString(3));
+					employee.setEmpAge(rs.getByte(4));
+					employee.setEmpPhone(rs.getString(5));
+					employee.setEmpPost(rs.getString(6));
+					employee.setUsername(rs.getString(7));
+					employee.setPassword(rs.getString(8));
+					list.add(employee);
+				}
+			}
+		});
+		return list;
+	}
+
+	// 动态查询
+	@Override
+	public List<Employee> findEmployees(List<String> conditions, Connection conn) throws DataAccessException {
+		// TODO Auto-generated method stub
+		JdbcTemplate jt = new JdbcTemplate(conn);
+		List<Employee> list = new ArrayList<Employee>();
+		String sql = "select emp_id,emp_name,emp_gender,emp_age,emp_phone,emp_post,emp_username,emp_password "
+				+ "from k_emp " + "where 1 = 1";
+		for (String condition : conditions) {
+			sql += " and ";
+			sql += condition;
+		}
+		System.out.println(sql);
+		jt.query(sql, new RowCallBackHandler() {
+
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				// TODO Auto-generated method stub
 				while (rs.next()) {
 					Employee employee = new Employee();
 					employee.setEmpId(rs.getLong(1));

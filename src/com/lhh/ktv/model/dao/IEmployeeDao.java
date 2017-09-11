@@ -24,4 +24,7 @@ public interface IEmployeeDao {
 
 	// 批量查找员工
 	List<Employee> findEmployees(Connection conn) throws DataAccessException;
+
+	// 动态查询员工
+	List<Employee> findEmployees(List<String> conditions,Connection conn) throws DataAccessException;
 }
