@@ -77,4 +77,27 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		}
 		return ifright;
 	}
+
+	// 删除员工
+	@Override
+	public void delEmployee(Long id) throws ServiceException {
+		// TODO Auto-generated method stub
+		JdbcTransaction trans = new JdbcTransaction();
+		Connection conn = null;
+		try {
+			// 启动事务
+			conn = ConnectionFactory.getConnection();
+			trans.beginTransaction(conn);
+			System.out.println("id=" + id);
+			employeeDao.deleteEmployee(id, conn);
+			// 提交事务
+			trans.commit(conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("失败id=" + id);
+			// 回滚事务
+			trans.rollback(conn);
+			throw new ServiceException("删除员工失败！");
+		}
+	}
 }

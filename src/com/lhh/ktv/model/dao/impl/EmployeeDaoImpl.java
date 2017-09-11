@@ -46,10 +46,6 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 		return list;
 	}
 
-	public static void main(String[] args) {
-		
-	}
-
 	// 增加员工
 	@Override
 	public void saveEmployee(Employee employee, Connection conn) throws DataAccessException {
@@ -86,8 +82,10 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 	@Override
 	public void deleteEmployee(Long id, Connection conn) throws DataAccessException {
 		// TODO Auto-generated method stub
+		System.out.println("deleteEmployee id=" + id);
+
 		JdbcTemplate jt = new JdbcTemplate(conn);
-		String sql = "delete from k_emp where id = ?";
+		String sql = "delete from k_emp where emp_id = ?";
 		jt.update(sql, new PreparedStatementSetter() {
 			public void setValues(PreparedStatement pstmt) throws SQLException {
 				pstmt.setLong(1, id);
@@ -102,7 +100,7 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 		JdbcTemplate jt = new JdbcTemplate(conn);
 		String sql = "update k_emp "
 				+ "set emp_name = ?,emp_gender = ?,emp_age = ?,emp_phone = ?,emp_post= ?,emp_username = ?,emp_password = ? "
-				+ "where id = ?";
+				+ "where emp_id = ?";
 
 		jt.update(sql, new PreparedStatementSetter() {
 			public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -124,7 +122,7 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 		// TODO Auto-generated method stub
 		JdbcTemplate jt = new JdbcTemplate(conn);
 		final Employee employee = new Employee();
-		String sql = "select emp_id,emp_name,emp_gender,emp_age,emp_phone,emp_post,emp_username,emp_password from k_emp where id = ?";
+		String sql = "select emp_id,emp_name,emp_gender,emp_age,emp_phone,emp_post,emp_username,emp_password from k_emp where emp_id = ?";
 		jt.query(sql, new PreparedStatementSetter() {
 			public void setValues(PreparedStatement pstmt) throws SQLException {
 				pstmt.setLong(1, id);
