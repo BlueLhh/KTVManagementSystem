@@ -31,7 +31,8 @@ public class Test6 {
 		try {
 			if (employeeService.login(name, pass)) {
 				System.out.println("登录成功！");
-			}else{
+				System.out.println("当前用户为：" + name);
+			} else {
 				System.out.println("登录失败！");
 			}
 		} catch (ServiceException e) {

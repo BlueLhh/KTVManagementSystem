@@ -52,14 +52,18 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			trans.beginTransaction(conn);
 			List<Employee> list = employeeDao.login(conn);
 			for (Employee employee : list) {
-				if (employee.getUsername().trim().equals(username) && employee.getPassword().trim().equals(password)) {
+				if (employee.getUsername().trim().equals(username)) {
 					ifright = true;
+					if (employee.getPassword().trim().equals(password)) {
+						ifright = true;
+						break;
+					} else {
+						ifright = false;
+						continue;
+					}
 				} else {
 					ifright = false;
-					System.out.println("employee.getEmpName()=" + employee.getEmpName());
-					System.out.println("username=" + username);
-					System.out.println("employee.getPassword()=" + employee.getPassword());
-					System.out.println("password=" + password);
+					continue;
 				}
 			}
 			// 提交事务
