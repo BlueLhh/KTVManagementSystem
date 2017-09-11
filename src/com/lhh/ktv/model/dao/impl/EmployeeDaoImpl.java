@@ -15,9 +15,42 @@ import com.lhh.ktv.model.dao.IEmployeeDao;
 import com.lhh.ktv.model.entity.Employee;
 
 public class EmployeeDaoImpl implements IEmployeeDao {
-
+	// 全局变量id
 	Long id = 0L;
 
+	// 登录功能
+	@Override
+	public List<Employee> login(Connection conn) throws DataAccessException {
+		// TODO Auto-generated method stub
+		JdbcTemplate jt = new JdbcTemplate(conn);
+		final List<Employee> list = new ArrayList<Employee>();
+		String sql = "select * from k_emp";
+		jt.login(sql, new RowCallBackHandler() {
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				// TODO Auto-generated method stub
+				while (rs.next()) {
+					Employee employee = new Employee();
+					employee.setEmpId(rs.getLong(1));
+					employee.setEmpName(rs.getString(2));
+					employee.setEmpGender(rs.getString(3));
+					employee.setEmpAge(rs.getByte(4));
+					employee.setEmpPhone(rs.getString(5));
+					employee.setEmpPost(rs.getString(6));
+					employee.setUsername(rs.getString(7));
+					employee.setPassword(rs.getString(8));
+					list.add(employee);
+				}
+			}
+		});
+		return list;
+	}
+
+	public static void main(String[] args) {
+		
+	}
+
+	// 增加员工
 	@Override
 	public void saveEmployee(Employee employee, Connection conn) throws DataAccessException {
 		// TODO Auto-generated method stub
@@ -49,6 +82,7 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 		});
 	}
 
+	// 删除员工
 	@Override
 	public void deleteEmployee(Long id, Connection conn) throws DataAccessException {
 		// TODO Auto-generated method stub
@@ -61,6 +95,7 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 		});
 	}
 
+	// 修改员工信息
 	@Override
 	public void updateEmployee(Employee employee, Connection conn) throws DataAccessException {
 		// TODO Auto-generated method stub
@@ -83,6 +118,7 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 		});
 	}
 
+	// 查找员工
 	@Override
 	public Employee findEmployee(Long id, Connection conn) throws DataAccessException {
 		// TODO Auto-generated method stub
@@ -110,6 +146,7 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 		return employee;
 	}
 
+	// 批量查找员工
 	@Override
 	public List<Employee> findEmployees(Connection conn) throws DataAccessException {
 		// TODO Auto-generated method stub

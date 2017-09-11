@@ -11,9 +11,19 @@ import com.lhh.ktv.model.entity.Employee;
  *
  */
 public interface IEmployeeService {
+	
+	//登录功能
+	public boolean login(String username,String password) throws ServiceException;
+	
 	//增加员工功能
 	public void addEmployee(Employee employee) throws ServiceException;
-	//登录功能
-	public void login(String username, String password) throws ServiceException;
+	
 	//删除功能
+	
+	//修改功能
+	
+	//查找功能
+	
+	
+	
 }

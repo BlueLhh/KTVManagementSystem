@@ -64,4 +64,21 @@ public class JdbcTemplate {
 			DBUtils.close(null, pstmt);
 		}
 	}
+
+	// 登录 验证信息
+	public void login(String sql, RowCallBackHandler handler)
+			throws DataAccessException {
+		ResultSet rs = null;
+		Statement stmt = null;
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			if (handler != null)
+				handler.processRow(rs);
+		} catch (SQLException e) {
+			throw new DataAccessException(e.getMessage(), e);
+		} finally {
+			DBUtils.close(rs, stmt);
+		}
+	}
 }
