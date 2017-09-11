@@ -16,6 +16,7 @@ import com.lhh.ktv.model.service.impl.EmployeeServiceImpl;
  */
 public class Test5 {
 	public static void main(String[] args) {
+	
 		String name;
 		String gender;
 		byte age;
@@ -23,7 +24,7 @@ public class Test5 {
 		String post;
 		String username;
 		String password;
-		IEmployeeService employeeService = new EmployeeServiceImpl(); 
+		IEmployeeService employeeService = new EmployeeServiceImpl();
 		Employee employee = new Employee();
 		@SuppressWarnings("resource")
 		Scanner input = new Scanner(System.in);
@@ -48,10 +49,10 @@ public class Test5 {
 		employee.setEmpPost(post);
 		employee.setUsername(username);
 		employee.setPassword(password);
-		try{
+		try {
 			employeeService.addEmployee(employee);
 			System.out.println("添加员工成功！");
-		}catch(ServiceException e){
+		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
 	}
