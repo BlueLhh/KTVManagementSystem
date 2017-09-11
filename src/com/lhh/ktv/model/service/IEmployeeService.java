@@ -24,6 +24,4 @@ public interface IEmployeeService {
 	
 	//查找功能
 	
-	
-	
 }
