@@ -15,6 +15,7 @@ public class Test8 {
 	public static void main(String[] args) {
 		
 		EmployeeServiceImpl emp = new EmployeeServiceImpl();
+		
 		try {
 			emp.delEmployee(3L);
 			System.out.println("删除成功！");
