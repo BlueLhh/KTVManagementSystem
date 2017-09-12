@@ -29,6 +29,7 @@ public class BorderHide {
 	public static void setBtnBorderHide(JButton jButton){
 		jButton.setFocusPainted(false);//设置按钮内小框框不可见
 		jButton.setBorderPainted(false);//设置按钮的外小框框不可见
+		jButton.setContentAreaFilled(false);//设置按钮透明
 	}
 	
 }

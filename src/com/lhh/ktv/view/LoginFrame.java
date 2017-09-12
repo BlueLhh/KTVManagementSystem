@@ -10,13 +10,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.SystemColor;
+import java.awt.Toolkit;
 
 /**
  * 设置边框隐藏
@@ -33,7 +35,6 @@ public class LoginFrame extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtloginID;
 	private JPasswordField txtloginPW;
-	
 
 	/**
 	 * Launch the application.
@@ -43,67 +44,81 @@ public class LoginFrame extends JFrame {
 			public void run() {
 				try {
 					LoginFrame frame = new LoginFrame();
-					BorderHide.setJFrameHide(frame);//设置边框隐藏
-					new WindowMove().install(frame);//边框隐藏之后可以移动
+					BorderHide.setJFrameHide(frame);// 设置边框隐藏
+					new WindowMove().install(frame);// 边框隐藏之后可以移动
 					frame.setVisible(true);
+					//frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 
 		});
-		
-		
-		
+
 	}
-	
+
 	/**
-	 * 登录界面
-	 * Create the frame.
+	 * 登录界面 Create the frame.
 	 */
 	public LoginFrame() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(LoginFrame.class.getResource("/images/icon.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 650, 421);
-		contentPane = new JPanel();
+		setBounds(100, 100, 1170, 613);
+		contentPane = new BGJPanel();
+		((BGJPanel) contentPane).mainPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JLabel lblloginID = new JLabel("账号：");
-		lblloginID.setBounds(157, 139, 45, 18);
-		contentPane.add(lblloginID);
-		
-		JLabel lblloginPW = new JLabel("密码：");
-		lblloginPW.setBounds(157, 184, 45, 18);
-		contentPane.add(lblloginPW);
-		
+
+		BGJPanel loginPanel = new BGJPanel();
+		loginPanel.loginPanel();
+		loginPanel.setBounds(375, 180, 420, 380);
+		loginPanel.setOpaque(false);// 设置JPanel为透明
+		contentPane.add(loginPanel);
+		loginPanel.setLayout(null);
+
 		txtloginID = new JTextField();
-		txtloginID.setBounds(216, 136, 196, 24);
-		contentPane.add(txtloginID);
+		txtloginID.setForeground(SystemColor.activeCaptionBorder);
+		txtloginID.setSelectionColor(Color.GRAY);// 设置输入的内容的颜色
+		txtloginID.setFont(new Font("微软雅黑", Font.PLAIN, 24));
+		txtloginID.setOpaque(false);// 设置文本框透明
+		txtloginID.setBorder(new EmptyBorder(0, 0, 0, 0));// 去除边框
+		txtloginID.setBounds(35, 114, 354, 48);
+		loginPanel.add(txtloginID);
 		txtloginID.setColumns(10);
-		
+
 		txtloginPW = new JPasswordField();
-		txtloginPW.setBounds(216, 181, 196, 24);
-		contentPane.add(txtloginPW);
-		
-		JButton btnlogin = new JButton("登录");
-		btnlogin.addActionListener(new ActionListener() {
+		txtloginPW.setForeground(SystemColor.activeCaptionBorder);
+		txtloginPW.setSelectionColor(Color.GRAY);
+		txtloginPW.setFont(new Font("微软雅黑", Font.PLAIN, 24));
+		txtloginPW.setOpaque(false);
+		txtloginPW.setBorder(new EmptyBorder(0, 0, 0, 0));// 去除边框
+		txtloginPW.setBounds(35, 212, 354, 48);
+		loginPanel.add(txtloginPW);
+
+		// 登录按钮
+		JButton btnLogin = new JButton();
+		BtnEvent.btnLogin(btnLogin);
+
+		btnLogin.setBounds(80, 290, 110, 45);
+		loginPanel.add(btnLogin);
+		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				String loginID;//登录账号
-				String loginPW;//登录密码
-				
+
+				String loginID;// 登录账号
+				String loginPW;// 登录密码
+
 				loginID = txtloginID.getText();
-				loginPW = String.valueOf(txtloginPW.getPassword()) ;//getPassword获取的字符类型是char。需要强转成Stringleixing
-				
+				loginPW = String.valueOf(txtloginPW.getPassword());// getPassword获取的字符类型是char。需要强转成Stringleixing
+
 				IEmployeeService employeeService = new EmployeeServiceImpl();
-				
+
 				try {
-					if(employeeService.login(loginID, loginPW)){
-						//TODO 登录成功，在此处弹出一个提示框！
+					if (employeeService.login(loginID, loginPW)) {
+						// TODO 登录成功，在此处弹出一个提示框！
 						System.out.println("登录成功！");
-					}else{
-						System.out.println(loginID+"---"+loginPW);
+					} else {
+						System.out.println(loginID + "---" + loginPW);
 						System.out.println("登录失败！");
 					}
 				} catch (ServiceException ee) {
@@ -112,18 +127,31 @@ public class LoginFrame extends JFrame {
 				}
 			}
 		});
-		btnlogin.setBounds(227, 249, 77, 27);
-		BorderHide.setBtnBorderHide(btnlogin);//设置按钮边框隐藏
-		contentPane.add(btnlogin);
-		
-		JButton btnexit = new JButton("退出");
-		btnexit.addActionListener(new ActionListener() {
+		BorderHide.setBtnBorderHide(btnLogin);
+
+		// 取消
+		JButton btnClose = new JButton();
+		BtnEvent.btnClose(btnClose);
+		btnClose.setBounds(231, 290, 110, 45);
+		loginPanel.add(btnClose);
+		btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+				
+			}
+		});
+		BorderHide.setBtnBorderHide(btnClose);
+
+		JButton btnExit = new JButton();
+		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
-		btnexit.setBounds(324, 249, 77, 27);
-		BorderHide.setBtnBorderHide(btnexit);//设置按钮边框隐藏
-		contentPane.add(btnexit);
+
+		BtnEvent.btnExit(btnExit);
+		btnExit.setBounds(1140, 0, 30, 30);
+		contentPane.add(btnExit);
+		BorderHide.setBtnBorderHide(btnExit);
 	}
 }
