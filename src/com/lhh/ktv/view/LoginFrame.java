@@ -1,5 +1,8 @@
 package com.lhh.ktv.view;
 
+import com.lhh.ktv.exception.ServiceException;
+import com.lhh.ktv.model.service.IEmployeeService;
+import com.lhh.ktv.model.service.impl.EmployeeServiceImpl;
 import com.lhh.ktv.util.*;
 
 import java.awt.EventQueue;
@@ -49,6 +52,9 @@ public class LoginFrame extends JFrame {
 			}
 
 		});
+		
+		
+		
 	}
 	
 	/**
@@ -81,6 +87,31 @@ public class LoginFrame extends JFrame {
 		contentPane.add(txtloginPW);
 		
 		JButton btnlogin = new JButton("登录");
+		btnlogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String loginID;//登录账号
+				String loginPW;//登录密码
+				
+				loginID = txtloginID.getText();
+				loginPW = String.valueOf(txtloginPW.getPassword()) ;//getPassword获取的字符类型是char。需要强转成Stringleixing
+				
+				IEmployeeService employeeService = new EmployeeServiceImpl();
+				
+				try {
+					if(employeeService.login(loginID, loginPW)){
+						//TODO 登录成功，在此处弹出一个提示框！
+						System.out.println("登录成功！");
+					}else{
+						System.out.println(loginID+"---"+loginPW);
+						System.out.println("登录失败！");
+					}
+				} catch (ServiceException ee) {
+					// TODO Auto-generated catch block
+					ee.printStackTrace();
+				}
+			}
+		});
 		btnlogin.setBounds(227, 249, 77, 27);
 		BorderHide.setBtnBorderHide(btnlogin);//设置按钮边框隐藏
 		contentPane.add(btnlogin);
