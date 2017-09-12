@@ -116,7 +116,12 @@ public class LoginFrame extends JFrame {
 				try {
 					if (employeeService.login(loginID, loginPW)) {
 						// TODO 登录成功，在此处弹出一个提示框！
-						System.out.println("登录成功！");
+						System.out.println("登录成功！，跳转至主界面！");
+						setVisible(false);//隐藏本窗口
+						new MainFrame().setVisible(true);//显示新的窗口
+						MainFrame mainFrame = new MainFrame();
+						mainFrame.setVisible(true);
+						dispose();//本窗口销毁，释放内存！
 					} else {
 						System.out.println(loginID + "---" + loginPW);
 						System.out.println("登录失败！");

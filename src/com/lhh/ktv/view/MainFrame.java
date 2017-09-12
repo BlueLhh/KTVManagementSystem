@@ -1,21 +1,28 @@
 package com.lhh.ktv.view;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.lhh.ktv.util.BGJPanel;
 import com.lhh.ktv.util.BorderHide;
 import com.lhh.ktv.util.WindowMove;
+
 import java.awt.Color;
+import java.awt.EventQueue;
+
 import javax.swing.JButton;
+import javax.swing.JFrame;
+
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import java.awt.Font;
 
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements Runnable {
 
 	/**
 	 * 
@@ -23,30 +30,28 @@ public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 43473320193261407L;
 	private JPanel contentPane;
 	private CardLayout card;
+	private JLabel getTime;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainFrame frame = new MainFrame();
-					BorderHide.setJFrameHide(frame);// 设置边框隐藏
-					new WindowMove().install(frame);// 边框隐藏之后可以移动
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					MainFrame frame = new MainFrame();
+//					BorderHide.setJFrameHide(frame);
+//					new WindowMove().install(frame);// 边框隐藏之后可以移动
+//					new Thread(frame).start();// 获取系统时间
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
-	/**
-	 * Create the frame.
-	 */
 	public MainFrame() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1370, 800);
 		contentPane = new BGJPanel();
 		((BGJPanel) contentPane).bigMainFrame();
@@ -141,6 +146,46 @@ public class MainFrame extends JFrame {
 		busMage.setBounds(62, 465, 159, 85);
 		menuPanel.add(busMage);
 
+		JLabel txtTime = new JLabel("北京时间：");
+		txtTime.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		txtTime.setBounds(411, 151, 90, 38);
+		contentPane.add(txtTime);
+
+		getTime = new JLabel("");
+		getTime.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		getTime.setBounds(503, 151, 289, 38);
+		contentPane.add(getTime);
+
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					MainFrame frame = new MainFrame();
+					BorderHide.setJFrameHide(frame);
+					new WindowMove().install(frame);// 边框隐藏之后可以移动
+					//new Thread(frame).start();// 获取系统时间
+					frame.setVisible(true);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		while (true) {
+			Date date = new Date();
+			DateFormat dateformat = new SimpleDateFormat("yyyy年MM月dd日  HH:mm:ss");
+			getTime.setText(dateformat.format(date));
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
