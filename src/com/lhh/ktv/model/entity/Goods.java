@@ -14,11 +14,13 @@ public class Goods {
 	private double goodsPrice;//商品价格
 	private int goodsCount;//商品库存
 	
+	private EOrder eorder = new EOrder();
+	
 	public Goods() {
 		
 	}
 	
-	public Goods(Long goodsId, String goodsName, double goodsPrice, int goodsCount) {
+	public Goods(Long goodsId, String goodsName, double goodsPrice, int goodsCount, EOrder eorder) {
 		super();
 		this.goodsId = goodsId;
 		this.goodsName = goodsName;
@@ -56,6 +58,14 @@ public class Goods {
 
 	public void setGoodsCount(int goodsCount) {
 		this.goodsCount = goodsCount;
+	}
+	
+	public EOrder getEorder() {
+		return eorder;
+	}
+
+	public void setEorder(EOrder eorder) {
+		this.eorder = eorder;
 	}
 
 	@Override

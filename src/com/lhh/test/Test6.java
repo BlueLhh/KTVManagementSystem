@@ -3,7 +3,6 @@ package com.lhh.test;
 import java.util.Scanner;
 
 import com.lhh.ktv.exception.ServiceException;
-import com.lhh.ktv.model.entity.Employee;
 import com.lhh.ktv.model.service.IEmployeeService;
 import com.lhh.ktv.model.service.impl.EmployeeServiceImpl;
 
@@ -16,12 +15,10 @@ import com.lhh.ktv.model.service.impl.EmployeeServiceImpl;
  */
 
 public class Test6 {
-	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		String name;
 		String pass;
 		IEmployeeService employeeService = new EmployeeServiceImpl();
-		Employee employee = new Employee();
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		System.out.println("请输入账号：");
@@ -30,8 +27,6 @@ public class Test6 {
 		pass = sc.next();
 		try {
 			if (employeeService.login(name, pass)) {
-				System.out.println("登录成功！");
-				System.out.println("当前用户为：" + name);
 			} else {
 				System.out.println("登录失败！");
 			}

@@ -1,6 +1,8 @@
 package com.lhh.ktv.model.entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -18,13 +20,17 @@ public class Order {
 	private double ordrmPrice;// 包房费用
 	private double ordAmtall;// 商品消费总额
 	private double ordAllamtall;// 消费合计
+	private String ordStatus;// 订单状态。0是初始状态，为未结账。1为已经结账
+
+	// 与子订单是一对多关系
+	private List<EOrder> eorder = new ArrayList<EOrder>();
 
 	public Order() {
 
 	}
 
 	public Order(Long orderId, Room roomId, String orpName, Date ordOpentime, Date ordEndtime, double ordrmPrice,
-			double ordAmtall, double ordAllamtall) {
+			double ordAmtall, double ordAllamtall, String ordStatus, List<EOrder> eorder) {
 		super();
 		this.orderId = orderId;
 		this.roomId = roomId;
@@ -34,6 +40,8 @@ public class Order {
 		this.ordrmPrice = ordrmPrice;
 		this.ordAmtall = ordAmtall;
 		this.ordAllamtall = ordAllamtall;
+		this.ordStatus = ordStatus;
+		this.eorder = eorder;
 	}
 
 	public Long getOrderId() {
@@ -100,11 +108,26 @@ public class Order {
 		this.ordAllamtall = ordAllamtall;
 	}
 
-	@Override
-	public String toString() {
-		return "订单信息 [订单编号=" + orderId + ", 包房编号=" + roomId + ", 客户名字=" + orpName + ", 开包时间="
-				+ ordOpentime + ", 结账时间=" + ordEndtime + ", 包房费用=" + ordrmPrice + ", 商品消费总额=" + ordAmtall
-				+ ", 消费合计=" + ordAllamtall + "]";
+	public String getOrdStatus() {
+		return ordStatus;
 	}
 
+	public void setOrdStatus(String ordStatus) {
+		this.ordStatus = ordStatus;
+	}
+
+	public List<EOrder> getEorder() {
+		return eorder;
+	}
+
+	public void setEorder(List<EOrder> eorder) {
+		this.eorder = eorder;
+	}
+
+	@Override
+	public String toString() {
+		return "订单信息 [订单编号=" + orderId + ", 包房编号=" + roomId + ", 客户名字=" + orpName + ", 开包时间=" + ordOpentime + ", 结账时间="
+				+ ordEndtime + ", 包房费用=" + ordrmPrice + ", 商品消费总额=" + ordAmtall + ", 消费合计=" + ordAllamtall + ", 订单状态="
+				+ ordStatus + ", 子订单集合=" + eorder + "]";
+	}
 }

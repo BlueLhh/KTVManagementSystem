@@ -57,6 +57,12 @@ public class EmployeeServiceImpl implements IEmployeeService {
 					ifright = true;
 					if (employee.getPassword().trim().equals(password)) {
 						ifright = true;
+						System.out.println("当前用户为："+employee.getEmpName());
+						if(employee.getEmpPost().trim().equals("0")){
+							System.out.println("当前用户职位为：经理");
+						}else{
+							System.out.println("当前用户职位为：前台");
+						}
 						break;
 					} else {
 						ifright = false;

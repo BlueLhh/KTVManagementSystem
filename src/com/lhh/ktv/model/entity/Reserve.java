@@ -10,7 +10,7 @@ import java.sql.Date;
  */
 public class Reserve {
 	private Long resId;// 预定编号
-	private Room roomId;// 预定包房编号
+	private Room roomId;// 预定包房编号（外键）
 	private Date resTime;// 预定时间
 	private Date resendTime;// 保留时间
 	private String resPname;// 预定人姓名
