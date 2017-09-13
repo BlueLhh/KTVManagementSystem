@@ -48,15 +48,8 @@ public class MainFrame extends JFrame implements Runnable {
 	private JTextField querytxtName;
 	private JTextField querytxtNum;
 	private JTable dataTable;
-	
-	private static String queryname;// 名字
-	private static String querynum;// 账号
 
 	JPanel dataPanel = new JPanel();
-
-	EmployeeServiceImpl empSimp = new EmployeeServiceImpl();
-	Employee employee = new Employee();
-	List<String> conditions = new ArrayList<String>();
 
 	/**
 	 * 
@@ -194,49 +187,40 @@ public class MainFrame extends JFrame implements Runnable {
 		 * 
 		 */
 		// TODO 按条件查询员工
-		
 		JButton queryEmp = new JButton("查询员工");
 		queryEmp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				String name = null;
+				String num = null;
+				EmployeeServiceImpl empSimp = new EmployeeServiceImpl();
+				List<String> conditions = new ArrayList<String>();
 				conditions.add("emp_name = '" + querytxtName.getText() + "'");
 				conditions.add("emp_username = '" + querytxtNum.getText() + "'");
 				List<Employee> empList = new ArrayList<Employee>();
 				empList = empSimp.findEmployee(conditions);
-				
-				System.out.println(empList);
-				dataTable = new JTable();
-				SetTableCenter.setTableCenter(dataTable);// 设置表格中内容居中
-				MyEmpTableModel model = new MyEmpTableModel(empList);
-				dataTable.setModel(model);
-				JScrollPane dataScrollPane = new JScrollPane(dataTable);
-				dataScrollPane.setBounds(0, 0, 845, 470);
-				dataPanel.add(dataScrollPane);
 
-//				for (Employee employee : empList) {
-//					queryname = employee.getEmpName();
-//					querynum = employee.getUsername();
-//				}
-//
-//				System.out.println("----" + queryname);
-//				System.out.println("----" + querynum);
-//				
-//				System.out.println("++++"+querytxtName.getText());
-//				System.out.println("++++"+querytxtNum.getText());
-//
-//				if (!(querytxtName.getText().equals(queryname)) || !(querytxtNum.getText().equals(querynum))) {
-//					JOptionPane.showMessageDialog(contentPane, "没有这个人！", "提示", JOptionPane.INFORMATION_MESSAGE);
-//					System.out.println(querytxtName.getText());
-//					System.out.println(querytxtNum.getText());
-//					System.out.println(queryname);
-//					System.out.println(querynum);
-//					querytxtName.setText("");
-//					querytxtNum.setText("");
-//					queryname = "";
-//					querynum = "";
-//				} else {
-//					
-//				}
+				for (Employee employee : empList) {
+					name = employee.getEmpName();
+					num = employee.getUsername();
+				}
+
+				if (!(querytxtName.getText().equals(name)) || !(querytxtNum.getText().equals(num))) {
+					JOptionPane.showMessageDialog(contentPane, "没有这个人！", "提示", JOptionPane.INFORMATION_MESSAGE);
+					querytxtName.setText("");
+					querytxtNum.setText("");
+				} else {
+					JOptionPane.showMessageDialog(contentPane, "查询成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+					querytxtName.setText("");
+					querytxtNum.setText("");
+					System.out.println(empList);
+					dataTable = new JTable();
+					SetTableCenter.setTableCenter(dataTable);// 设置表格中内容居中
+					MyEmpTableModel model = new MyEmpTableModel(empList);
+					dataTable.setModel(model);
+					JScrollPane dataScrollPane = new JScrollPane(dataTable);
+					dataScrollPane.setBounds(0, 0, 845, 470);
+					dataPanel.add(dataScrollPane);
+				}
 			}
 		});
 		queryEmp.setBounds(721, 23, 113, 27);
@@ -247,6 +231,9 @@ public class MainFrame extends JFrame implements Runnable {
 		 */
 		// TODO 查询全部的员工
 		try {
+			Employee employee = new Employee();
+			EmployeeServiceImpl empSimp = new EmployeeServiceImpl();
+
 			List<Employee> empList = empSimp.findEmployee(employee);
 
 			dataTable = new JTable();
@@ -285,12 +272,11 @@ public class MainFrame extends JFrame implements Runnable {
 		refreshbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-
 					querytxtName.setText("");
 					querytxtNum.setText("");
-
+					Employee employee = new Employee();
+					EmployeeServiceImpl empSimp = new EmployeeServiceImpl();
 					List<Employee> empList = empSimp.findEmployee(employee);
-
 					dataTable = new JTable();
 					SetTableCenter.setTableCenter(dataTable);// 设置表格中内容居中
 					MyEmpTableModel model = new MyEmpTableModel(empList);
