@@ -13,7 +13,7 @@ public class Employee {
 	private byte empAge;//员工年龄
 	private String empPhone;//员工联系方式
 	private String empPost;//员工职别
-	private String username;//院长账号
+	private String username;//员工账号
 	private String password;//账号密码
 	
 	public Employee() {

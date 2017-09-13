@@ -23,7 +23,7 @@ public class Test11 {
 
 		List<Employee> list;
 		try {
-			list = test.login(conn);
+			list = test.findEmployees(conn);
 			for (Employee employee : list) {
 				System.out.println(employee);
 			}

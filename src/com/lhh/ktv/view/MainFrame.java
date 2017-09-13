@@ -3,10 +3,14 @@ package com.lhh.ktv.view;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.lhh.ktv.exception.ServiceException;
+import com.lhh.ktv.model.entity.Employee;
 import com.lhh.ktv.model.service.impl.EmployeeServiceImpl;
 import com.lhh.ktv.util.BGJPanel;
 import com.lhh.ktv.util.BorderHide;
 import com.lhh.ktv.util.BtnEvent;
+import com.lhh.ktv.util.MyEmpTableModel;
+import com.lhh.ktv.util.SetTableCenter;
 import com.lhh.ktv.util.WindowMove;
 
 import java.awt.Color;
@@ -20,10 +24,15 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Toolkit;
+import javax.swing.JTextField;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+
 
 public class MainFrame extends JFrame implements Runnable {
 
@@ -34,6 +43,9 @@ public class MainFrame extends JFrame implements Runnable {
 	private JPanel contentPane;
 	private CardLayout card;
 	private JLabel getTime;
+	private JTextField querytxtName;
+	private JTextField querytxtNum;
+	private JTable dataTable;
 	
 	//private EmployeeServiceImpl employee = new EmployeeServiceImpl();
 	
@@ -152,6 +164,86 @@ public class MainFrame extends JFrame implements Runnable {
 		JPanel empJpanel = new JPanel();
 		mainPanel.add(empJpanel, "emp");
 		empJpanel.setLayout(null);
+		
+		JPanel functionPanel = new JPanel();
+		functionPanel.setBackground(Color.LIGHT_GRAY);
+		functionPanel.setBounds(0, 0, 1000, 78);
+		empJpanel.add(functionPanel);
+		functionPanel.setLayout(null);
+		
+		JLabel queryName = new JLabel("姓名：");
+		queryName.setFont(new Font("微软雅黑", Font.PLAIN, 20));
+		queryName.setBounds(101, 13, 64, 40);
+		functionPanel.add(queryName);
+		
+		querytxtName = new JTextField();
+		querytxtName.setFont(new Font("微软雅黑", Font.PLAIN, 20));
+		querytxtName.setBounds(165, 16, 172, 40);
+		functionPanel.add(querytxtName);
+		querytxtName.setColumns(10);
+		
+		JLabel queryNum = new JLabel("账号：");
+		queryNum.setFont(new Font("微软雅黑", Font.PLAIN, 20));
+		queryNum.setBounds(388, 13, 64, 40);
+		functionPanel.add(queryNum);
+		
+		querytxtNum = new JTextField();
+		querytxtNum.setFont(new Font("微软雅黑", Font.PLAIN, 20));
+		querytxtNum.setColumns(10);
+		querytxtNum.setBounds(454, 16, 217, 40);
+		functionPanel.add(querytxtNum);
+		
+		JButton queryEmp = new JButton("查询员工");
+		queryEmp.setBounds(721, 23, 113, 27);
+		functionPanel.add(queryEmp);
+		
+		JPanel dataPanel = new JPanel();
+		dataPanel.setBackground(Color.LIGHT_GRAY);
+		dataPanel.setBounds(0, 91, 845, 470);
+		empJpanel.add(dataPanel);
+		dataPanel.setLayout(null);
+		
+		/**
+		 * 实现查询员工的功能
+		 */
+		EmployeeServiceImpl empSimp = new EmployeeServiceImpl();
+		Employee employee = new Employee();
+		try {
+			List<Employee> empList = empSimp.findEmployee(employee);
+			
+			dataTable = new JTable();
+			SetTableCenter.setTableCenter(dataTable);//设置表格中内容居中
+			MyEmpTableModel model = new MyEmpTableModel(empList);
+			dataTable.setModel(model);
+			JScrollPane dataScrollPane = new JScrollPane(dataTable);
+			dataScrollPane.setBounds(0, 0, 845, 470);
+			dataPanel.add(dataScrollPane);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		JPanel rightJPanel = new JPanel();
+		rightJPanel.setBackground(Color.LIGHT_GRAY);
+		rightJPanel.setBounds(859, 91, 141, 470);
+		empJpanel.add(rightJPanel);
+		rightJPanel.setLayout(null);
+		
+		JButton addEmp = new JButton("添加员工");
+		addEmp.setBounds(14, 72, 113, 27);
+		rightJPanel.add(addEmp);
+		
+		JButton removeEmp = new JButton("删除员工");
+		removeEmp.setBounds(14, 171, 113, 27);
+		rightJPanel.add(removeEmp);
+		
+		JButton updateEmp = new JButton("更改信息");
+		updateEmp.setBounds(14, 270, 113, 27);
+		rightJPanel.add(updateEmp);
+		
+		JButton refreshbtn = new JButton("刷新");
+		refreshbtn.setBounds(37, 369, 76, 27);
+		rightJPanel.add(refreshbtn);
 
 		JPanel busJpanel = new JPanel();
 		busJpanel.setBackground(Color.YELLOW);

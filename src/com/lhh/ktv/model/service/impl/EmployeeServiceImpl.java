@@ -83,7 +83,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 						if (employee.getEmpPost().trim().equals("0")) {
 							post = "经理";
 						} else {
-							post = "员工";
+							post = "前台";
 						}
 						System.out.println("当前用户职位为：" + post);
 						break;
