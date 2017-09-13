@@ -17,6 +17,26 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	private IEmployeeDao employeeDao = new EmployeeDaoImpl();
 
+	//要想获取该界面的数据，在该界面定义静态变量。在需要此数据的地方使用类点出数据
+	static String post;
+	static String name;
+
+	public static String getPost() {
+		return post;
+	}
+
+	public static void setPost(String post) {
+		EmployeeServiceImpl.post = post;
+	}
+
+	public static String getName() {
+		return name;
+	}
+
+	public static void setName(String name) {
+		EmployeeServiceImpl.name = name;
+	}
+
 	// 添加员工
 	@Override
 	public void addEmployee(Employee employee) throws ServiceException {
@@ -47,6 +67,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		boolean ifright = false;// 初始为错误
 		JdbcTransaction trans = new JdbcTransaction();
 		Connection conn = null;
+		
 		try {
 			// 启动事务
 			conn = ConnectionFactory.getConnection();
@@ -57,12 +78,14 @@ public class EmployeeServiceImpl implements IEmployeeService {
 					ifright = true;
 					if (employee.getPassword().trim().equals(password)) {
 						ifright = true;
-						System.out.println("当前用户为："+employee.getEmpName());
-						if(employee.getEmpPost().trim().equals("0")){
-							System.out.println("当前用户职位为：经理");
-						}else{
-							System.out.println("当前用户职位为：前台");
+						name = employee.getEmpName();
+						System.out.println("当前用户为：" + name);
+						if (employee.getEmpPost().trim().equals("0")) {
+							post = "经理";
+						} else {
+							post = "员工";
 						}
+						System.out.println("当前用户职位为：" + post);
 						break;
 					} else {
 						ifright = false;

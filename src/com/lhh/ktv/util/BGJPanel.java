@@ -23,6 +23,11 @@ public class BGJPanel extends JPanel{
 	ImageIcon icon;
 	Image img;
 	
+	public void topPanel(){
+		icon = new ImageIcon(getClass().getResource("/images/topbg.jpg"));//在src文件下
+		img = icon.getImage();
+	}
+	
 	public void loginPanel(){
 		icon = new ImageIcon(getClass().getResource("/images/login.png"));//在src文件下
 		img = icon.getImage();
@@ -39,7 +44,17 @@ public class BGJPanel extends JPanel{
 	}
 	
 	public void bigMainFrame(){
-		icon = new ImageIcon(getClass().getResource("/images/mainFrame.png"));
+		icon = new ImageIcon(getClass().getResource("/images/mainFrame.jpg"));
+		img = icon.getImage();
+	}
+	
+	public void menBg(){
+		icon = new ImageIcon(getClass().getResource("/images/menbg.jpg"));
+		img = icon.getImage();
+	}
+	
+	public void fristBg(){
+		icon = new ImageIcon(getClass().getResource("/images/frist.jpg"));
 		img = icon.getImage();
 	}
 	

@@ -8,6 +8,7 @@ import com.lhh.ktv.util.*;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
@@ -69,7 +70,8 @@ public class LoginFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
+		
+		//登录
 		BGJPanel loginPanel = new BGJPanel();
 		loginPanel.loginPanel();
 		loginPanel.setBounds(375, 180, 420, 380);
@@ -115,15 +117,15 @@ public class LoginFrame extends JFrame {
 
 				try {
 					if (employeeService.login(loginID, loginPW)) {
-						// TODO 登录成功，在此处弹出一个提示框！
-						System.out.println("登录成功！，跳转至主界面！");
+						// TODO 登录成功，在此跳转到新的界面
+						System.out.println("登录成功！跳转至主界面！");
 						setVisible(false);//隐藏本窗口
-						new MainFrame().setVisible(true);//显示新的窗口
-						MainFrame mainFrame = new MainFrame();
-						mainFrame.setVisible(true);
+						JFrame frame = new JFrame();
+						new MainFrame(frame).setVisible(true);//显示新的窗口
 						dispose();//本窗口销毁，释放内存！
 					} else {
 						System.out.println(loginID + "---" + loginPW);
+						JOptionPane.showMessageDialog(contentPane, "用户或密码不正确！","提示",JOptionPane.INFORMATION_MESSAGE);
 						System.out.println("登录失败！");
 					}
 				} catch (ServiceException ee) {
@@ -147,13 +149,13 @@ public class LoginFrame extends JFrame {
 		});
 		BorderHide.setBtnBorderHide(btnClose);
 
+		//退出按钮
 		JButton btnExit = new JButton();
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
-
 		BtnEvent.btnExit(btnExit);
 		btnExit.setBounds(1140, 0, 30, 30);
 		contentPane.add(btnExit);
