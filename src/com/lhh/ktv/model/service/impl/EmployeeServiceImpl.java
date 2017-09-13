@@ -20,6 +20,15 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	//要想获取该界面的数据，在该界面定义静态变量。在需要此数据的地方使用类点出数据
 	static String post;
 	static String name;
+	static String num;
+
+	public static String getNum() {
+		return num;
+	}
+
+	public static void setNum(String num) {
+		EmployeeServiceImpl.num = num;
+	}
 
 	public static String getPost() {
 		return post;

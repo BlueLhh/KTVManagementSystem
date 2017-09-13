@@ -23,16 +23,18 @@ import java.awt.CardLayout;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Toolkit;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
-
 
 public class MainFrame extends JFrame implements Runnable {
 
@@ -47,27 +49,14 @@ public class MainFrame extends JFrame implements Runnable {
 	private JTextField querytxtNum;
 	private JTable dataTable;
 	
-	//private EmployeeServiceImpl employee = new EmployeeServiceImpl();
-	
-	/**
-	 * Launch the application.
-	 */
-	// public static void main(String[] args) {
-	// EventQueue.invokeLater(new Runnable() {
-	// public void run() {
-	// try {
-	// MainFrame frame = new MainFrame();
-	// BorderHide.setJFrameHide(frame);
-	// new WindowMove().install(frame);// 边框隐藏之后可以移动
-	// new Thread(frame).start();// 获取系统时间
-	// frame.setVisible(true);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// });
-	// }
+	private static String queryname;// 名字
+	private static String querynum;// 账号
 
+	JPanel dataPanel = new JPanel();
+
+	EmployeeServiceImpl empSimp = new EmployeeServiceImpl();
+	Employee employee = new Employee();
+	List<String> conditions = new ArrayList<String>();
 
 	/**
 	 * 
@@ -76,7 +65,7 @@ public class MainFrame extends JFrame implements Runnable {
 	 * 等方法失效（之前写在主函数中）。又因为在LoginFrame那边登录直接是new 出MainFrame界面，调用的是无参构造函数。
 	 * 所以不能在无参构造函数中写之前在主函数的方法。不然会无限开启新的面板
 	 * 因此给一个有参构造函数，有参构造函数中写之前主函数的方法。再在有参构造函数中new一个新的对象，新的对象默认使用
-	 * 无参构造函数。再隐藏和销毁掉就好了 
+	 * 无参构造函数。再隐藏和销毁掉就好了
 	 * 
 	 * 
 	 * @param jFrame
@@ -115,7 +104,7 @@ public class MainFrame extends JFrame implements Runnable {
 		topPanel.setOpaque(false);// 设置JPanel为透明
 		contentPane.add(topPanel);
 		topPanel.setLayout(null);
-		
+
 		JButton btnExit = new JButton();
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -140,7 +129,7 @@ public class MainFrame extends JFrame implements Runnable {
 		contentPane.add(mainPanel);
 		card = new CardLayout(0, 0);
 		mainPanel.setLayout(card);
-		
+
 		BGJPanel frist = new BGJPanel();
 		frist.fristBg();
 		frist.setOpaque(false);
@@ -164,92 +153,166 @@ public class MainFrame extends JFrame implements Runnable {
 		JPanel empJpanel = new JPanel();
 		mainPanel.add(empJpanel, "emp");
 		empJpanel.setLayout(null);
-		
+
 		JPanel functionPanel = new JPanel();
 		functionPanel.setBackground(Color.LIGHT_GRAY);
 		functionPanel.setBounds(0, 0, 1000, 78);
 		empJpanel.add(functionPanel);
 		functionPanel.setLayout(null);
-		
+
 		JLabel queryName = new JLabel("姓名：");
 		queryName.setFont(new Font("微软雅黑", Font.PLAIN, 20));
 		queryName.setBounds(101, 13, 64, 40);
 		functionPanel.add(queryName);
-		
+
 		querytxtName = new JTextField();
 		querytxtName.setFont(new Font("微软雅黑", Font.PLAIN, 20));
 		querytxtName.setBounds(165, 16, 172, 40);
 		functionPanel.add(querytxtName);
 		querytxtName.setColumns(10);
-		
+
 		JLabel queryNum = new JLabel("账号：");
 		queryNum.setFont(new Font("微软雅黑", Font.PLAIN, 20));
 		queryNum.setBounds(388, 13, 64, 40);
 		functionPanel.add(queryNum);
-		
+
 		querytxtNum = new JTextField();
 		querytxtNum.setFont(new Font("微软雅黑", Font.PLAIN, 20));
 		querytxtNum.setColumns(10);
 		querytxtNum.setBounds(454, 16, 217, 40);
 		functionPanel.add(querytxtNum);
-		
-		JButton queryEmp = new JButton("查询员工");
-		queryEmp.setBounds(721, 23, 113, 27);
-		functionPanel.add(queryEmp);
-		
+
 		JPanel dataPanel = new JPanel();
 		dataPanel.setBackground(Color.LIGHT_GRAY);
 		dataPanel.setBounds(0, 91, 845, 470);
 		empJpanel.add(dataPanel);
 		dataPanel.setLayout(null);
+
+		/**
+		 * 
+		 * 按条件查询健查询（动态查询）
+		 * 
+		 */
+		// TODO 按条件查询员工
 		
+		JButton queryEmp = new JButton("查询员工");
+		queryEmp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				conditions.add("emp_name = '" + querytxtName.getText() + "'");
+				conditions.add("emp_username = '" + querytxtNum.getText() + "'");
+				List<Employee> empList = new ArrayList<Employee>();
+				empList = empSimp.findEmployee(conditions);
+				
+				System.out.println(empList);
+				dataTable = new JTable();
+				SetTableCenter.setTableCenter(dataTable);// 设置表格中内容居中
+				MyEmpTableModel model = new MyEmpTableModel(empList);
+				dataTable.setModel(model);
+				JScrollPane dataScrollPane = new JScrollPane(dataTable);
+				dataScrollPane.setBounds(0, 0, 845, 470);
+				dataPanel.add(dataScrollPane);
+
+//				for (Employee employee : empList) {
+//					queryname = employee.getEmpName();
+//					querynum = employee.getUsername();
+//				}
+//
+//				System.out.println("----" + queryname);
+//				System.out.println("----" + querynum);
+//				
+//				System.out.println("++++"+querytxtName.getText());
+//				System.out.println("++++"+querytxtNum.getText());
+//
+//				if (!(querytxtName.getText().equals(queryname)) || !(querytxtNum.getText().equals(querynum))) {
+//					JOptionPane.showMessageDialog(contentPane, "没有这个人！", "提示", JOptionPane.INFORMATION_MESSAGE);
+//					System.out.println(querytxtName.getText());
+//					System.out.println(querytxtNum.getText());
+//					System.out.println(queryname);
+//					System.out.println(querynum);
+//					querytxtName.setText("");
+//					querytxtNum.setText("");
+//					queryname = "";
+//					querynum = "";
+//				} else {
+//					
+//				}
+			}
+		});
+		queryEmp.setBounds(721, 23, 113, 27);
+		functionPanel.add(queryEmp);
+
 		/**
 		 * 实现查询员工的功能
 		 */
-		EmployeeServiceImpl empSimp = new EmployeeServiceImpl();
-		Employee employee = new Employee();
+		// TODO 查询全部的员工
 		try {
 			List<Employee> empList = empSimp.findEmployee(employee);
-			
+
 			dataTable = new JTable();
-			SetTableCenter.setTableCenter(dataTable);//设置表格中内容居中
+			SetTableCenter.setTableCenter(dataTable);// 设置表格中内容居中
 			MyEmpTableModel model = new MyEmpTableModel(empList);
 			dataTable.setModel(model);
 			JScrollPane dataScrollPane = new JScrollPane(dataTable);
 			dataScrollPane.setBounds(0, 0, 845, 470);
+			dataPanel.setBackground(Color.RED);
 			dataPanel.add(dataScrollPane);
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-				
+
 		JPanel rightJPanel = new JPanel();
 		rightJPanel.setBackground(Color.LIGHT_GRAY);
 		rightJPanel.setBounds(859, 91, 141, 470);
 		empJpanel.add(rightJPanel);
 		rightJPanel.setLayout(null);
-		
+
 		JButton addEmp = new JButton("添加员工");
 		addEmp.setBounds(14, 72, 113, 27);
 		rightJPanel.add(addEmp);
-		
+
 		JButton removeEmp = new JButton("删除员工");
 		removeEmp.setBounds(14, 171, 113, 27);
 		rightJPanel.add(removeEmp);
-		
+
 		JButton updateEmp = new JButton("更改信息");
 		updateEmp.setBounds(14, 270, 113, 27);
 		rightJPanel.add(updateEmp);
-		
+
+		// TODO 刷新等于重新查询一次全部人数
 		JButton refreshbtn = new JButton("刷新");
-		refreshbtn.setBounds(37, 369, 76, 27);
+		refreshbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+
+					querytxtName.setText("");
+					querytxtNum.setText("");
+
+					List<Employee> empList = empSimp.findEmployee(employee);
+
+					dataTable = new JTable();
+					SetTableCenter.setTableCenter(dataTable);// 设置表格中内容居中
+					MyEmpTableModel model = new MyEmpTableModel(empList);
+					dataTable.setModel(model);
+					JScrollPane dataScrollPane = new JScrollPane(dataTable);
+					dataScrollPane.setBounds(0, 0, 845, 470);
+					dataPanel.setBackground(Color.RED);
+					dataPanel.add(dataScrollPane);
+				} catch (ServiceException ee) {
+					// TODO Auto-generated catch block
+					ee.printStackTrace();
+				}
+			}
+		});
+		refreshbtn.setBounds(34, 369, 76, 27);
 		rightJPanel.add(refreshbtn);
 
 		JPanel busJpanel = new JPanel();
 		busJpanel.setBackground(Color.YELLOW);
 		mainPanel.add(busJpanel, "bus");
 		busJpanel.setLayout(null);
-		
+
 		JButton fristbtn = new JButton("首页");
 		BtnEvent.btnFrist(fristbtn);
 		fristbtn.addActionListener(new ActionListener() {
@@ -315,7 +378,7 @@ public class MainFrame extends JFrame implements Runnable {
 		busMage.setBounds(14, 480, 260, 52);
 		BorderHide.setBtnBorderHide(busMage);
 		menuPanel.add(busMage);
-		
+
 		JLabel txtTime = new JLabel("北京时间：");
 		txtTime.setForeground(Color.WHITE);
 		txtTime.setFont(new Font("微软雅黑", Font.PLAIN, 18));
@@ -327,26 +390,26 @@ public class MainFrame extends JFrame implements Runnable {
 		getTime.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		getTime.setBounds(565, 151, 289, 38);
 		contentPane.add(getTime);
-		
+
 		JLabel nowUser = new JLabel("当前用户：");
 		nowUser.setForeground(Color.WHITE);
 		nowUser.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		nowUser.setBounds(48, 151, 102, 38);
 		contentPane.add(nowUser);
-		
+
 		JLabel userName = new JLabel("");
 		userName.setForeground(Color.WHITE);
 		userName.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		userName.setBounds(152, 151, 102, 38);
 		userName.setText(EmployeeServiceImpl.getName());
 		contentPane.add(userName);
-		
+
 		JLabel post = new JLabel("职位：");
 		post.setForeground(Color.WHITE);
 		post.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		post.setBounds(282, 151, 54, 38);
 		contentPane.add(post);
-		
+
 		JLabel postlvl = new JLabel("");
 		postlvl.setForeground(Color.WHITE);
 		postlvl.setFont(new Font("微软雅黑", Font.PLAIN, 18));
@@ -358,7 +421,7 @@ public class MainFrame extends JFrame implements Runnable {
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		// TODO 用线程获取当前的时间
 		while (true) {
 			Date date = new Date();
 			DateFormat dateformat = new SimpleDateFormat("yyyy年MM月dd日  HH:mm:ss");
