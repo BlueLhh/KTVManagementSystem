@@ -12,6 +12,8 @@ import com.lhh.ktv.exception.ServiceException;
 import com.lhh.ktv.model.entity.Employee;
 import com.lhh.ktv.model.service.IEmployeeService;
 import com.lhh.ktv.model.service.impl.EmployeeServiceImpl;
+import com.lhh.ktv.util.BorderHide;
+import com.lhh.ktv.util.WindowMove;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -60,6 +62,8 @@ public class AddEmpFrame {
 		frame.setBounds(100, 100, 515, 690);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		BorderHide.setJFrameHide(frame);// 设置边框隐藏
+		new WindowMove().install(frame);// 边框隐藏之后可以移动
 		frame.setVisible(true);
 		frame.setResizable(false);
 
