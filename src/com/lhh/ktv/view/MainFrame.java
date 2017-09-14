@@ -268,6 +268,13 @@ public class MainFrame extends JFrame implements Runnable {
 		rightJPanel.add(addEmp);
 
 		JButton removeEmp = new JButton("删除员工");
+		removeEmp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				new DelEmpFrame();
+				
+			}
+		});
 		removeEmp.setBounds(14, 171, 113, 27);
 		rightJPanel.add(removeEmp);
 
