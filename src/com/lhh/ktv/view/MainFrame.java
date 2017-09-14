@@ -116,6 +116,7 @@ public class MainFrame extends JFrame implements Runnable {
 		contentPane.add(menuPanel);
 		menuPanel.setLayout(null);
 
+		// TODO 菜单栏切换开始
 		JPanel mainPanel = new JPanel();
 		mainPanel.setBackground(Color.PINK);
 		mainPanel.setBounds(300, 190, 1000, 590);
@@ -256,6 +257,13 @@ public class MainFrame extends JFrame implements Runnable {
 		rightJPanel.setLayout(null);
 
 		JButton addEmp = new JButton("添加员工");
+		addEmp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				new AddEmpFrame();
+				
+			}
+		});
 		addEmp.setBounds(14, 72, 113, 27);
 		rightJPanel.add(addEmp);
 
