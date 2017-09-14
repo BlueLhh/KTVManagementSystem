@@ -119,7 +119,6 @@ public class LoginFrame extends JFrame {
 					if (employeeService.login(loginID, loginPW)) {
 						// TODO 登录成功，在此跳转到新的界面
 						System.out.println("登录成功！跳转至主界面！");
-						JOptionPane.showMessageDialog(contentPane, "登录成功！","提示",JOptionPane.INFORMATION_MESSAGE);
 						setVisible(false);//隐藏本窗口
 						JFrame frame = new JFrame();
 						new MainFrame(frame).setVisible(true);//显示新的窗口
@@ -145,7 +144,6 @@ public class LoginFrame extends JFrame {
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
-				
 			}
 		});
 		BorderHide.setBtnBorderHide(btnClose);
