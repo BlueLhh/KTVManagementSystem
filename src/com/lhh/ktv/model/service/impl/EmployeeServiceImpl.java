@@ -62,7 +62,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		} catch (Exception e) {
 			// 回滚事务
 			trans.rollback(conn);
-			throw new ServiceException("添加员工失败！");
+//			throw new ServiceException("添加员工失败！");
+			e.printStackTrace();
 		} finally {
 			DBUtils.close(null, null, conn);
 		}
