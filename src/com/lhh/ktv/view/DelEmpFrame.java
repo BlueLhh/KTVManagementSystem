@@ -10,6 +10,7 @@ import com.lhh.ktv.exception.ServiceException;
 import com.lhh.ktv.model.entity.Employee;
 import com.lhh.ktv.model.service.impl.EmployeeServiceImpl;
 import com.lhh.ktv.util.BorderHide;
+import com.lhh.ktv.util.BtnEvent;
 import com.lhh.ktv.util.WindowMove;
 
 import javax.swing.JButton;
@@ -69,6 +70,18 @@ public class DelEmpFrame {
 		new WindowMove().install(frame);// 边框隐藏之后可以移动
 		frame.setVisible(true);
 		frame.setResizable(false);
+		
+		JButton closebtn = new JButton();
+		closebtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				frame.dispose();
+			}
+		});
+		closebtn.setBounds(557, 0, 30, 30);
+		frame.getContentPane().add(closebtn);
+		BtnEvent.btnExit(closebtn);
+		BorderHide.setBtnBorderHide(closebtn);
 		
 		JLabel delTileLabel = new JLabel("删除员工");
 		delTileLabel.setFont(new Font("微软雅黑", Font.PLAIN, 24));

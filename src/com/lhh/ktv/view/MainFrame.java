@@ -279,6 +279,11 @@ public class MainFrame extends JFrame implements Runnable {
 		rightJPanel.add(removeEmp);
 
 		JButton updateEmp = new JButton("更改信息");
+		updateEmp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new UpdEmpFrame();
+			}
+		});
 		updateEmp.setBounds(14, 270, 113, 27);
 		rightJPanel.add(updateEmp);
 

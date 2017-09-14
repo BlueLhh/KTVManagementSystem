@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.lhh.ktv.util.BorderHide;
+import com.lhh.ktv.util.BtnEvent;
 import com.lhh.ktv.util.DelInformation;
 import com.lhh.ktv.util.WindowMove;
 
@@ -86,8 +87,17 @@ public class ConfirmDelFrame {
 		NObtn.setBounds(139, 92, 56, 43);
 		frame.getContentPane().add(NObtn);
 		
-		
-		
+		JButton closebtn = new JButton("");
+		closebtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				frame.dispose();
+			}
+		});
+		closebtn.setBounds(253, 0, 30, 30);
+		frame.getContentPane().add(closebtn);
+		BtnEvent.btnExit(closebtn);
+		BorderHide.setBtnBorderHide(closebtn);
 	}
 
 }

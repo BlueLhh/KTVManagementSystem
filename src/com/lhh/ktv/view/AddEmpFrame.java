@@ -13,6 +13,7 @@ import com.lhh.ktv.model.entity.Employee;
 import com.lhh.ktv.model.service.IEmployeeService;
 import com.lhh.ktv.model.service.impl.EmployeeServiceImpl;
 import com.lhh.ktv.util.BorderHide;
+import com.lhh.ktv.util.BtnEvent;
 import com.lhh.ktv.util.WindowMove;
 
 import javax.swing.ButtonGroup;
@@ -20,6 +21,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
+import java.awt.Toolkit;
 
 public class AddEmpFrame {
 
@@ -59,6 +61,7 @@ public class AddEmpFrame {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(AddEmpFrame.class.getResource("/images/icon.png")));
 		frame.setBounds(100, 100, 515, 690);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -264,7 +267,16 @@ public class AddEmpFrame {
 		cancelbtn.setBounds(343, 573, 113, 42);
 		frame.getContentPane().add(cancelbtn);
 		
-		
-		
+		JButton closebtn = new JButton("");
+		closebtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				frame.dispose();
+			}
+		});
+		closebtn.setBounds(485, 0, 30, 30);
+		frame.getContentPane().add(closebtn);
+		BtnEvent.btnExit(closebtn);
+		BorderHide.setBtnBorderHide(closebtn);
 	}
 }

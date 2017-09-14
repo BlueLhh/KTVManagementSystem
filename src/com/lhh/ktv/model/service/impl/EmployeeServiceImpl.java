@@ -161,7 +161,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			// TODO: handle exception
 			// 回滚事务
 			trans.rollback(conn);
-			throw new ServiceException("更新员工失败！");
+			//throw new ServiceException("更新员工失败！");
+			e.printStackTrace();
 		} finally {
 			DBUtils.close(null, null, conn);
 		}
