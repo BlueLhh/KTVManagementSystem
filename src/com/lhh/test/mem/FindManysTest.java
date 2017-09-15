@@ -13,7 +13,7 @@ public class FindManysTest {
 		String phone;
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
-		System.out.println("查询的姓名：");
+		System.out.println("查询的姓名："); 
 		name = sc.next();
 		System.out.println("查询的手机号码：");
 		phone = sc.next();
