@@ -12,7 +12,6 @@ import com.lhh.ktv.common.PreparedStatementSetter;
 import com.lhh.ktv.common.RowCallBackHandler;
 import com.lhh.ktv.exception.DataAccessException;
 import com.lhh.ktv.model.dao.IMemberDao;
-import com.lhh.ktv.model.entity.Employee;
 import com.lhh.ktv.model.entity.Member;
 
 public class MemberDaoImpl implements IMemberDao {
@@ -133,11 +132,37 @@ public class MemberDaoImpl implements IMemberDao {
 		return list;
 	}
 
-	// 动态查询会员
+	// 动态查询会员(可以当成是模糊查询)
 	@Override
 	public List<Member> findsaveEember(List<String> conditions, Connection conn) throws DataAccessException {
 		// TODO Auto-generated method stub
-		return null;
+		JdbcTemplate jt = new JdbcTemplate(conn);
+		List<Member> list = new ArrayList<Member>();
+		String sql = "select mem_id,mem_name,mem_gender,mem_age,mem_phone " + "from k_mem " + "where 1 = 1";
+		if (conditions.size() > 0) {
+			for (String condition : conditions) {
+				sql += " and ";
+				sql += condition;
+			}
+		}
+		System.out.println(sql);
+		jt.query(sql, new RowCallBackHandler() {
+
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				// TODO Auto-generated method stub
+				while (rs.next()) {
+					Member member = new Member();
+					member.setMemId(rs.getLong(1));
+					member.setMemName(rs.getString(2));
+					member.setMemGender(rs.getString(3));
+					member.setMemAge(rs.getByte(4));
+					member.setMemPhone(rs.getString(5));
+					list.add(member);
+				}
+			}
+		});
+		return list;
 	}
 
 }
