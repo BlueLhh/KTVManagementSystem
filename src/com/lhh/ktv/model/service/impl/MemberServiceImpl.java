@@ -144,7 +144,7 @@ public class MemberServiceImpl implements IMemberService{
 		} finally {
 			DBUtils.close(null, null, conn);
 		}
-		return null;
+		return list;
 	}
 
 	//动态查询
