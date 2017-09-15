@@ -147,10 +147,38 @@ public class MemberServiceImpl implements IMemberService{
 		return null;
 	}
 
+	//动态查询
 	@Override
 	public List<Member> findMem(List<String> conditions) {
 		// TODO Auto-generated method stub
-		return null;
+		JdbcTransaction trans = new JdbcTransaction();
+		Connection conn = null;
+		List<Member> list = null;
+		try {
+			// 启动事务
+			conn = ConnectionFactory.getConnection();
+			trans.beginTransaction(conn);
+			list = memberDao.findsaveEember(conditions, conn);
+			System.out.println("动态查询成功！");
+			// 提交事务
+			trans.commit(conn);
+		} catch (DataAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// 回滚事务
+			trans.rollback(conn);
+			try {
+				throw new ServiceException("动态查询失败失败！");
+			} catch (ServiceException ee) {
+				// TODO Auto-generated catch block
+				ee.printStackTrace();
+			}
+		} finally {
+			DBUtils.close(null, null, conn);
+		}
+		
+		return list;
 	}
 
 }
