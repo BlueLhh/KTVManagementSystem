@@ -1,6 +1,28 @@
 package com.lhh.ktv.view;
 
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.lhh.ktv.exception.ServiceException;
@@ -13,29 +35,6 @@ import com.lhh.ktv.util.MyEmpTableModel;
 import com.lhh.ktv.util.SetTableCenter;
 import com.lhh.ktv.util.WindowMove;
 
-import java.awt.Color;
-import java.awt.EventQueue;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-
-import java.awt.CardLayout;
-import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import java.awt.Toolkit;
-import javax.swing.JTextField;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-
 public class MainFrame extends JFrame implements Runnable {
 
 	/**
@@ -45,11 +44,26 @@ public class MainFrame extends JFrame implements Runnable {
 	private JPanel contentPane;
 	private CardLayout card;
 	private JLabel getTime;
-	private JTextField querytxtName;
-	private JTextField querytxtNum;
-	private JTable dataTable;
 
-	JPanel dataPanel = new JPanel();
+	private static JButton refreshbtn;
+
+	private static JTextField querytxtName;
+	private static JTextField querytxtNum;
+	private static JTable dataTable;
+	private static MyEmpTableModel model;
+
+	static JPanel dataPanel = new JPanel();
+
+	// 定义静态的ID方法
+	static private Long getID;
+
+	public static Long getGetID() {
+		return getID;
+	}
+
+	public static void setGetID(Long getID) {
+		MainFrame.getID = getID;
+	}
 
 	/**
 	 * 
@@ -176,8 +190,8 @@ public class MainFrame extends JFrame implements Runnable {
 		querytxtNum.setBounds(454, 16, 217, 40);
 		functionPanel.add(querytxtNum);
 
-		JPanel dataPanel = new JPanel();
-		dataPanel.setBackground(Color.LIGHT_GRAY);
+		BGJPanel dataPanel = new BGJPanel();
+		dataPanel.empDateBg();
 		dataPanel.setBounds(0, 91, 845, 470);
 		empJpanel.add(dataPanel);
 		dataPanel.setLayout(null);
@@ -190,6 +204,8 @@ public class MainFrame extends JFrame implements Runnable {
 		// TODO 按条件查询员工
 		JButton queryEmp = new JButton("查询员工");
 		queryEmp.addActionListener(new ActionListener() {
+			private List<Employee> empList;
+
 			public void actionPerformed(ActionEvent e) {
 				String name = null;
 				String num = null;
@@ -197,7 +213,7 @@ public class MainFrame extends JFrame implements Runnable {
 				List<String> conditions = new ArrayList<String>();
 				conditions.add("emp_name = '" + querytxtName.getText() + "'");
 				conditions.add("emp_username = '" + querytxtNum.getText() + "'");
-				List<Employee> empList = new ArrayList<Employee>();
+				empList = new ArrayList<Employee>();
 				empList = empSimp.findEmployee(conditions);
 
 				for (Employee employee : empList) {
@@ -210,17 +226,48 @@ public class MainFrame extends JFrame implements Runnable {
 					querytxtName.setText("");
 					querytxtNum.setText("");
 				} else {
+					// TODO 查询刷新
 					JOptionPane.showMessageDialog(contentPane, "查询成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
-					querytxtName.setText("");
-					querytxtNum.setText("");
 					System.out.println(empList);
-					dataTable = new JTable();
+
+					JTable queryTable = new JTable();
+					queryTable.setVisible(true);
 					SetTableCenter.setTableCenter(dataTable);// 设置表格中内容居中
 					MyEmpTableModel model = new MyEmpTableModel(empList);
-					dataTable.setModel(model);
-					JScrollPane dataScrollPane = new JScrollPane(dataTable);
+					queryTable.setModel(model);
+					JScrollPane dataScrollPane = new JScrollPane(queryTable);
+					//dataScrollPane.setOpaque(false);
+					//dataScrollPane.getViewport().setOpaque(false);//JScrollPane 透明
 					dataScrollPane.setBounds(0, 0, 845, 470);
 					dataPanel.add(dataScrollPane);
+
+					queryTable.addMouseListener(new MouseAdapter() {
+						public void mouseClicked(MouseEvent evt) {
+							if (evt.getClickCount() == 1) {
+								int row = dataTable.getSelectedRow();
+								String data;
+								data = String.valueOf(model.getValueAt(row, 0));
+
+								System.out.println("data:" + data);
+								for (Employee employee : empList) {
+									System.out.println(employee.getEmpId());
+									if (employee.getEmpId().equals(Long.parseLong(data))) {
+										getID = employee.getEmpId();
+										new GetTableFrame();
+										System.out.println("for循环中的getID:" + getID);
+										break;
+									} else {
+										System.out.println("数据data为：" + data);
+										getID = Long.parseLong(data);
+										break;
+									}
+								}
+								new GetTableFrame();
+								System.out.println("getID:" + getID);
+							}
+						}
+
+					});
 				}
 			}
 		});
@@ -230,7 +277,7 @@ public class MainFrame extends JFrame implements Runnable {
 		/**
 		 * 实现查询员工的功能
 		 */
-		// TODO 查询全部的员工
+		// TODO 查询全部的员工 把数据在表格中显示出来
 		try {
 			Employee employee = new Employee();
 			EmployeeServiceImpl empSimp = new EmployeeServiceImpl();
@@ -239,12 +286,45 @@ public class MainFrame extends JFrame implements Runnable {
 
 			dataTable = new JTable();
 			SetTableCenter.setTableCenter(dataTable);// 设置表格中内容居中
-			MyEmpTableModel model = new MyEmpTableModel(empList);
+			model = new MyEmpTableModel(empList);
 			dataTable.setModel(model);
 			JScrollPane dataScrollPane = new JScrollPane(dataTable);
+			//dataScrollPane.setOpaque(false);
+			//dataScrollPane.getViewport().setOpaque(false);//JScrollPane 透明
 			dataScrollPane.setBounds(0, 0, 845, 470);
 			dataPanel.setBackground(Color.RED);
 			dataPanel.add(dataScrollPane);
+
+			// TODO JTable的鼠标监听事件
+			dataTable.addMouseListener(new MouseAdapter() {
+
+				public void mouseClicked(MouseEvent evt) {
+
+					if (evt.getClickCount() == 2) {
+						int row = dataTable.getSelectedRow();
+
+						String data;
+						data = String.valueOf(model.getValueAt(row, 0));
+
+						System.out.println("data:" + data);
+
+						for (Employee employee : empList) {
+							System.out.println(employee.getEmpId());
+							if (employee.getEmpId().equals(Long.parseLong(data))) {
+								getID = employee.getEmpId();
+								System.out.println("for循环中的getID:" + getID);
+								new GetTableFrame();
+								break;
+							} else {
+								System.out.println("数据data为：" + data);
+								continue;
+							}
+						}
+
+						System.out.println("getID:" + getID);
+					}
+				}
+			});
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -259,9 +339,7 @@ public class MainFrame extends JFrame implements Runnable {
 		JButton addEmp = new JButton("添加员工");
 		addEmp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				new AddEmpFrame();
-				
 			}
 		});
 		addEmp.setBounds(14, 72, 113, 27);
@@ -270,9 +348,9 @@ public class MainFrame extends JFrame implements Runnable {
 		JButton removeEmp = new JButton("删除员工");
 		removeEmp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				new DelEmpFrame();
-				
+
 			}
 		});
 		removeEmp.setBounds(14, 171, 113, 27);
@@ -288,27 +366,10 @@ public class MainFrame extends JFrame implements Runnable {
 		rightJPanel.add(updateEmp);
 
 		// TODO 刷新等于重新查询一次全部人数
-		JButton refreshbtn = new JButton("刷新");
+		refreshbtn = new JButton("刷新");
 		refreshbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					querytxtName.setText("");
-					querytxtNum.setText("");
-					Employee employee = new Employee();
-					EmployeeServiceImpl empSimp = new EmployeeServiceImpl();
-					List<Employee> empList = empSimp.findEmployee(employee);
-					dataTable = new JTable();
-					SetTableCenter.setTableCenter(dataTable);// 设置表格中内容居中
-					MyEmpTableModel model = new MyEmpTableModel(empList);
-					dataTable.setModel(model);
-					JScrollPane dataScrollPane = new JScrollPane(dataTable);
-					dataScrollPane.setBounds(0, 0, 845, 470);
-					dataPanel.setBackground(Color.RED);
-					dataPanel.add(dataScrollPane);
-				} catch (ServiceException ee) {
-					// TODO Auto-generated catch block
-					ee.printStackTrace();
-				}
+				refresh();
 			}
 		});
 		refreshbtn.setBounds(34, 369, 76, 27);
@@ -423,6 +484,28 @@ public class MainFrame extends JFrame implements Runnable {
 		postlvl.setText(EmployeeServiceImpl.getPost());
 		contentPane.add(postlvl);
 
+	}
+
+	/**
+	 * 
+	 * TODO 刷新数据
+	 * 
+	 */
+	static public void refresh() {
+		try {
+			querytxtName.setText("");
+			querytxtNum.setText("");
+			dataTable.setVisible(true);
+			Employee employee = new Employee();
+			EmployeeServiceImpl empSimp = new EmployeeServiceImpl();
+			List<Employee> empList = empSimp.findEmployee(employee);
+			model.updateList(empList);
+			dataTable.updateUI();
+			dataPanel.setBackground(Color.RED);
+		} catch (ServiceException ee) {
+			// TODO Auto-generated catch block
+			ee.printStackTrace();
+		}
 	}
 
 	@Override

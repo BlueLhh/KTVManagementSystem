@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import java.awt.Font;
 import javax.swing.JTextField;
 
-import com.lhh.ktv.exception.ServiceException;
 import com.lhh.ktv.model.entity.Employee;
 import com.lhh.ktv.model.service.IEmployeeService;
 import com.lhh.ktv.model.service.impl.EmployeeServiceImpl;
@@ -36,18 +35,18 @@ public class AddEmpFrame {
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					AddEmpFrame window = new AddEmpFrame();
-//					window.frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+	// public static void main(String[] args) {
+	// EventQueue.invokeLater(new Runnable() {
+	// public void run() {
+	// try {
+	// AddEmpFrame window = new AddEmpFrame();
+	// window.frame.setVisible(true);
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// });
+	// }
 
 	/**
 	 * Create the application.
@@ -115,33 +114,33 @@ public class AddEmpFrame {
 		addNameField.setBounds(189, 99, 156, 42);
 		frame.getContentPane().add(addNameField);
 		addNameField.setColumns(10);
-		
+
 		JRadioButton radman = new JRadioButton("男");
 		radman.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		radman.setBounds(192, 168, 48, 40);
 		radman.setSelected(true);
 		frame.getContentPane().add(radman);
-		
+
 		JRadioButton radwom = new JRadioButton("女");
 		radwom.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		radwom.setBounds(246, 168, 48, 40);
 		frame.getContentPane().add(radwom);
-		
+
 		ButtonGroup groupGender = new ButtonGroup();
 		groupGender.add(radman);
 		groupGender.add(radwom);
-		
+
 		JRadioButton radEmp = new JRadioButton("前台");
 		radEmp.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		radEmp.setBounds(192, 369, 75, 37);
 		radEmp.setSelected(true);
 		frame.getContentPane().add(radEmp);
-		
+
 		JRadioButton radMage = new JRadioButton("经理");
 		radMage.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		radMage.setBounds(270, 369, 75, 37);
 		frame.getContentPane().add(radMage);
-		
+
 		ButtonGroup groupRad = new ButtonGroup();
 		groupRad.add(radMage);
 		groupRad.add(radEmp);
@@ -187,26 +186,26 @@ public class AddEmpFrame {
 				String post;
 				String username;
 				String password;
-				
+
 				name = addNameField.getText();
-				//gender = addGenderField.getText();
-				
-				if(radman.isSelected()){
+				// gender = addGenderField.getText();
+
+				if (radman.isSelected()) {
 					gender = "男";
-				}else{
+				} else {
 					gender = "女";
 				}
-				
+
 				age = (byte) Integer.parseInt(addAgeField.getText());
 				phone = addPhoneField.getText();
-				if(radEmp.isSelected()){
+				if (radEmp.isSelected()) {
 					post = "1";
-				}else{
+				} else {
 					post = "0";
 				}
 				username = addUserField.getText();
 				password = addPassField.getText();
-				
+
 				IEmployeeService employeeService = new EmployeeServiceImpl();
 				Employee employee = new Employee();
 
@@ -217,24 +216,18 @@ public class AddEmpFrame {
 				employee.setEmpPost(post);
 				employee.setUsername(username);
 				employee.setPassword(password);
-				
+
 				try {
 					employeeService.addEmployee(employee);
-					JOptionPane.showMessageDialog(contentPane, "添加员工成功！","提示",JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(contentPane, "添加员工成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
 					System.out.println("添加员工成功！");
-				} catch (ServiceException ee) {
-					System.out.println(employee.getEmpName());
-					System.out.println(employee.getEmpGender());
-					System.out.println(employee.getEmpAge());
-					System.out.println(employee.getEmpPhone());
-					System.out.println(employee.getEmpPost());
-					System.out.println(employee.getUsername());
-					System.out.println(employee.getPassword());
-					
-					JOptionPane.showMessageDialog(contentPane, "添加失败！","提示",JOptionPane.INFORMATION_MESSAGE);
+					MainFrame.refresh();
+					frame.setVisible(false);
+					frame.dispose();
+				} catch (Exception ee) {
+					JOptionPane.showMessageDialog(contentPane, "添加失败！", "提示", JOptionPane.INFORMATION_MESSAGE);
 					ee.printStackTrace();
 				}
-
 			}
 		});
 		confirmbtn.setBounds(39, 573, 113, 42);
@@ -266,7 +259,7 @@ public class AddEmpFrame {
 		});
 		cancelbtn.setBounds(343, 573, 113, 42);
 		frame.getContentPane().add(cancelbtn);
-		
+
 		JButton closebtn = new JButton("");
 		closebtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

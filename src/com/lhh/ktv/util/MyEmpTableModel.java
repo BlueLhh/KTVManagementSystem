@@ -29,6 +29,10 @@ public class MyEmpTableModel extends AbstractTableModel {
 
 	}
 
+	public void updateList(List<Employee> emplist) {
+		this.emplist = emplist;
+	}
+
 	// 有参构造函数
 	public MyEmpTableModel(List<Employee> emplist) {
 		super();
@@ -84,9 +88,9 @@ public class MyEmpTableModel extends AbstractTableModel {
 			return employee.getEmpPhone();
 		case 5:
 			posrt = employee.getEmpPost();
-			if(posrt.equals("0")){
+			if (posrt.equals("0")) {
 				posrt = "经理";
-			}else{
+			} else {
 				posrt = "前台";
 			}
 			return posrt;

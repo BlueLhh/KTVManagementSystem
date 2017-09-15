@@ -2,7 +2,6 @@ package com.lhh.ktv.util;
 
 import com.lhh.ktv.exception.ServiceException;
 import com.lhh.ktv.model.service.impl.EmployeeServiceImpl;
-import com.lhh.ktv.view.DelEmpFrame;
 
 /**
  * 
@@ -14,13 +13,9 @@ import com.lhh.ktv.view.DelEmpFrame;
 
 public class DelInformation {
 
-	public static void delEmpInfo() {
+	public static void delEmpInfo(Long id) {
 
-		Long id;
-		
 		EmployeeServiceImpl emp = new EmployeeServiceImpl();
-
-		id = DelEmpFrame.getGetDelID();
 		
 		try {
 			emp.delEmployee(id);

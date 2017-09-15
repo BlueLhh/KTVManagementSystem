@@ -58,4 +58,8 @@ public class BGJPanel extends JPanel{
 		img = icon.getImage();
 	}
 	
+	public void empDateBg(){
+		icon = new ImageIcon(getClass().getResource("/images/dataemp.jpg"));
+		img = icon.getImage();
+	}
 }

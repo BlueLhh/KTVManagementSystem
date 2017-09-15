@@ -21,7 +21,7 @@ import java.awt.Color;
 
 public class DelEmpFrame {
 
-	private JFrame frame;
+	static private JFrame frame;
 	private JTextField delIDField;
 	
 	//获取ID
@@ -266,4 +266,10 @@ public class DelEmpFrame {
 		delOKbtn.setBounds(350, 115, 86, 40);
 		frame.getContentPane().add(delOKbtn);
 	}
+	
+	static public void closeDelEmp(){
+		frame.setVisible(false);
+		frame.dispose();
+	}
+	
 }

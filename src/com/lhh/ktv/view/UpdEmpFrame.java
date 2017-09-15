@@ -21,7 +21,7 @@ import java.awt.event.ActionEvent;
 
 public class UpdEmpFrame {
 
-	private JFrame frame;
+	static private JFrame frame;
 	private JTextField InputIDtxt;
 	private JTextField getName;
 	private JTextField getPhone;
@@ -351,7 +351,6 @@ public class UpdEmpFrame {
 
 					if (employee.getEmpGender().equals("男")) {
 						radMan.setSelected(true);
-
 					} else {
 						radWom.setSelected(true);
 					}
@@ -385,4 +384,10 @@ public class UpdEmpFrame {
 		OKbtn.setBounds(392, 114, 98, 39);
 		frame.getContentPane().add(OKbtn);
 	}
+	
+	static public void closeUpdEmp(){
+		frame.setVisible(false);
+		frame.dispose();
+	}
+	
 }

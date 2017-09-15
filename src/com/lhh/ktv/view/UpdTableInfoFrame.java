@@ -18,7 +18,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ConfirmUpdFrame {
+public class UpdTableInfoFrame {
 
 	private JFrame frame;
 	private JPanel contentPane;
@@ -41,7 +41,7 @@ public class ConfirmUpdFrame {
 	/**
 	 * Create the application.
 	 */
-	public ConfirmUpdFrame() {
+	public UpdTableInfoFrame() {
 		initialize();
 	}
 
@@ -83,21 +83,21 @@ public class ConfirmUpdFrame {
 				EmployeeServiceImpl emp = new EmployeeServiceImpl();
 				Employee employee = new Employee();
 				
-				employee.setEmpName(UpdEmpFrame.getGetUpdName());
-				employee.setEmpGender(UpdEmpFrame.getGetUpdGender());
-				employee.setEmpAge(UpdEmpFrame.getGetUpdAge());
-				employee.setEmpPhone(UpdEmpFrame.getGetUpdPhone());
-				employee.setEmpPost(UpdEmpFrame.getGetUpdPost());
-				employee.setUsername(UpdEmpFrame.getGetUpdUsername());
-				employee.setPassword(UpdEmpFrame.getGetUpdPassword());
-				employee.setEmpId(UpdEmpFrame.getGetUpdId());
+				employee.setEmpName(GetTableFrame.getGetUpdName());
+				employee.setEmpGender(GetTableFrame.getGetUpdGender());
+				employee.setEmpAge(GetTableFrame.getGetUpdAge());
+				employee.setEmpPhone(GetTableFrame.getGetUpdPhone());
+				employee.setEmpPost(GetTableFrame.getGetUpdPost());
+				employee.setUsername(GetTableFrame.getGetUpdUsername());
+				employee.setPassword(GetTableFrame.getGetUpdPassword());
+				employee.setEmpId(GetTableFrame.getGetUpdId());
 							
 				try {
 					emp.updateEmployee(employee);
 					System.out.println("更改成功！");
 					JOptionPane.showMessageDialog(contentPane, "修改信息成功！","提示",JOptionPane.INFORMATION_MESSAGE);
 					MainFrame.refresh();
-					UpdEmpFrame.closeUpdEmp();
+					GetTableFrame.closeGetFrame();
 					frame.setVisible(false);
 					frame.dispose();
 				} catch (Exception ee) {
