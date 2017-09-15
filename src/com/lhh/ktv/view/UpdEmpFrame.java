@@ -2,6 +2,7 @@ package com.lhh.ktv.view;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 
@@ -103,22 +104,6 @@ public class UpdEmpFrame {
 	}
 
 	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					UpdEmpFrame window = new UpdEmpFrame();
-//					window.frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
 	 * Create the application.
 	 */
 	public UpdEmpFrame() {
@@ -137,7 +122,7 @@ public class UpdEmpFrame {
 		new WindowMove().install(frame);// 边框隐藏之后可以移动
 		frame.setVisible(true);
 		frame.setResizable(false);
-		
+
 		JButton closebtn = new JButton();
 		closebtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -298,13 +283,13 @@ public class UpdEmpFrame {
 		ButtonGroup gropGender = new ButtonGroup();
 		gropGender.add(radMan);
 		gropGender.add(radWom);
-		
+
 		JButton OKUpdbtn = new JButton("确认修改");
 		OKUpdbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				// TODO 获取文本框的内容
-				//获取信息
+				// 获取信息
 				getUpdId = Long.parseLong(getID.getText());
 				getUpdName = getName.getText();
 				if (radMan.isSelected()) {
@@ -314,15 +299,14 @@ public class UpdEmpFrame {
 				}
 				getUpdAge = (byte) Integer.parseInt(getAge.getText());
 				getUpdPhone = getPhone.getText();
-				if(radMage.isSelected()){
+				if (radMage.isSelected()) {
 					getUpdPost = "0";
-				}else{
+				} else {
 					getUpdPost = "1";
 				}
 				getUpdUsername = getUser.getText();
 				getUpdPassword = getPass.getText();
-				
-				
+
 				new ConfirmUpdFrame();
 			}
 		});
@@ -340,9 +324,10 @@ public class UpdEmpFrame {
 			public void actionPerformed(ActionEvent e) {
 				promptLabel.setVisible(false);// 初始不可见
 				updPanel.setVisible(true);// 初始化不可见
-				Long id;
+				Long id = null;
 
 				id = Long.parseLong(InputIDtxt.getText());
+
 				EmployeeServiceImpl emp = new EmployeeServiceImpl();
 				Employee employee = new Employee();
 
@@ -369,7 +354,7 @@ public class UpdEmpFrame {
 					getPass.setText(employee.getPassword());
 
 					System.out.println(employee);
-					
+
 				} catch (Exception E) {
 					// TODO Auto-generated catch block
 
@@ -384,10 +369,10 @@ public class UpdEmpFrame {
 		OKbtn.setBounds(392, 114, 98, 39);
 		frame.getContentPane().add(OKbtn);
 	}
-	
-	static public void closeUpdEmp(){
+
+	static public void closeUpdEmp() {
 		frame.setVisible(false);
 		frame.dispose();
 	}
-	
+
 }
