@@ -1,6 +1,5 @@
 package com.lhh.ktv.model.entity;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,14 +12,15 @@ import java.util.List;
  */
 public class Order {
 	private Long orderId;// 订单ID
-	private Room roomId;// 包房编号
+	private Room roomId = new Room();// 包房编号
 	private String orpName;// 消费者姓名
-	private Date ordOpentime;// 开包时间
-	private Date ordEndtime;// 结账时间
+	private String ordOpentime;// 开包时间
+	private String ordEndtime;// 结账时间
 	private double ordrmPrice;// 包房费用
 	private double ordAmtall;// 商品消费总额
 	private double ordAllamtall;// 消费合计
 	private String ordStatus;// 订单状态。0是初始状态，为未结账。1为已经结账
+	private String operator;// 操作人员
 
 	// 与子订单是一对多关系
 	private List<EOrder> eorder = new ArrayList<EOrder>();
@@ -29,11 +29,10 @@ public class Order {
 
 	}
 
-	public Order(Long orderId, Room roomId, String orpName, Date ordOpentime, Date ordEndtime, double ordrmPrice,
-			double ordAmtall, double ordAllamtall, String ordStatus, List<EOrder> eorder) {
+	public Order(Long orderId, String orpName, String ordOpentime, String ordEndtime, double ordrmPrice,
+			double ordAmtall, double ordAllamtall, String ordStatus, String operator) {
 		super();
 		this.orderId = orderId;
-		this.roomId = roomId;
 		this.orpName = orpName;
 		this.ordOpentime = ordOpentime;
 		this.ordEndtime = ordEndtime;
@@ -41,7 +40,7 @@ public class Order {
 		this.ordAmtall = ordAmtall;
 		this.ordAllamtall = ordAllamtall;
 		this.ordStatus = ordStatus;
-		this.eorder = eorder;
+		this.operator = operator;
 	}
 
 	public Long getOrderId() {
@@ -68,19 +67,19 @@ public class Order {
 		this.orpName = orpName;
 	}
 
-	public Date getOrdOpentime() {
+	public String getOrdOpentime() {
 		return ordOpentime;
 	}
 
-	public void setOrdOpentime(Date ordOpentime) {
+	public void setOrdOpentime(String ordOpentime) {
 		this.ordOpentime = ordOpentime;
 	}
 
-	public Date getOrdEndtime() {
+	public String getOrdEndtime() {
 		return ordEndtime;
 	}
 
-	public void setOrdEndtime(Date ordEndtime) {
+	public void setOrdEndtime(String ordEndtime) {
 		this.ordEndtime = ordEndtime;
 	}
 
@@ -115,6 +114,14 @@ public class Order {
 	public void setOrdStatus(String ordStatus) {
 		this.ordStatus = ordStatus;
 	}
+	
+	public String getOperator() {
+		return operator;
+	}
+
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
 
 	public List<EOrder> getEorder() {
 		return eorder;
@@ -128,6 +135,6 @@ public class Order {
 	public String toString() {
 		return "订单信息 [订单编号=" + orderId + ", 包房编号=" + roomId + ", 客户名字=" + orpName + ", 开包时间=" + ordOpentime + ", 结账时间="
 				+ ordEndtime + ", 包房费用=" + ordrmPrice + ", 商品消费总额=" + ordAmtall + ", 消费合计=" + ordAllamtall + ", 订单状态="
-				+ ordStatus + ", 子订单集合=" + eorder + "]";
+				+ ordStatus + ", 操作人员=" + operator + ", 子订单集合=" + eorder + "]";
 	}
 }
