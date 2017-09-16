@@ -9,6 +9,7 @@ package com.lhh.ktv.model.entity;
  *
  */
 public class Goods {
+	
 	private Long goodsId;//商品id
 	private String goodsName;//商品名称
 	private double goodsPrice;//商品价格
