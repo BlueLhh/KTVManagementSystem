@@ -76,7 +76,8 @@ public class ConfirmDelFrame {
 				DelInformation.delEmpInfo(delID);
 				JOptionPane.showMessageDialog(contentPane, "删除成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
 				MainFrame.refresh();
-				DelEmpFrame.closeDelEmp();
+				//DelEmpFrame.closeDelEmp();
+				GetTableFrame.closeGetFrame();
 				frame.setVisible(false);
 				frame.dispose();
 			}
