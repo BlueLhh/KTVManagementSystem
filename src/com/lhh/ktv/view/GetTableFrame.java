@@ -128,6 +128,12 @@ public class GetTableFrame {
 	public GetTableFrame() {
 		initialize();
 	}
+	
+//	public GetTableFrame(Long id) {
+//		initialize();
+//	}
+	
+	
 
 	/**
 	 * Initialize the contents of the frame.
