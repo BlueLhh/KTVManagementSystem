@@ -10,26 +10,24 @@ public class Room {
 	private Long roomId;// 包房编号
 	private String roomType;// 包房种类
 	private double roomPrice;// 包房费用
-	private String roomStatus;// 包房状态，初始0为未开箱，1为已经开箱
+	private String roomStatus;// 包房状态，未使用，已预订，使用中
 
-	private Reserve reserve = new Reserve();
+	//private Reserve reserve = new Reserve();
 
-	private Order order = new Order();
+	//private Order order = new Order();
 
 	public Room() {
 
 	}
 
-	public Room(Long roomId, String roomType, double roomPrice, Reserve reserve, Order order, String roomStatus) {
+	public Room(Long roomId, String roomType, double roomPrice, String roomStatus) {
 		super();
 		this.roomId = roomId;
 		this.roomType = roomType;
 		this.roomPrice = roomPrice;
-		this.reserve = reserve;
-		this.order = order;
 		this.roomStatus = roomStatus;
 	}
-
+	
 	public Long getRoomId() {
 		return roomId;
 	}
@@ -54,21 +52,6 @@ public class Room {
 		this.roomPrice = roomPrice;
 	}
 
-	public Reserve getReserve() {
-		return reserve;
-	}
-
-	public void setReserve(Reserve reserve) {
-		this.reserve = reserve;
-	}
-
-	public Order getOrder() {
-		return order;
-	}
-
-	public void setOrder(Order order) {
-		this.order = order;
-	}
 
 	public String getRoomStatus() {
 		return roomStatus;
