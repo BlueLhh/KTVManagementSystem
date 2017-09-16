@@ -10,8 +10,7 @@ package com.lhh.ktv.model.entity;
  */
 public class EOrder {
 	private Long eId;//子订单编号
-	private Order order;//订单编号（外键）
-	private Goods goods;//商品编号（外键）
+	private Order order = new Order();//订单编号（外键）
 	private String egName;//商品名称
 	private int eCount;//数量
 	private double egPrice;//商品单价
@@ -21,11 +20,9 @@ public class EOrder {
 		
 	}
 	
-	public EOrder(Long eId, Order order, Goods goods, String egName, int eCount, double egPrice, double eMoney) {
+	public EOrder(Long eId, String egName, int eCount, double egPrice, double eMoney) {
 		super();
 		this.eId = eId;
-		this.order = order;
-		this.goods = goods;
 		this.egName = egName;
 		this.eCount = eCount;
 		this.egPrice = egPrice;
@@ -46,14 +43,6 @@ public class EOrder {
 
 	public void setOrder(Order order) {
 		this.order = order;
-	}
-
-	public Goods getGoods() {
-		return goods;
-	}
-
-	public void setGoods(Goods goods) {
-		this.goods = goods;
 	}
 
 	public String getEgName() {
@@ -90,7 +79,7 @@ public class EOrder {
 
 	@Override
 	public String toString() {
-		return "子订单表信息 [子订单=" + eId + /*", 订单编号=" + order + ", 商品编号=" + goods + */", 商品名称=" + egName + ", 数量=" + eCount
+		return "子订单表信息 [子订单=" + eId + ", 订单编号=" + order + ", 商品名称=" + egName + ", 数量=" + eCount
 				+ ", 单价=" + egPrice + ", 金额=" + eMoney + "]";
 	}
 	
