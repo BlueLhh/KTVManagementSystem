@@ -20,7 +20,7 @@ public class GoodsServiceImpl implements IGoodsService{
 	
 	//增
 	@Override
-	public void addGoods(Goods goods) throws ServiceException {
+	public void addGoods(Goods goods) throws ServiceException { 
 		// TODO Auto-generated method stub
 		JdbcTransaction trans = new JdbcTransaction();
 		Connection conn = null;
