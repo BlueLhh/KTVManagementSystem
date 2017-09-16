@@ -110,7 +110,7 @@ public class MemberServiceImpl implements IMemberService{
 			e.printStackTrace();
 			// 回滚事务
 			trans.rollback(conn);
-			throw new ServiceException("查找会员失败！");
+			//throw new ServiceException("查找会员失败！");
 		} finally {
 			DBUtils.close(null, null, conn);
 		}
