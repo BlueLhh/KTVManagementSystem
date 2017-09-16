@@ -64,7 +64,7 @@ public class MainFrame extends JFrame implements Runnable {
 
 	static JPanel memdatapanel = new JPanel();
 
-	// 定义静态的ID方法
+	// TODO 定义静态的ID方法 
 	static private Long getID;
 	static private Long getmemID;
 	static private JTextField findmemnametxt;
@@ -72,9 +72,13 @@ public class MainFrame extends JFrame implements Runnable {
 	private JTextField addnametxt;
 	private JTextField addagetxt;
 	private JTextField addphonetxt;
-	private JTextField memnametxt;
-	private JTextField memagetxt;
-	private JTextField memphonetxt;
+	static private JTextField memnametxt;
+	static private JTextField memagetxt;
+	static private JTextField memphonetxt;
+	
+	static private JLabel memIDlabel;
+	static private JRadioButton radmemman;
+	static private JRadioButton radmemwom;
 
 	public static Long getGetID() {
 		return getID;
@@ -380,7 +384,7 @@ public class MainFrame extends JFrame implements Runnable {
 		delupdIDLabel.setBounds(41, 147, 97, 47);
 		delandupd.add(delupdIDLabel);
 
-		JLabel memIDlabel = new JLabel("");
+		memIDlabel = new JLabel("");
 		memIDlabel.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		memIDlabel.setBounds(152, 147, 66, 47);
 		delandupd.add(memIDlabel);
@@ -423,46 +427,18 @@ public class MainFrame extends JFrame implements Runnable {
 		memphonetxt.setBounds(137, 387, 163, 47);
 		delandupd.add(memphonetxt);
 
-		JRadioButton radmemman = new JRadioButton("男");
+		radmemman = new JRadioButton("男");
 		radmemman.setSelected(true);
 		radmemman.setBounds(137, 273, 54, 39);
 		delandupd.add(radmemman);
 
-		JRadioButton radmemwom = new JRadioButton("女");
+		radmemwom = new JRadioButton("女");
 		radmemwom.setBounds(194, 273, 54, 39);
 		delandupd.add(radmemwom);
 
 		ButtonGroup delupdmem = new ButtonGroup();
 		delupdmem.add(radmemman);
 		delupdmem.add(radmemwom);
-		
-		/**
-		 * 
-		 * TODO 获取会员表格的ID，然后查询将数据放在面板上
-		 * getmemID
-		 */
-		MemberServiceImpl memSimp = new MemberServiceImpl();
-		Member member = new Member();
-		
-		try{
-			member = memSimp.findMem(getmemID);
-			
-			if(member.getMemGender().equals("男")){
-				radmemman.setSelected(true);
-			}else{
-				radmemwom.setSelected(true);
-			}
-			
-			memIDlabel.setText(Long.toString(member.getMemId()));
-			memnametxt.setText(member.getMemName());
-			memagetxt.setText(Integer.toString(member.getMemAge()));
-			memphonetxt.setText(member.getMemPhone());
-			
-			System.out.println(member);
-			
-		}catch (Exception e){
-			e.printStackTrace();
-		}
 
 		JButton updmembtn = new JButton("修改");
 		updmembtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
@@ -637,7 +613,7 @@ public class MainFrame extends JFrame implements Runnable {
 
 					JOptionPane.showMessageDialog(contentPane, "查询成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
 
-					memDataTable = new JTable();
+					JTable memDataTable = new JTable();
 					SetTableCenter.setTableCenter(memDataTable);
 					memmodel = new MyMemTableModel(memList);
 					memDataTable.setModel(memmodel);
@@ -667,6 +643,8 @@ public class MainFrame extends JFrame implements Runnable {
 									}
 
 								}
+								
+								meminfoPanel();
 
 							}
 
@@ -722,7 +700,8 @@ public class MainFrame extends JFrame implements Runnable {
 							}
 
 						}
-
+						
+						meminfoPanel();
 					}
 
 				}
@@ -947,10 +926,46 @@ public class MainFrame extends JFrame implements Runnable {
 
 	/**
 	 * 
+	 * TODO 将会员信息显示在面板上
+	 * 
+	 * 
+	 */
+	static public void meminfoPanel(){
+		/**
+		 * 
+		 * TODO 获取会员表格的ID，然后查询将数据放在面板上
+		 * getmemID
+		 */
+		try{
+			//将数据显示在面板上
+			MemberServiceImpl memSimp = new MemberServiceImpl();
+			Member member = new Member();
+			System.out.println("--------------------");
+			member = memSimp.findMem(getmemID);
+			System.out.println(member);
+			if(member.getMemGender().equals("男")){
+				radmemman.setSelected(true);
+			}else{
+				radmemwom.setSelected(true);
+			}
+			
+			memIDlabel.setText(Long.toString(member.getMemId()));
+			memnametxt.setText(member.getMemName());
+			memagetxt.setText(Integer.toString(member.getMemAge()));
+			memphonetxt.setText(member.getMemPhone());
+			
+			System.out.println(member);
+			
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 
 	 * TODO 刷新会员信息
 	 * 
 	 */
-
 	static public void memRefresh() {
 
 		findmemnametxt.setText("");
