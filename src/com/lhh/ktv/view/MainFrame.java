@@ -28,14 +28,18 @@ import javax.swing.border.EmptyBorder;
 
 import com.lhh.ktv.exception.ServiceException;
 import com.lhh.ktv.model.entity.Employee;
+import com.lhh.ktv.model.entity.Goods;
 import com.lhh.ktv.model.entity.Member;
+import com.lhh.ktv.model.service.IGoodsService;
 import com.lhh.ktv.model.service.IMemberService;
 import com.lhh.ktv.model.service.impl.EmployeeServiceImpl;
+import com.lhh.ktv.model.service.impl.GoodsServiceImpl;
 import com.lhh.ktv.model.service.impl.MemberServiceImpl;
 import com.lhh.ktv.util.BGJPanel;
 import com.lhh.ktv.util.BorderHide;
 import com.lhh.ktv.util.BtnEvent;
 import com.lhh.ktv.util.MyEmpTableModel;
+import com.lhh.ktv.util.MyGoodsTableModel;
 import com.lhh.ktv.util.MyMemTableModel;
 import com.lhh.ktv.util.SetTableCenter;
 import com.lhh.ktv.util.WindowMove;
@@ -55,18 +59,26 @@ public class MainFrame extends JFrame implements Runnable {
 
 	private static JTextField querytxtName;
 	private static JTextField querytxtNum;
+	// 数据表的创建
 	private static JTable dataTable;
 	private static JTable memDataTable;
+	private static JTable goodsDataTable;
+
 	private static MyEmpTableModel model;
 	private static MyMemTableModel memmodel;
+	private static MyGoodsTableModel goodsmodel;
 
+	// 装数据的panel要设置一个静态变量，和本身就有的无关！
 	static JPanel dataPanel = new JPanel();
 
 	static JPanel memdatapanel = new JPanel();
 
+	static JPanel goodsdatatablepanel = new JPanel();
+
 	// TODO 定义静态的ID方法
 	static private Long getID;
 	static private Long getmemID;
+	static private Long getgoodsID;
 	static private JTextField findmemnametxt;
 	static private JLabel findnotmem;
 	private JTextField addnametxt;
@@ -77,8 +89,16 @@ public class MainFrame extends JFrame implements Runnable {
 	static private JTextField memphonetxt;
 
 	static private JLabel memIDlabel;
+	static private JLabel goodsidlabel;
 	static private JRadioButton radmemman;
 	static private JRadioButton radmemwom;
+	static private JTextField findgoodstxt;
+	private JTextField addgoodsnametxt;
+	private JTextField addgoodspricetxt;
+	private JTextField addgoodscounttxt;
+	static private JTextField goodsnametxt;
+	static private JTextField goodspricetxt;
+	static private JTextField goodscounttxt;
 
 	public static Long getGetID() {
 		return getID;
@@ -310,7 +330,7 @@ public class MainFrame extends JFrame implements Runnable {
 		JButton addokbtn = new JButton("确认");
 		addokbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-		
+
 				String name;
 				String gender;
 				byte age;
@@ -337,7 +357,6 @@ public class MainFrame extends JFrame implements Runnable {
 
 				try {
 					memberService.addMem(member);
-					System.out.println("添加会员成功！");
 					JOptionPane.showMessageDialog(contentPane, "会员注册成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
 					memRefresh();
 				} catch (ServiceException ee) {
@@ -492,22 +511,26 @@ public class MainFrame extends JFrame implements Runnable {
 		delmembtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				IMemberService mem = new MemberServiceImpl();
+				int result = JOptionPane.showConfirmDialog(contentPane, "是否注销此会员？", "提示", JOptionPane.OK_CANCEL_OPTION);
 
-				Long id;
+				if (result == 0) {
 
-				id = Long.parseLong(memIDlabel.getText());
+					IMemberService mem = new MemberServiceImpl();
 
-				try {
-					mem.delMem(id);
-					System.out.println("注销会员成功！");
-					JOptionPane.showMessageDialog(contentPane, "注销会员信息成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
-					memRefresh();
-				} catch (ServiceException ee) {
-					// TODO Auto-generated catch block
-					ee.printStackTrace();
+					Long id;
+
+					id = Long.parseLong(memIDlabel.getText());
+
+					try {
+						mem.delMem(id);
+						System.out.println("注销会员成功！");
+						JOptionPane.showMessageDialog(contentPane, "注销会员信息成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+						memRefresh();
+					} catch (ServiceException ee) {
+						// TODO Auto-generated catch block
+						ee.printStackTrace();
+					}
 				}
-
 			}
 		});
 		delmembtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
@@ -528,6 +551,290 @@ public class MainFrame extends JFrame implements Runnable {
 		goodsJpanel.setBackground(Color.RED);
 		mainPanel.add(goodsJpanel, "goods");
 		goodsJpanel.setLayout(null);
+
+		JPanel goodstoppanel = new JPanel();
+		goodstoppanel.setBounds(0, 0, 655, 138);
+		goodsJpanel.add(goodstoppanel);
+		goodstoppanel.setLayout(null);
+
+		JLabel findgoodsnamelabel = new JLabel("商品名称：");
+		findgoodsnamelabel.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		findgoodsnamelabel.setBounds(44, 54, 95, 38);
+		goodstoppanel.add(findgoodsnamelabel);
+
+		findgoodstxt = new JTextField();
+		findgoodstxt.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		findgoodstxt.setBounds(138, 54, 221, 38);
+		goodstoppanel.add(findgoodstxt);
+		findgoodstxt.setColumns(10);
+
+		JButton refreshgoodsbtn = new JButton("刷新");
+		refreshgoodsbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// 刷新商品信息
+				goodsRefresh();
+
+			}
+		});
+		refreshgoodsbtn.setFont(new Font("微软雅黑", Font.PLAIN, 15));
+		refreshgoodsbtn.setBounds(494, 105, 79, 27);
+		goodstoppanel.add(refreshgoodsbtn);
+
+		JPanel goodsdatatablepanel = new JPanel();
+		goodsdatatablepanel.setBounds(0, 139, 655, 426);
+		goodsJpanel.add(goodsdatatablepanel);
+		goodsdatatablepanel.setLayout(null);
+
+		JPanel goodsinfopanel = new JPanel();
+		goodsinfopanel.setBounds(656, 0, 345, 565);
+		goodsJpanel.add(goodsinfopanel);
+		CardLayout cardGoods = new CardLayout(0, 0);
+		goodsinfopanel.setLayout(cardGoods);
+
+		JPanel addgoodspanel = new JPanel();
+		addgoodspanel.setBackground(Color.LIGHT_GRAY);
+		goodsinfopanel.add(addgoodspanel, "addgoodspanel");
+		addgoodspanel.setLayout(null);
+
+		JLabel addgoodstitlelabel = new JLabel("添加商品");
+		addgoodstitlelabel.setFont(new Font("微软雅黑", Font.PLAIN, 26));
+		addgoodstitlelabel.setBounds(117, 83, 111, 58);
+		addgoodspanel.add(addgoodstitlelabel);
+
+		JLabel addgoodsnamelabel = new JLabel("商品名称：");
+		addgoodsnamelabel.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		addgoodsnamelabel.setBounds(39, 193, 93, 43);
+		addgoodspanel.add(addgoodsnamelabel);
+
+		JLabel addgoodspricelable = new JLabel("商品价格：");
+		addgoodspricelable.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		addgoodspricelable.setBounds(39, 262, 93, 43);
+		addgoodspanel.add(addgoodspricelable);
+
+		JLabel addgoodscountlabel = new JLabel("商品库存：");
+		addgoodscountlabel.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		addgoodscountlabel.setBounds(39, 335, 93, 43);
+		addgoodspanel.add(addgoodscountlabel);
+
+		addgoodsnametxt = new JTextField();
+		addgoodsnametxt.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		addgoodsnametxt.setBounds(132, 193, 187, 43);
+		addgoodspanel.add(addgoodsnametxt);
+		addgoodsnametxt.setColumns(10);
+
+		addgoodspricetxt = new JTextField();
+		addgoodspricetxt.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		addgoodspricetxt.setColumns(10);
+		addgoodspricetxt.setBounds(132, 262, 187, 43);
+		addgoodspanel.add(addgoodspricetxt);
+
+		addgoodscounttxt = new JTextField();
+		addgoodscounttxt.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		addgoodscounttxt.setColumns(10);
+		addgoodscounttxt.setBounds(132, 335, 187, 43);
+		addgoodspanel.add(addgoodscounttxt);
+
+		JButton addgoodsokbtn = new JButton("确认");
+		addgoodsokbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				String name;
+				double price;
+				int count;
+
+				// 建立服务接口类类 服务实现类
+				IGoodsService goodsService = new GoodsServiceImpl();
+				Goods goods = new Goods();
+
+				name = addgoodsnametxt.getText();
+
+				price = Double.parseDouble(addgoodspricetxt.getText());
+
+				count = Integer.parseInt(addgoodscounttxt.getText());
+
+				goods.setGoodsName(name);
+				goods.setGoodsPrice(price);
+				goods.setGoodsCount(count);
+
+				try {
+					goodsService.addGoods(goods);
+					JOptionPane.showMessageDialog(contentPane, "商品添加成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+					goodsRefresh();
+				} catch (ServiceException ee) {
+					ee.printStackTrace();
+				}
+			}
+		});
+		addgoodsokbtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		addgoodsokbtn.setBounds(70, 439, 93, 65);
+		addgoodspanel.add(addgoodsokbtn);
+
+		JButton addgoodsnobtn = new JButton("取消");
+		addgoodsnobtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				addgoodsnametxt.setText("");
+
+				addgoodspricetxt.setText("");
+
+				addgoodscounttxt.setText("");
+
+			}
+		});
+		addgoodsnobtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		addgoodsnobtn.setBounds(200, 439, 93, 65);
+		addgoodspanel.add(addgoodsnobtn);
+
+		JPanel delandupdgoodspanel = new JPanel();
+		delandupdgoodspanel.setBackground(Color.PINK);
+		goodsinfopanel.add(delandupdgoodspanel, "delandupdgoodspanel");
+		delandupdgoodspanel.setLayout(null);
+
+		JLabel titlelabel = new JLabel("编号为");
+		titlelabel.setFont(new Font("微软雅黑", Font.PLAIN, 22));
+		titlelabel.setBounds(40, 51, 83, 58);
+		delandupdgoodspanel.add(titlelabel);
+
+		JLabel goodsnamelabel = new JLabel("商品名称：");
+		goodsnamelabel.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		goodsnamelabel.setBounds(30, 172, 93, 43);
+		delandupdgoodspanel.add(goodsnamelabel);
+
+		goodsnametxt = new JTextField();
+		goodsnametxt.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		goodsnametxt.setColumns(10);
+		goodsnametxt.setBounds(123, 172, 187, 43);
+		delandupdgoodspanel.add(goodsnametxt);
+
+		JLabel goodspricelabel = new JLabel("商品价格：");
+		goodspricelabel.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		goodspricelabel.setBounds(30, 241, 93, 43);
+		delandupdgoodspanel.add(goodspricelabel);
+
+		goodspricetxt = new JTextField();
+		goodspricetxt.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		goodspricetxt.setColumns(10);
+		goodspricetxt.setBounds(123, 241, 187, 43);
+		delandupdgoodspanel.add(goodspricetxt);
+
+		goodscounttxt = new JTextField();
+		goodscounttxt.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		goodscounttxt.setColumns(10);
+		goodscounttxt.setBounds(123, 314, 187, 43);
+		delandupdgoodspanel.add(goodscounttxt);
+
+		JLabel goodscountlabel = new JLabel("商品库存：");
+		goodscountlabel.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		goodscountlabel.setBounds(30, 314, 93, 43);
+		delandupdgoodspanel.add(goodscountlabel);
+
+		JButton delgoodsbtn = new JButton("删除");
+		delgoodsbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				int result = JOptionPane.showConfirmDialog(contentPane, "是否删除该信息？", "提示", JOptionPane.OK_CANCEL_OPTION);
+
+				if (result == 0) {
+					IGoodsService goodsService = new GoodsServiceImpl();
+
+					Long id;
+
+					id = Long.parseLong(goodsidlabel.getText());
+
+					try {
+						goodsService.delGoods(id);
+						System.out.println("删除商品成功！");
+						JOptionPane.showMessageDialog(contentPane, "删除商品成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+						goodsRefresh();
+					} catch (ServiceException ee) {
+						// TODO Auto-generated catch block
+						ee.printStackTrace();
+					}
+				}
+
+			}
+		});
+		delgoodsbtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		delgoodsbtn.setBounds(16, 418, 93, 65);
+		delandupdgoodspanel.add(delgoodsbtn);
+
+		JButton updgoodsbtn = new JButton("更改");
+		updgoodsbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				IGoodsService goodsService = new GoodsServiceImpl();
+				Goods goods = new Goods();
+
+				String name;
+				Double price;
+				int count;
+				Long id;
+
+				name = goodsnametxt.getText();
+				price = Double.parseDouble(goodspricetxt.getText());
+				count = Integer.parseInt(goodscounttxt.getText());
+				id = Long.parseLong(goodsidlabel.getText());
+
+				goods.setGoodsName(name);
+				goods.setGoodsPrice(price);
+				goods.setGoodsCount(count);
+				goods.setGoodsId(id);
+
+				try {
+					goodsService.updateGoods(goods);
+					System.out.println("更新会员信息成功！");
+					JOptionPane.showMessageDialog(contentPane, "更新会员信息成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+					goodsRefresh();
+				} catch (ServiceException ee) {
+					// TODO Auto-generated catch block
+					ee.printStackTrace();
+				}
+
+			}
+		});
+		updgoodsbtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		updgoodsbtn.setBounds(125, 418, 93, 65);
+		delandupdgoodspanel.add(updgoodsbtn);
+
+		JButton rtugoodsbtn = new JButton("返回");
+		rtugoodsbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cardGoods.show(goodsinfopanel, "goodsinfomainpanel");
+			}
+		});
+		rtugoodsbtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		rtugoodsbtn.setBounds(234, 418, 93, 65);
+		delandupdgoodspanel.add(rtugoodsbtn);
+
+		goodsidlabel = new JLabel("");
+		goodsidlabel.setFont(new Font("微软雅黑", Font.PLAIN, 26));
+		goodsidlabel.setBounds(123, 51, 44, 58);
+		delandupdgoodspanel.add(goodsidlabel);
+
+		JLabel infonextlabel = new JLabel("的商品信息如下");
+		infonextlabel.setFont(new Font("微软雅黑", Font.PLAIN, 22));
+		infonextlabel.setBounds(165, 51, 162, 58);
+		delandupdgoodspanel.add(infonextlabel);
+
+		JLabel tishixinxilabel = new JLabel("*编辑信息可以进行修改");
+		tishixinxilabel.setBounds(40, 122, 178, 18);
+		delandupdgoodspanel.add(tishixinxilabel);
+
+		JPanel goodsinfomainpanel = new JPanel();
+		goodsinfopanel.add(goodsinfomainpanel, "goodsinfomainpanel");
+		goodsinfomainpanel.setLayout(null);
+
+		JButton addgoodsbtn = new JButton("添加商品");
+		addgoodsbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				cardGoods.show(goodsinfopanel, "addgoodspanel");
+
+			}
+		});
+		addgoodsbtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		addgoodsbtn.setBounds(460, 54, 113, 38);
+		goodstoppanel.add(addgoodsbtn);
 
 		JPanel empJpanel = new JPanel();
 		mainPanel.add(empJpanel, "emp");
@@ -593,7 +900,7 @@ public class MainFrame extends JFrame implements Runnable {
 				// }
 				// !(querytxtName.getText().equals(name)) ||
 				// !(querytxtNum.getText().equals(num))
-				if (empList.size() < 0) {
+				if (empList.size() == 0) {
 					JOptionPane.showMessageDialog(contentPane, "没有这个人！", "提示", JOptionPane.INFORMATION_MESSAGE);
 					querytxtName.setText("");
 					querytxtNum.setText("");
@@ -664,14 +971,10 @@ public class MainFrame extends JFrame implements Runnable {
 				memList = new ArrayList<Member>();
 				memList = memSimp.findMem(conditions);
 				System.out.println(memList);
-				// for (Member member : memList) {
-				// name = member.getMemName();
-				// break;
-				// }
-				/*
-				 * !(findmemnametxt.getText().equals(name))
-				 */
-				if (memList.size() < 0) {
+
+				if (memList.size() == 0) {
+
+					JOptionPane.showMessageDialog(contentPane, "找不到相关信息！", "提示", JOptionPane.INFORMATION_MESSAGE);
 
 					findnotmem.setVisible(true);// 设置可见
 
@@ -708,7 +1011,6 @@ public class MainFrame extends JFrame implements Runnable {
 
 										if (member.getMemId().equals(Long.parseLong(data))) {
 											getmemID = member.getMemId();
-											System.out.println("getmemID:" + getmemID);
 											break;
 										} else {
 											continue;
@@ -730,6 +1032,95 @@ public class MainFrame extends JFrame implements Runnable {
 		findbtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		findbtn.setBounds(358, 44, 83, 51);
 		findadd.add(findbtn);
+
+		// 按名字查询商品
+		JButton findgoodsbtn = new JButton("查询");
+		findgoodsbtn.addActionListener(new ActionListener() {
+			private List<Goods> goodsList;
+
+			public void actionPerformed(ActionEvent e) {
+
+				// TODO 查询商品
+
+				// String name = null;
+
+				GoodsServiceImpl goodsSimp = new GoodsServiceImpl();
+
+				List<String> conditions = new ArrayList<String>();
+				conditions.add("goods_name like '%" + findgoodstxt.getText() + "%'");
+				goodsList = new ArrayList<Goods>();
+				goodsList = goodsSimp.findGoods(conditions);
+
+				if (goodsList.size() == 0) {
+
+					// TODO 没有找到这个商品，是否要添加！
+					System.out.println("在这里弹出一个对话框，提示是否添加这个商品！");
+					int result = JOptionPane.showConfirmDialog(contentPane, "没有找到这个商品，是否要添加？", "提示",
+							JOptionPane.OK_CANCEL_OPTION);
+
+					if (result == 0) {
+						cardGoods.show(goodsinfopanel, "addgoodspanel");
+					}
+
+					findgoodstxt.setText("");
+				} else {
+
+					if (findgoodstxt.getText().equals("")) {
+						JOptionPane.showMessageDialog(contentPane, "无查询信息，默认查询全部信息！", "提示",
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+
+						JOptionPane.showMessageDialog(contentPane, "查询成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+
+						JTable goodsDataTable = new JTable();
+						SetTableCenter.setTableCenter(goodsDataTable);// 设置表格中内容居中
+						goodsmodel = new MyGoodsTableModel(goodsList);
+						goodsDataTable.setModel(goodsmodel);
+
+						JScrollPane goodsscrollPane = new JScrollPane(goodsDataTable);
+						goodsscrollPane.setBounds(0, 0, 655, 426);
+						goodsdatatablepanel.add(goodsscrollPane);
+
+						// TODO memDataTable 表鼠标监听事件
+						goodsDataTable.addMouseListener(new MouseAdapter() {
+
+							public void mouseClicked(MouseEvent evt) {
+
+								if (evt.getClickCount() == 2) {
+
+									cardGoods.show(goodsinfopanel, "delandupdgoodspanel");
+
+									int row = goodsDataTable.getSelectedRow();
+									String data;
+									data = String.valueOf(goodsmodel.getValueAt(row, 0));
+
+									for (Goods goods : goodsList) {
+
+										if (goods.getGoodsId().equals(Long.parseLong(data))) {
+											getgoodsID = goods.getGoodsId();
+											System.out.println("getgoodsID:" + getgoodsID);
+											break;
+										} else {
+											continue;
+										}
+
+									}
+
+									goodsinfoPanel();
+								}
+
+							}
+
+						});
+					}
+				}
+
+			}
+
+		});
+		findgoodsbtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		findgoodsbtn.setBounds(373, 54, 73, 38);
+		goodstoppanel.add(findgoodsbtn);
 
 		/**
 		 * 
@@ -784,6 +1175,64 @@ public class MainFrame extends JFrame implements Runnable {
 		}
 
 		/**
+		 * 
+		 * TODO 查询全部的商品，把数据显示在表格中显示出来
+		 * 
+		 * 
+		 */
+		try {
+
+			Goods goods = new Goods();
+			GoodsServiceImpl goodsSimp = new GoodsServiceImpl();
+
+			List<Goods> goodsList = goodsSimp.findGoods(goods);
+
+			goodsDataTable = new JTable();
+			SetTableCenter.setTableCenter(goodsDataTable);// 设置表格中内容居中
+			goodsmodel = new MyGoodsTableModel(goodsList);
+			goodsDataTable.setModel(goodsmodel);
+
+			JScrollPane goodsscrollPane = new JScrollPane(goodsDataTable);
+			goodsscrollPane.setBounds(0, 0, 655, 426);
+			goodsdatatablepanel.add(goodsscrollPane);
+
+			// TODO goodsDataTable 表鼠标监听事件
+			goodsDataTable.addMouseListener(new MouseAdapter() {
+
+				public void mouseClicked(MouseEvent evt) {
+
+					if (evt.getClickCount() == 2) {
+
+						cardGoods.show(goodsinfopanel, "delandupdgoodspanel");
+
+						int row = goodsDataTable.getSelectedRow();
+						String data;
+						data = String.valueOf(goodsmodel.getValueAt(row, 0));
+
+						for (Goods goods : goodsList) {
+
+							if (goods.getGoodsId().equals(Long.parseLong(data))) {
+								getgoodsID = goods.getGoodsId();
+								System.out.println("getgoodsID:" + getgoodsID);
+								break;
+							} else {
+								continue;
+							}
+
+						}
+
+						goodsinfoPanel();
+					}
+
+				}
+
+			});
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		/**
 		 * 实现查询员工的功能
 		 */
 		// TODO 查询全部的员工 把数据在表格中显示出来
@@ -815,22 +1264,16 @@ public class MainFrame extends JFrame implements Runnable {
 						String data;
 						data = String.valueOf(model.getValueAt(row, 0));
 
-						System.out.println("data:" + data);
-
 						for (Employee employee : empList) {
 							System.out.println(employee.getEmpId());
 							if (employee.getEmpId().equals(Long.parseLong(data))) {
 								getID = employee.getEmpId();
-								System.out.println("for循环中的getID:" + getID);
 								new GetTableFrame();
 								break;
 							} else {
-								System.out.println("数据data为：" + data);
 								continue;
 							}
 						}
-
-						System.out.println("getID:" + getID);
 					}
 				}
 			});
@@ -928,6 +1371,7 @@ public class MainFrame extends JFrame implements Runnable {
 		goodsMage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardmain.show(mainPanel, "goods");
+				cardGoods.show(goodsinfopanel, "goodsinfomainpanel");
 			}
 		});
 		goodsMage.setBounds(14, 298, 260, 52);
@@ -998,6 +1442,32 @@ public class MainFrame extends JFrame implements Runnable {
 
 	/**
 	 * 
+	 * TODO 将商品信息显示在面板上
+	 * 
+	 */
+	static public void goodsinfoPanel() {
+		/**
+		 * 
+		 * TODO 获取商品表格的ID，然后查询将数据放在面板上 getgoodsID
+		 */
+		try {
+			// 将数据显示在面板上
+			GoodsServiceImpl goodsSimp = new GoodsServiceImpl();
+			Goods goods = new Goods();
+			System.out.println("--------------------");
+			goods = goodsSimp.findGoods(getgoodsID);
+
+			goodsidlabel.setText(Long.toString(goods.getGoodsId()));
+			goodsnametxt.setText(goods.getGoodsName());
+			goodspricetxt.setText(Double.toString(goods.getGoodsPrice()));
+			goodscounttxt.setText(Integer.toString(goods.getGoodsCount()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 
 	 * TODO 将会员信息显示在面板上
 	 * 
 	 * 
@@ -1013,23 +1483,67 @@ public class MainFrame extends JFrame implements Runnable {
 			Member member = new Member();
 			System.out.println("--------------------");
 			member = memSimp.findMem(getmemID);
-			System.out.println(member);
 			if (member.getMemGender().equals("男")) {
 				radmemman.setSelected(true);
 			} else {
 				radmemwom.setSelected(true);
 			}
-
 			memIDlabel.setText(Long.toString(member.getMemId()));
 			memnametxt.setText(member.getMemName());
 			memagetxt.setText(Integer.toString(member.getMemAge()));
 			memphonetxt.setText(member.getMemPhone());
-
-			System.out.println(member);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * 
+	 * TODO 刷新商品信息
+	 * 
+	 */
+	static public void goodsRefresh() {
+
+		findgoodstxt.setText("");
+		Goods goods = new Goods();
+		GoodsServiceImpl goodsSipm = new GoodsServiceImpl();
+		try {
+			List<Goods> goodsList = goodsSipm.findGoods(goods);
+			goodsmodel.updateList(goodsList);
+			goodsDataTable.updateUI();
+
+			goodsDataTable.addMouseListener(new MouseAdapter() {
+
+				public void mouseClicked(MouseEvent evt) {
+
+					if (evt.getClickCount() == 2) {
+
+						int row = goodsDataTable.getSelectedRow();
+						String data;
+						data = String.valueOf(goodsmodel.getValueAt(row, 0));
+
+						for (Goods goods : goodsList) {
+
+							if (goods.getGoodsId().equals(Long.parseLong(data))) {
+								getgoodsID = goods.getGoodsId();
+								System.out.println("getgoodsID:" + getgoodsID);
+								break;
+							} else {
+								continue;
+							}
+
+						}
+					}
+
+				}
+
+			});
+
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
@@ -1070,6 +1584,32 @@ public class MainFrame extends JFrame implements Runnable {
 			model.updateList(empList);
 			dataTable.updateUI();
 			dataPanel.setBackground(Color.RED);
+
+			// TODO JTable的鼠标监听事件
+			dataTable.addMouseListener(new MouseAdapter() {
+
+				public void mouseClicked(MouseEvent evt) {
+
+					if (evt.getClickCount() == 2) {
+						int row = dataTable.getSelectedRow();
+
+						String data;
+						data = String.valueOf(model.getValueAt(row, 0));
+
+						for (Employee employee : empList) {
+							System.out.println(employee.getEmpId());
+							if (employee.getEmpId().equals(Long.parseLong(data))) {
+								getID = employee.getEmpId();
+								new GetTableFrame();
+								break;
+							} else {
+								continue;
+							}
+						}
+					}
+				}
+			});
+
 		} catch (ServiceException ee) {
 			// TODO Auto-generated catch block
 			ee.printStackTrace();
