@@ -64,7 +64,7 @@ public class MainFrame extends JFrame implements Runnable {
 
 	static JPanel memdatapanel = new JPanel();
 
-	// TODO 定义静态的ID方法 
+	// TODO 定义静态的ID方法
 	static private Long getID;
 	static private Long getmemID;
 	static private JTextField findmemnametxt;
@@ -75,7 +75,7 @@ public class MainFrame extends JFrame implements Runnable {
 	static private JTextField memnametxt;
 	static private JTextField memagetxt;
 	static private JTextField memphonetxt;
-	
+
 	static private JLabel memIDlabel;
 	static private JRadioButton radmemman;
 	static private JRadioButton radmemwom;
@@ -241,7 +241,8 @@ public class MainFrame extends JFrame implements Runnable {
 		refreshmembtn.setBounds(543, 104, 69, 27);
 		findadd.add(refreshmembtn);
 
-		JPanel infofirstpanel = new JPanel();
+		BGJPanel infofirstpanel = new BGJPanel();
+		infofirstpanel.infofirstpanelBG();
 		infopanel.add(infofirstpanel, "infoshow");
 
 		JLabel addnamelable = new JLabel("姓名：");
@@ -309,7 +310,7 @@ public class MainFrame extends JFrame implements Runnable {
 		JButton addokbtn = new JButton("确认");
 		addokbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+		
 				String name;
 				String gender;
 				byte age;
@@ -440,12 +441,75 @@ public class MainFrame extends JFrame implements Runnable {
 		delupdmem.add(radmemman);
 		delupdmem.add(radmemwom);
 
+		// TODO 会员修改
 		JButton updmembtn = new JButton("修改");
+		updmembtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				IMemberService mem = new MemberServiceImpl();
+				Member member = new Member();
+
+				String name;
+				String gender;
+				byte age;
+				String phone;
+				Long id;
+
+				name = memnametxt.getText();
+				if (radmemman.isSelected()) {
+					gender = "男";
+				} else {
+					gender = "女";
+				}
+				age = (byte) Integer.parseInt(memagetxt.getText());
+				phone = memphonetxt.getText();
+				id = Long.parseLong(memIDlabel.getText());
+
+				member.setMemName(name);
+				member.setMemGender(gender);
+				member.setMemAge(age);
+				member.setMemPhone(phone);
+				member.setMemId(id);
+
+				try {
+					mem.updateMem(member);
+					System.out.println("更新会员信息成功！");
+					JOptionPane.showMessageDialog(contentPane, "更新会员信息成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+					memRefresh();
+				} catch (ServiceException ee) {
+					// TODO Auto-generated catch block
+					ee.printStackTrace();
+				}
+
+			}
+		});
 		updmembtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		updmembtn.setBounds(33, 483, 75, 47);
 		delandupd.add(updmembtn);
 
+		// TODO 注销会员
 		JButton delmembtn = new JButton("注销");
+		delmembtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				IMemberService mem = new MemberServiceImpl();
+
+				Long id;
+
+				id = Long.parseLong(memIDlabel.getText());
+
+				try {
+					mem.delMem(id);
+					System.out.println("注销会员成功！");
+					JOptionPane.showMessageDialog(contentPane, "注销会员信息成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+					memRefresh();
+				} catch (ServiceException ee) {
+					// TODO Auto-generated catch block
+					ee.printStackTrace();
+				}
+
+			}
+		});
 		delmembtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		delmembtn.setBounds(141, 483, 75, 47);
 		delandupd.add(delmembtn);
@@ -514,8 +578,8 @@ public class MainFrame extends JFrame implements Runnable {
 			private List<Employee> empList;
 
 			public void actionPerformed(ActionEvent e) {
-				String name = null;
-				String num = null;
+				// String name = null;
+				// String num = null;
 				EmployeeServiceImpl empSimp = new EmployeeServiceImpl();
 				List<String> conditions = new ArrayList<String>();
 				conditions.add("emp_name like '%" + querytxtName.getText() + "%'");
@@ -523,12 +587,13 @@ public class MainFrame extends JFrame implements Runnable {
 				empList = new ArrayList<Employee>();
 				empList = empSimp.findEmployee(conditions);
 
-				for (Employee employee : empList) {
-					name = employee.getEmpName();
-					num = employee.getUsername();
-				}
-
-				if (!(querytxtName.getText().equals(name)) || !(querytxtNum.getText().equals(num))) {
+				// for (Employee employee : empList) {
+				// name = employee.getEmpName();
+				// num = employee.getUsername();
+				// }
+				// !(querytxtName.getText().equals(name)) ||
+				// !(querytxtNum.getText().equals(num))
+				if (empList.size() < 0) {
 					JOptionPane.showMessageDialog(contentPane, "没有这个人！", "提示", JOptionPane.INFORMATION_MESSAGE);
 					querytxtName.setText("");
 					querytxtNum.setText("");
@@ -590,7 +655,7 @@ public class MainFrame extends JFrame implements Runnable {
 
 			public void actionPerformed(ActionEvent e) {
 
-				String name = null;
+				// String name = null;
 
 				MemberServiceImpl memSimp = new MemberServiceImpl();
 
@@ -598,59 +663,66 @@ public class MainFrame extends JFrame implements Runnable {
 				conditions.add("mem_name like '%" + findmemnametxt.getText() + "%'");
 				memList = new ArrayList<Member>();
 				memList = memSimp.findMem(conditions);
+				System.out.println(memList);
+				// for (Member member : memList) {
+				// name = member.getMemName();
+				// break;
+				// }
+				/*
+				 * !(findmemnametxt.getText().equals(name))
+				 */
+				if (memList.size() < 0) {
 
-				for (Member member : memList) {
-					name = member.getMemName();
-					break;
-				}
-
-				if (!(findmemnametxt.getText().equals(name))) {
-
-					findnotmem.setVisible(true);// 设置不可见
+					findnotmem.setVisible(true);// 设置可见
 
 					findmemnametxt.setText("");
 				} else {
 
-					JOptionPane.showMessageDialog(contentPane, "查询成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+					if (findmemnametxt.getText().equals("")) {
+						JOptionPane.showMessageDialog(contentPane, "无查询信息，默认查询全部信息！", "提示",
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
 
-					JTable memDataTable = new JTable();
-					SetTableCenter.setTableCenter(memDataTable);
-					memmodel = new MyMemTableModel(memList);
-					memDataTable.setModel(memmodel);
-					JScrollPane memscrollPane = new JScrollPane(memDataTable);
-					memscrollPane.setBounds(0, 0, 643, 424);
-					memdatapanel.add(memscrollPane);
+						JOptionPane.showMessageDialog(contentPane, "查询成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
 
-					// TODO memDataTable 表鼠标监听事件
-					memDataTable.addMouseListener(new MouseAdapter() {
+						JTable memDataTable = new JTable();
+						SetTableCenter.setTableCenter(memDataTable);
+						memmodel = new MyMemTableModel(memList);
+						memDataTable.setModel(memmodel);
+						JScrollPane memscrollPane = new JScrollPane(memDataTable);
+						memscrollPane.setBounds(0, 0, 643, 424);
+						memdatapanel.add(memscrollPane);
 
-						public void mouseClicked(MouseEvent evt) {
+						// TODO memDataTable 表鼠标监听事件
+						memDataTable.addMouseListener(new MouseAdapter() {
 
-							if (evt.getClickCount() == 2) {
-								cardmeminfo.show(infopanel, "delandupd");
-								int row = memDataTable.getSelectedRow();
-								String data;
-								data = String.valueOf(memmodel.getValueAt(row, 0));
+							public void mouseClicked(MouseEvent evt) {
 
-								for (Member member : memList) {
+								if (evt.getClickCount() == 2) {
+									cardmeminfo.show(infopanel, "delandupd");
+									int row = memDataTable.getSelectedRow();
+									String data;
+									data = String.valueOf(memmodel.getValueAt(row, 0));
 
-									if (member.getMemId().equals(Long.parseLong(data))) {
-										getmemID = member.getMemId();
-										System.out.println("getmemID:" + getmemID);
-										break;
-									} else {
-										continue;
+									for (Member member : memList) {
+
+										if (member.getMemId().equals(Long.parseLong(data))) {
+											getmemID = member.getMemId();
+											System.out.println("getmemID:" + getmemID);
+											break;
+										} else {
+											continue;
+										}
+
 									}
 
+									meminfoPanel();
+
 								}
-								
-								meminfoPanel();
 
 							}
-
-						}
-					});
-
+						});
+					}
 				}
 
 			}
@@ -700,7 +772,7 @@ public class MainFrame extends JFrame implements Runnable {
 							}
 
 						}
-						
+
 						meminfoPanel();
 					}
 
@@ -930,37 +1002,36 @@ public class MainFrame extends JFrame implements Runnable {
 	 * 
 	 * 
 	 */
-	static public void meminfoPanel(){
+	static public void meminfoPanel() {
 		/**
 		 * 
-		 * TODO 获取会员表格的ID，然后查询将数据放在面板上
-		 * getmemID
+		 * TODO 获取会员表格的ID，然后查询将数据放在面板上 getmemID
 		 */
-		try{
-			//将数据显示在面板上
+		try {
+			// 将数据显示在面板上
 			MemberServiceImpl memSimp = new MemberServiceImpl();
 			Member member = new Member();
 			System.out.println("--------------------");
 			member = memSimp.findMem(getmemID);
 			System.out.println(member);
-			if(member.getMemGender().equals("男")){
+			if (member.getMemGender().equals("男")) {
 				radmemman.setSelected(true);
-			}else{
+			} else {
 				radmemwom.setSelected(true);
 			}
-			
+
 			memIDlabel.setText(Long.toString(member.getMemId()));
 			memnametxt.setText(member.getMemName());
 			memagetxt.setText(Integer.toString(member.getMemAge()));
 			memphonetxt.setText(member.getMemPhone());
-			
+
 			System.out.println(member);
-			
-		}catch (Exception e){
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 
 	 * TODO 刷新会员信息
