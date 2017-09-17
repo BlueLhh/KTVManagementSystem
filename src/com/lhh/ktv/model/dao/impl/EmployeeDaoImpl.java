@@ -178,10 +178,14 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 		List<Employee> list = new ArrayList<Employee>();
 		String sql = "select emp_id,emp_name,emp_gender,emp_age,emp_phone,emp_post,emp_username,emp_password "
 				+ "from k_emp " + "where 1 = 1";
-		for (String condition : conditions) {
-			sql += " and ";
-			sql += condition;
+		
+		if(conditions.size() > 0){
+			for (String condition : conditions) {
+				sql += " and ";
+				sql += condition;
+			}
 		}
+		
 		System.out.println(sql);
 		jt.query(sql, new RowCallBackHandler() {
 
