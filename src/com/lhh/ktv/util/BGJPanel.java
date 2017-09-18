@@ -23,6 +23,11 @@ public class BGJPanel extends JPanel{
 	ImageIcon icon;
 	Image img;
 	
+	public void goodsInfopanelBG(){
+		icon = new ImageIcon(getClass().getResource("/images/infopanelbg.jpg"));//在src文件下
+		img = icon.getImage();
+	}
+	
 	public void infofirstpanelBG(){
 		icon = new ImageIcon(getClass().getResource("/images/infofirstpanel.jpg"));//在src文件下
 		img = icon.getImage();
