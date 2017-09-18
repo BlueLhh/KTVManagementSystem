@@ -11,7 +11,7 @@ public class FindOneMemTest {
 		try {
 			member = mem.findMem(2L);
 			System.out.println(member);
-
+			System.out.println(member.getMemName());
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
