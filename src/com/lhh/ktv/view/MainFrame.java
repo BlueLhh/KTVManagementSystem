@@ -30,11 +30,13 @@ import com.lhh.ktv.exception.ServiceException;
 import com.lhh.ktv.model.entity.Employee;
 import com.lhh.ktv.model.entity.Goods;
 import com.lhh.ktv.model.entity.Member;
+import com.lhh.ktv.model.entity.Room;
 import com.lhh.ktv.model.service.IGoodsService;
 import com.lhh.ktv.model.service.IMemberService;
 import com.lhh.ktv.model.service.impl.EmployeeServiceImpl;
 import com.lhh.ktv.model.service.impl.GoodsServiceImpl;
 import com.lhh.ktv.model.service.impl.MemberServiceImpl;
+import com.lhh.ktv.model.service.impl.RoomServiceImpl;
 import com.lhh.ktv.util.BGJPanel;
 import com.lhh.ktv.util.BorderHide;
 import com.lhh.ktv.util.BtnEvent;
@@ -99,6 +101,8 @@ public class MainFrame extends JFrame implements Runnable {
 	static private JTextField goodsnametxt;
 	static private JTextField goodspricetxt;
 	static private JTextField goodscounttxt;
+
+	public static Long roomID;
 
 	public static Long getGetID() {
 		return getID;
@@ -190,6 +194,300 @@ public class MainFrame extends JFrame implements Runnable {
 		roomJpanel.setBackground(Color.LIGHT_GRAY);
 		mainPanel.add(roomJpanel, "room");
 		roomJpanel.setLayout(null);
+
+		JPanel roominfopanel = new JPanel();
+		roominfopanel.setBounds(0, 0, 630, 563);
+		roomJpanel.add(roominfopanel);
+		roominfopanel.setLayout(null);
+		
+		JButton room168btn = new JButton("168");
+		// room168btn.addActionListener(new ActionListener() {
+		// public void actionPerformed(ActionEvent e) {
+		// roomID = Long.parseLong(room168btn.getText());
+		// new RoomInfoFrame();
+		// }
+		// });
+		// TODO 监听鼠标点击事件，解决双肩房间号出现两个慢板其中一个不能取消
+		room168btn.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				super.mouseClicked(e);
+
+				if (e.getClickCount() == 2) {
+					roomID = Long.parseLong(room168btn.getText());
+					new RoomInfoFrame();
+				}
+
+			}
+
+		});
+		room168btn.setFont(new Font("微软雅黑", Font.PLAIN, 26));
+		room168btn.setBounds(73, 56, 112, 112);
+		roominfopanel.add(room168btn);
+
+		JButton room178btn = new JButton("178");
+//		room178btn.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//
+//				roomID = Long.parseLong(room178btn.getText());
+//				new RoomInfoFrame();
+//
+//			}
+//		});
+		room178btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				super.mouseClicked(e);
+
+				if (e.getClickCount() == 2) {
+					roomID = Long.parseLong(room178btn.getText());
+					new RoomInfoFrame();
+				}
+			}
+		});
+		room178btn.setFont(new Font("微软雅黑", Font.PLAIN, 26));
+		room178btn.setBounds(258, 56, 112, 112);
+		roominfopanel.add(room178btn);
+
+		JButton room188btn = new JButton("188");
+//		room188btn.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//
+//				roomID = Long.parseLong(room188btn.getText());
+//				new RoomInfoFrame();
+//
+//			}
+//		});
+		room188btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				super.mouseClicked(e);
+
+				if (e.getClickCount() == 2) {
+					roomID = Long.parseLong(room188btn.getText());
+					new RoomInfoFrame();
+				}
+			}
+		});
+		room188btn.setFont(new Font("微软雅黑", Font.PLAIN, 26));
+		room188btn.setBounds(443, 56, 112, 112);
+		roominfopanel.add(room188btn);
+
+		JButton room268btn = new JButton("268");
+//		room268btn.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//
+//				roomID = Long.parseLong(room268btn.getText());
+//				new RoomInfoFrame();
+//
+//			}
+//		});
+		room268btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				super.mouseClicked(e);
+
+				if (e.getClickCount() == 2) {
+					roomID = Long.parseLong(room268btn.getText());
+					new RoomInfoFrame();
+				}
+			}
+		});
+		room268btn.setFont(new Font("微软雅黑", Font.PLAIN, 26));
+		room268btn.setBounds(73, 224, 112, 112);
+		roominfopanel.add(room268btn);
+
+		JButton room278btn = new JButton("278");
+//		room278btn.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//
+//				roomID = Long.parseLong(room278btn.getText());
+//				new RoomInfoFrame();
+//
+//			}
+//		});
+		room278btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				super.mouseClicked(e);
+
+				if (e.getClickCount() == 2) {
+					roomID = Long.parseLong(room278btn.getText());
+					new RoomInfoFrame();
+				}
+			}
+		});
+		room278btn.setFont(new Font("微软雅黑", Font.PLAIN, 26));
+		room278btn.setBounds(258, 224, 112, 112);
+		roominfopanel.add(room278btn);
+
+		JButton room288btn = new JButton("288");
+//		room288btn.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//
+//				roomID = Long.parseLong(room288btn.getText());
+//				new RoomInfoFrame();
+//
+//			}
+//		});
+		room288btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				super.mouseClicked(e);
+
+				if (e.getClickCount() == 2) {
+					roomID = Long.parseLong(room288btn.getText());
+					new RoomInfoFrame();
+				}
+			}
+		});
+		room288btn.setFont(new Font("微软雅黑", Font.PLAIN, 26));
+		room288btn.setBounds(443, 224, 112, 112);
+		roominfopanel.add(room288btn);
+
+		JButton room368btn = new JButton("368");
+//		room368btn.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//
+//				roomID = Long.parseLong(room368btn.getText());
+//				new RoomInfoFrame();
+//
+//			}
+//		});
+		room368btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				super.mouseClicked(e);
+
+				if (e.getClickCount() == 2) {
+					roomID = Long.parseLong(room368btn.getText());
+					new RoomInfoFrame();
+				}
+			}
+		});
+		room368btn.setFont(new Font("微软雅黑", Font.PLAIN, 26));
+		room368btn.setBounds(73, 392, 112, 112);
+		roominfopanel.add(room368btn);
+
+		JButton room378btn = new JButton("378");
+//		room378btn.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//
+//				roomID = Long.parseLong(room378btn.getText());
+//				// RoomInfoFrame.closeRoomInfoFrame();
+//				new RoomInfoFrame();
+//
+//			}
+//		});
+		room378btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				super.mouseClicked(e);
+
+				if (e.getClickCount() == 2) {
+					roomID = Long.parseLong(room378btn.getText());
+					new RoomInfoFrame();
+				}
+			}
+		});
+		room378btn.setFont(new Font("微软雅黑", Font.PLAIN, 26));
+		room378btn.setBounds(258, 392, 112, 112);
+		roominfopanel.add(room378btn);
+
+		JButton room388btn = new JButton("388");
+//		room388btn.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//
+//				roomID = Long.parseLong(room388btn.getText());
+//				// RoomInfoFrame.closeRoomInfoFrame();
+//				new RoomInfoFrame();
+//
+//			}
+//		});
+		room388btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				super.mouseClicked(e);
+
+				if (e.getClickCount() == 2) {
+					roomID = Long.parseLong(room388btn.getText());
+					new RoomInfoFrame();
+				}
+			}
+		});
+		room388btn.setFont(new Font("微软雅黑", Font.PLAIN, 26));
+		room388btn.setBounds(443, 392, 112, 112);
+		roominfopanel.add(room388btn);
+
+		JLabel room168label = new JLabel("未使用");
+		refRoomLabel(168L,room168label);
+		room168label.setBounds(106, 181, 54, 18);
+		roominfopanel.add(room168label);
+
+		JLabel room178label = new JLabel("未使用");
+		refRoomLabel(178L,room178label);
+		room178label.setBounds(289, 181, 54, 18);
+		roominfopanel.add(room178label);
+
+		JLabel room188label = new JLabel("未使用");
+		refRoomLabel(188L,room188label);
+		room188label.setBounds(480, 181, 54, 18);
+		roominfopanel.add(room188label);
+
+		JLabel room268label = new JLabel("未使用");
+		refRoomLabel(268L,room268label);
+		room268label.setBounds(106, 349, 54, 18);
+		roominfopanel.add(room268label);
+
+		JLabel room278label = new JLabel("未使用");
+		refRoomLabel(278L,room278label);
+		room278label.setBounds(289, 349, 54, 18);
+		roominfopanel.add(room278label);
+
+		JLabel room288label = new JLabel("未使用");
+		refRoomLabel(288L,room288label);
+		room288label.setBounds(480, 349, 54, 18);
+		roominfopanel.add(room288label);
+
+		JLabel room368label = new JLabel("未使用");
+		refRoomLabel(368L,room368label);
+		room368label.setBounds(106, 517, 54, 18);
+		roominfopanel.add(room368label);
+
+		JLabel room378label = new JLabel("未使用");
+		refRoomLabel(378L,room378label);
+		room378label.setBounds(289, 517, 54, 18);
+		roominfopanel.add(room378label);
+
+		JLabel room388label = new JLabel("未使用");
+		refRoomLabel(388L,room388label);
+		room388label.setBounds(480, 517, 54, 18);
+		roominfopanel.add(room388label);
+
+		JPanel roomgoodsinfopanel = new JPanel();
+		roomgoodsinfopanel.setBounds(630, 0, 371, 563);
+		roomJpanel.add(roomgoodsinfopanel);
+		roomgoodsinfopanel.setLayout(null);
+
+		JLabel goodslabel = new JLabel("商品清单表");
+		goodslabel.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		goodslabel.setBounds(134, 32, 102, 56);
+		roomgoodsinfopanel.add(goodslabel);
+
+		JPanel roomgoodsdatapanel = new JPanel();
+		roomgoodsdatapanel.setBounds(0, 103, 371, 460);
+		roomgoodsinfopanel.add(roomgoodsdatapanel);
+		roomgoodsdatapanel.setLayout(null);
 
 		JPanel memJpanel = new JPanel();
 		memJpanel.setBackground(Color.GREEN);
@@ -525,6 +823,11 @@ public class MainFrame extends JFrame implements Runnable {
 						mem.delMem(id);
 						System.out.println("注销会员成功！");
 						JOptionPane.showMessageDialog(contentPane, "注销会员信息成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+						memIDlabel.setText("");
+						memnametxt.setText("");
+						radmemman.setSelected(true);
+						memagetxt.setText("");
+						memphonetxt.setText("");
 						memRefresh();
 					} catch (ServiceException ee) {
 						// TODO Auto-generated catch block
@@ -745,6 +1048,10 @@ public class MainFrame extends JFrame implements Runnable {
 						goodsService.delGoods(id);
 						System.out.println("删除商品成功！");
 						JOptionPane.showMessageDialog(contentPane, "删除商品成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+						goodsidlabel.setText("");
+						goodsnametxt.setText("");
+						goodspricetxt.setText("");
+						goodscounttxt.setText("");
 						goodsRefresh();
 					} catch (ServiceException ee) {
 						// TODO Auto-generated catch block
@@ -758,6 +1065,11 @@ public class MainFrame extends JFrame implements Runnable {
 		delgoodsbtn.setBounds(16, 418, 93, 65);
 		delandupdgoodspanel.add(delgoodsbtn);
 
+		/**
+		 * 
+		 * TODO 更新信息，库存发生改变的时候
+		 * 
+		 */
 		JButton updgoodsbtn = new JButton("更改");
 		updgoodsbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -768,28 +1080,58 @@ public class MainFrame extends JFrame implements Runnable {
 				String name;
 				Double price;
 				int count;
+				int oldcount;
 				Long id;
 
 				name = goodsnametxt.getText();
 				price = Double.parseDouble(goodspricetxt.getText());
 				count = Integer.parseInt(goodscounttxt.getText());
 				id = Long.parseLong(goodsidlabel.getText());
-
-				goods.setGoodsName(name);
-				goods.setGoodsPrice(price);
-				goods.setGoodsCount(count);
-				goods.setGoodsId(id);
-
+				/**
+				 * 
+				 * TODO 查询信息 先找后插入
+				 * 
+				 */
 				try {
-					goodsService.updateGoods(goods);
-					System.out.println("更新会员信息成功！");
-					JOptionPane.showMessageDialog(contentPane, "更新会员信息成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
-					goodsRefresh();
+
+					goods = goodsService.findGoods(id);
+					// 获取原来数据库的库存
+					oldcount = goods.getGoodsCount();
+
+					if (count != oldcount) {
+						int result = JOptionPane.showConfirmDialog(contentPane, "库存发生更改，是否要增加" + count + "件商品？", "提示",
+								JOptionPane.OK_CANCEL_OPTION);
+						if (result == 0) {
+							count = oldcount + count;
+							/**
+							 * 
+							 * 更新库存成功
+							 * 
+							 */
+							goods.setGoodsName(name);
+							goods.setGoodsPrice(price);
+							goods.setGoodsCount(count);
+							goods.setGoodsId(id);
+							goodsService.updateGoods(goods);
+							JOptionPane.showMessageDialog(contentPane, "更新商品信息成功！", "提示",
+									JOptionPane.INFORMATION_MESSAGE);
+							goodsRefresh();
+						}
+					} else {
+						// 库存没有发生更改，其他项发生改变
+						goods.setGoodsName(name);
+						goods.setGoodsPrice(price);
+						goods.setGoodsCount(count);
+						goods.setGoodsId(id);
+						goodsService.updateGoods(goods);
+						JOptionPane.showMessageDialog(contentPane, "更新商品信息成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+						goodsRefresh();
+					}
+
 				} catch (ServiceException ee) {
 					// TODO Auto-generated catch block
 					ee.printStackTrace();
 				}
-
 			}
 		});
 		updgoodsbtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
@@ -820,8 +1162,9 @@ public class MainFrame extends JFrame implements Runnable {
 		tishixinxilabel.setBounds(40, 122, 178, 18);
 		delandupdgoodspanel.add(tishixinxilabel);
 
-		JPanel goodsinfomainpanel = new JPanel();
+		BGJPanel goodsinfomainpanel = new BGJPanel();
 		goodsinfopanel.add(goodsinfomainpanel, "goodsinfomainpanel");
+		goodsinfomainpanel.goodsInfopanelBG();
 		goodsinfomainpanel.setLayout(null);
 
 		JButton addgoodsbtn = new JButton("添加商品");
@@ -885,8 +1228,6 @@ public class MainFrame extends JFrame implements Runnable {
 			private List<Employee> empList;
 
 			public void actionPerformed(ActionEvent e) {
-				// String name = null;
-				// String num = null;
 				EmployeeServiceImpl empSimp = new EmployeeServiceImpl();
 				List<String> conditions = new ArrayList<String>();
 				conditions.add("emp_name like '%" + querytxtName.getText() + "%'");
@@ -894,12 +1235,6 @@ public class MainFrame extends JFrame implements Runnable {
 				empList = new ArrayList<Employee>();
 				empList = empSimp.findEmployee(conditions);
 
-				// for (Employee employee : empList) {
-				// name = employee.getEmpName();
-				// num = employee.getUsername();
-				// }
-				// !(querytxtName.getText().equals(name)) ||
-				// !(querytxtNum.getText().equals(num))
 				if (empList.size() == 0) {
 					JOptionPane.showMessageDialog(contentPane, "没有这个人！", "提示", JOptionPane.INFORMATION_MESSAGE);
 					querytxtName.setText("");
@@ -911,7 +1246,7 @@ public class MainFrame extends JFrame implements Runnable {
 
 					JTable queryTable = new JTable();
 					queryTable.setVisible(true);
-					SetTableCenter.setTableCenter(dataTable);// 设置表格中内容居中
+					SetTableCenter.setTableCenter(queryTable);// 设置表格中内容居中
 					MyEmpTableModel model = new MyEmpTableModel(empList);
 					queryTable.setModel(model);
 					JScrollPane dataScrollPane = new JScrollPane(queryTable);
@@ -1332,6 +1667,51 @@ public class MainFrame extends JFrame implements Runnable {
 		mainPanel.add(busJpanel, "bus");
 		busJpanel.setLayout(null);
 
+		JPanel busdatapaneltoppanel = new JPanel();
+		busdatapaneltoppanel.setBounds(0, 0, 1000, 83);
+		busJpanel.add(busdatapaneltoppanel);
+		busdatapaneltoppanel.setLayout(null);
+
+		JButton findallorderbtn = new JButton("查看全部订单");
+		findallorderbtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		findallorderbtn.setBounds(137, 18, 150, 46);
+		busdatapaneltoppanel.add(findallorderbtn);
+
+		JButton findolddorderbtn = new JButton("查看历史订单");
+		findolddorderbtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		findolddorderbtn.setBounds(424, 18, 150, 46);
+		busdatapaneltoppanel.add(findolddorderbtn);
+
+		JButton exportorderbtn = new JButton("导出订单");
+		exportorderbtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
+		exportorderbtn.setBounds(711, 18, 150, 46);
+		busdatapaneltoppanel.add(exportorderbtn);
+
+		JPanel orderdatapanel = new JPanel();
+		orderdatapanel.setBackground(Color.LIGHT_GRAY);
+		orderdatapanel.setBounds(0, 84, 1000, 413);
+		busJpanel.add(orderdatapanel);
+		orderdatapanel.setLayout(null);
+
+		JScrollPane orderscrollPane = new JScrollPane();
+		orderscrollPane.setBounds(0, 0, 1000, 413);
+		orderdatapanel.add(orderscrollPane);
+
+		JLabel busallmonelabel = new JLabel("营业总额：");
+		busallmonelabel.setFont(new Font("微软雅黑", Font.PLAIN, 20));
+		busallmonelabel.setBounds(506, 510, 100, 43);
+		busJpanel.add(busallmonelabel);
+
+		JLabel showallmoneylabel = new JLabel("");
+		showallmoneylabel.setFont(new Font("微软雅黑", Font.PLAIN, 20));
+		showallmoneylabel.setBounds(611, 510, 162, 43);
+		busJpanel.add(showallmoneylabel);
+
+		JLabel yuanlabel = new JLabel("元");
+		yuanlabel.setFont(new Font("微软雅黑", Font.PLAIN, 20));
+		yuanlabel.setBounds(782, 510, 28, 43);
+		busJpanel.add(yuanlabel);
+
 		JButton fristbtn = new JButton("首页");
 		BtnEvent.btnFrist(fristbtn);
 		fristbtn.addActionListener(new ActionListener() {
@@ -1348,6 +1728,28 @@ public class MainFrame extends JFrame implements Runnable {
 		roomMage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardmain.show(mainPanel, "room");
+
+				// 在房间管理的面板显示商品清单 但不可以点击
+				try {
+
+					Goods goods = new Goods();
+					GoodsServiceImpl goodsSimp = new GoodsServiceImpl();
+
+					List<Goods> goodsList = goodsSimp.findGoods(goods);
+
+					goodsDataTable = new JTable();
+					SetTableCenter.setTableCenter(goodsDataTable);// 设置表格中内容居中
+					goodsmodel = new MyGoodsTableModel(goodsList);
+					goodsDataTable.setModel(goodsmodel);
+
+					JScrollPane scrollPane = new JScrollPane(goodsDataTable);
+					scrollPane.setBounds(0, 0, 371, 460);
+					roomgoodsdatapanel.add(scrollPane);
+
+				} catch (Exception ee) {
+					ee.printStackTrace();
+				}
+
 			}
 		});
 		roomMage.setBounds(14, 116, 260, 52);
@@ -1505,6 +1907,7 @@ public class MainFrame extends JFrame implements Runnable {
 	static public void goodsRefresh() {
 
 		findgoodstxt.setText("");
+
 		Goods goods = new Goods();
 		GoodsServiceImpl goodsSipm = new GoodsServiceImpl();
 		try {
@@ -1561,6 +1964,34 @@ public class MainFrame extends JFrame implements Runnable {
 			List<Member> memList = memSipm.findMem(member);
 			memmodel.updateList(memList);
 			memDataTable.updateUI();
+
+			memDataTable.addMouseListener(new MouseAdapter() {
+
+				public void mouseClicked(MouseEvent evt) {
+
+					if (evt.getClickCount() == 2) {
+
+						int row = memDataTable.getSelectedRow();
+						String data;
+						data = String.valueOf(memmodel.getValueAt(row, 0));
+
+						for (Member member : memList) {
+
+							if (member.getMemId().equals(Long.parseLong(data))) {
+								getmemID = member.getMemId();
+								System.out.println("getmemID:" + getmemID);
+								break;
+							} else {
+								continue;
+							}
+
+						}
+					}
+
+				}
+
+			});
+
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1630,4 +2061,20 @@ public class MainFrame extends JFrame implements Runnable {
 			}
 		}
 	}
+	
+	// TODO 刷新房间管理标签
+	static public void refRoomLabel(Long id,JLabel jLabel){
+		RoomServiceImpl rsi = new RoomServiceImpl();
+		Room room = new Room();
+		try {
+			room = rsi.findRoom(id);
+			
+			jLabel.setText(room.getRoomStatus());
+			
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 }
