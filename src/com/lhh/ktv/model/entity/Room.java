@@ -63,7 +63,7 @@ public class Room {
 
 	@Override
 	public String toString() {
-		return "包房信息 [包房编号=" + roomId + ", 包房类型=" + roomType + ", 包房费用=" + roomPrice + "包房状态" + roomStatus + "]";
+		return "包房信息 [包房编号=" + roomId + ", 包房类型=" + roomType + ", 包房费用=" + roomPrice + "包房状态=" + roomStatus + "]";
 	}
 
 }
