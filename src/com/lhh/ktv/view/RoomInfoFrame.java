@@ -130,6 +130,13 @@ public class RoomInfoFrame {
 		frame.getContentPane().add(reserveroombtn);
 		
 		JButton openroombtn = new JButton("开厢");
+		openroombtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				new OpenRoomFrame();
+				
+			}
+		});
 		openroombtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		openroombtn.setBounds(229, 478, 111, 55);
 		frame.getContentPane().add(openroombtn);
