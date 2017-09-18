@@ -199,25 +199,74 @@ public class MainFrame extends JFrame implements Runnable {
 		roominfopanel.setBounds(0, 0, 630, 563);
 		roomJpanel.add(roominfopanel);
 		roominfopanel.setLayout(null);
-		
+
+		JLabel room168label = new JLabel("未使用");
+		refRoomLabel(168L, room168label);
+		room168label.setBounds(106, 181, 54, 18);
+		roominfopanel.add(room168label);
+
+		JLabel room178label = new JLabel("未使用");
+		refRoomLabel(178L, room178label);
+		room178label.setBounds(289, 181, 54, 18);
+		roominfopanel.add(room178label);
+
+		JLabel room188label = new JLabel("未使用");
+		refRoomLabel(188L, room188label);
+		room188label.setBounds(480, 181, 54, 18);
+		roominfopanel.add(room188label);
+
+		JLabel room268label = new JLabel("未使用");
+		refRoomLabel(268L, room268label);
+		room268label.setBounds(106, 349, 54, 18);
+		roominfopanel.add(room268label);
+
+		JLabel room278label = new JLabel("未使用");
+		refRoomLabel(278L, room278label);
+		room278label.setBounds(289, 349, 54, 18);
+		roominfopanel.add(room278label);
+
+		JLabel room288label = new JLabel("未使用");
+		refRoomLabel(288L, room288label);
+		room288label.setBounds(480, 349, 54, 18);
+		roominfopanel.add(room288label);
+
+		JLabel room368label = new JLabel("未使用");
+		refRoomLabel(368L, room368label);
+		room368label.setBounds(106, 517, 54, 18);
+		roominfopanel.add(room368label);
+
+		JLabel room378label = new JLabel("未使用");
+		refRoomLabel(378L, room378label);
+		room378label.setBounds(289, 517, 54, 18);
+		roominfopanel.add(room378label);
+
+		JLabel room388label = new JLabel("未使用");
+		refRoomLabel(388L, room388label);
+		room388label.setBounds(480, 517, 54, 18);
+		roominfopanel.add(room388label);
+
 		JButton room168btn = new JButton("168");
-		// room168btn.addActionListener(new ActionListener() {
-		// public void actionPerformed(ActionEvent e) {
-		// roomID = Long.parseLong(room168btn.getText());
-		// new RoomInfoFrame();
-		// }
-		// });
-		// TODO 监听鼠标点击事件，解决双肩房间号出现两个慢板其中一个不能取消
+		// TODO 监听鼠标点击事件，解决双击房间号出现两个面板其中一个不能取消
 		room168btn.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				super.mouseClicked(e);
-
+				if (e.getClickCount() == 1) {
+					refRoomLabel(168L, room168label);
+				}
 				if (e.getClickCount() == 2) {
 					roomID = Long.parseLong(room168btn.getText());
-					new RoomInfoFrame();
+					if (room168label.getText().equals("未使用")) {
+						new RoomInfoFrame();
+					}
+					if (room168label.getText().equals("已预定")) {
+						new OpenOrCancelFrame();
+					}
+					if (room168label.getText().equals("使用中")) {
+						new AddGoodsOrCheckout();
+					}
 				}
 
 			}
@@ -228,23 +277,26 @@ public class MainFrame extends JFrame implements Runnable {
 		roominfopanel.add(room168btn);
 
 		JButton room178btn = new JButton("178");
-//		room178btn.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//
-//				roomID = Long.parseLong(room178btn.getText());
-//				new RoomInfoFrame();
-//
-//			}
-//		});
 		room178btn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				super.mouseClicked(e);
 
+				if (e.getClickCount() == 1) {
+					refRoomLabel(178L, room178label);
+				}
+
 				if (e.getClickCount() == 2) {
 					roomID = Long.parseLong(room178btn.getText());
-					new RoomInfoFrame();
+					refRoomLabel(178L, room178label);
+					if (room178label.getText().equals("未使用")) {
+						new RoomInfoFrame();
+					} else if (room178label.getText().equals("已预定")) {
+						new OpenOrCancelFrame();
+					} else if (room178label.getText().equals("使用中")) {
+						new AddGoodsOrCheckout();
+					}
 				}
 			}
 		});
@@ -253,23 +305,28 @@ public class MainFrame extends JFrame implements Runnable {
 		roominfopanel.add(room178btn);
 
 		JButton room188btn = new JButton("188");
-//		room188btn.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//
-//				roomID = Long.parseLong(room188btn.getText());
-//				new RoomInfoFrame();
-//
-//			}
-//		});
 		room188btn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				super.mouseClicked(e);
 
+				if (e.getClickCount() == 1) {
+					refRoomLabel(188L, room188label);
+				}
+
 				if (e.getClickCount() == 2) {
 					roomID = Long.parseLong(room188btn.getText());
-					new RoomInfoFrame();
+					refRoomLabel(188L, room188label);
+					if (room188label.getText().equals("未使用")) {
+						new RoomInfoFrame();
+					}
+					if (room188label.getText().equals("已预定")) {
+						new OpenOrCancelFrame();
+					}
+					if (room188label.getText().equals("使用中")) {
+						new AddGoodsOrCheckout();
+					}
 				}
 			}
 		});
@@ -278,23 +335,27 @@ public class MainFrame extends JFrame implements Runnable {
 		roominfopanel.add(room188btn);
 
 		JButton room268btn = new JButton("268");
-//		room268btn.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//
-//				roomID = Long.parseLong(room268btn.getText());
-//				new RoomInfoFrame();
-//
-//			}
-//		});
 		room268btn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				super.mouseClicked(e);
 
+				if (e.getClickCount() == 1) {
+					refRoomLabel(268L, room268label);
+				}
+
 				if (e.getClickCount() == 2) {
 					roomID = Long.parseLong(room268btn.getText());
-					new RoomInfoFrame();
+					if (room268label.getText().equals("未使用")) {
+						new RoomInfoFrame();
+					}
+					if (room268label.getText().equals("已预定")) {
+						new OpenOrCancelFrame();
+					}
+					if (room268label.getText().equals("使用中")) {
+						new AddGoodsOrCheckout();
+					}
 				}
 			}
 		});
@@ -303,23 +364,27 @@ public class MainFrame extends JFrame implements Runnable {
 		roominfopanel.add(room268btn);
 
 		JButton room278btn = new JButton("278");
-//		room278btn.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//
-//				roomID = Long.parseLong(room278btn.getText());
-//				new RoomInfoFrame();
-//
-//			}
-//		});
 		room278btn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				super.mouseClicked(e);
 
+				if (e.getClickCount() == 1) {
+					refRoomLabel(278L, room278label);
+				}
+
 				if (e.getClickCount() == 2) {
 					roomID = Long.parseLong(room278btn.getText());
-					new RoomInfoFrame();
+					if (room278label.getText().equals("未使用")) {
+						new RoomInfoFrame();
+					}
+					if (room278label.getText().equals("已预定")) {
+						new OpenOrCancelFrame();
+					}
+					if (room278label.getText().equals("使用中")) {
+						new AddGoodsOrCheckout();
+					}
 				}
 			}
 		});
@@ -328,23 +393,27 @@ public class MainFrame extends JFrame implements Runnable {
 		roominfopanel.add(room278btn);
 
 		JButton room288btn = new JButton("288");
-//		room288btn.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//
-//				roomID = Long.parseLong(room288btn.getText());
-//				new RoomInfoFrame();
-//
-//			}
-//		});
 		room288btn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				super.mouseClicked(e);
 
+				if (e.getClickCount() == 1) {
+					refRoomLabel(288L, room288label);
+				}
+
 				if (e.getClickCount() == 2) {
 					roomID = Long.parseLong(room288btn.getText());
-					new RoomInfoFrame();
+					if (room288label.getText().equals("未使用")) {
+						new RoomInfoFrame();
+					}
+					if (room288label.getText().equals("已预定")) {
+						new OpenOrCancelFrame();
+					}
+					if (room288label.getText().equals("使用中")) {
+						new AddGoodsOrCheckout();
+					}
 				}
 			}
 		});
@@ -353,23 +422,27 @@ public class MainFrame extends JFrame implements Runnable {
 		roominfopanel.add(room288btn);
 
 		JButton room368btn = new JButton("368");
-//		room368btn.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//
-//				roomID = Long.parseLong(room368btn.getText());
-//				new RoomInfoFrame();
-//
-//			}
-//		});
 		room368btn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				super.mouseClicked(e);
 
+				if (e.getClickCount() == 1) {
+					refRoomLabel(368L, room368label);
+				}
+
 				if (e.getClickCount() == 2) {
 					roomID = Long.parseLong(room368btn.getText());
-					new RoomInfoFrame();
+					if (room368label.getText().equals("未使用")) {
+						new RoomInfoFrame();
+					}
+					if (room368label.getText().equals("已预定")) {
+						new OpenOrCancelFrame();
+					}
+					if (room368label.getText().equals("使用中")) {
+						new AddGoodsOrCheckout();
+					}
 				}
 			}
 		});
@@ -378,24 +451,27 @@ public class MainFrame extends JFrame implements Runnable {
 		roominfopanel.add(room368btn);
 
 		JButton room378btn = new JButton("378");
-//		room378btn.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//
-//				roomID = Long.parseLong(room378btn.getText());
-//				// RoomInfoFrame.closeRoomInfoFrame();
-//				new RoomInfoFrame();
-//
-//			}
-//		});
 		room378btn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				super.mouseClicked(e);
 
+				if (e.getClickCount() == 1) {
+					refRoomLabel(378L, room378label);
+				}
+
 				if (e.getClickCount() == 2) {
 					roomID = Long.parseLong(room378btn.getText());
-					new RoomInfoFrame();
+					if (room378label.getText().equals("未使用")) {
+						new RoomInfoFrame();
+					}
+					if (room378label.getText().equals("已预定")) {
+						new OpenOrCancelFrame();
+					}
+					if (room378label.getText().equals("使用中")) {
+						new AddGoodsOrCheckout();
+					}
 				}
 			}
 		});
@@ -404,75 +480,34 @@ public class MainFrame extends JFrame implements Runnable {
 		roominfopanel.add(room378btn);
 
 		JButton room388btn = new JButton("388");
-//		room388btn.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//
-//				roomID = Long.parseLong(room388btn.getText());
-//				// RoomInfoFrame.closeRoomInfoFrame();
-//				new RoomInfoFrame();
-//
-//			}
-//		});
 		room388btn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				super.mouseClicked(e);
 
+				if (e.getClickCount() == 1) {
+					refRoomLabel(388L, room388label);
+				}
+
 				if (e.getClickCount() == 2) {
 					roomID = Long.parseLong(room388btn.getText());
-					new RoomInfoFrame();
+					if (room388label.getText().equals("未使用")) {
+						new RoomInfoFrame();
+					}
+					if (room388label.getText().equals("已预定")) {
+						new OpenOrCancelFrame();
+						
+					}
+					if (room388label.getText().equals("使用中")) {
+						new AddGoodsOrCheckout();
+					}
 				}
 			}
 		});
 		room388btn.setFont(new Font("微软雅黑", Font.PLAIN, 26));
 		room388btn.setBounds(443, 392, 112, 112);
 		roominfopanel.add(room388btn);
-
-		JLabel room168label = new JLabel("未使用");
-		refRoomLabel(168L,room168label);
-		room168label.setBounds(106, 181, 54, 18);
-		roominfopanel.add(room168label);
-
-		JLabel room178label = new JLabel("未使用");
-		refRoomLabel(178L,room178label);
-		room178label.setBounds(289, 181, 54, 18);
-		roominfopanel.add(room178label);
-
-		JLabel room188label = new JLabel("未使用");
-		refRoomLabel(188L,room188label);
-		room188label.setBounds(480, 181, 54, 18);
-		roominfopanel.add(room188label);
-
-		JLabel room268label = new JLabel("未使用");
-		refRoomLabel(268L,room268label);
-		room268label.setBounds(106, 349, 54, 18);
-		roominfopanel.add(room268label);
-
-		JLabel room278label = new JLabel("未使用");
-		refRoomLabel(278L,room278label);
-		room278label.setBounds(289, 349, 54, 18);
-		roominfopanel.add(room278label);
-
-		JLabel room288label = new JLabel("未使用");
-		refRoomLabel(288L,room288label);
-		room288label.setBounds(480, 349, 54, 18);
-		roominfopanel.add(room288label);
-
-		JLabel room368label = new JLabel("未使用");
-		refRoomLabel(368L,room368label);
-		room368label.setBounds(106, 517, 54, 18);
-		roominfopanel.add(room368label);
-
-		JLabel room378label = new JLabel("未使用");
-		refRoomLabel(378L,room378label);
-		room378label.setBounds(289, 517, 54, 18);
-		roominfopanel.add(room378label);
-
-		JLabel room388label = new JLabel("未使用");
-		refRoomLabel(388L,room388label);
-		room388label.setBounds(480, 517, 54, 18);
-		roominfopanel.add(room388label);
 
 		JPanel roomgoodsinfopanel = new JPanel();
 		roomgoodsinfopanel.setBounds(630, 0, 371, 563);
@@ -1727,19 +1762,19 @@ public class MainFrame extends JFrame implements Runnable {
 		BtnEvent.btnRoom(roomMage);
 		roomMage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				cardmain.show(mainPanel, "room");
 
 				// 在房间管理的面板显示商品清单 但不可以点击
+				Goods goods = new Goods();
+				GoodsServiceImpl goodsSimp = new GoodsServiceImpl();
 				try {
-
-					Goods goods = new Goods();
-					GoodsServiceImpl goodsSimp = new GoodsServiceImpl();
 
 					List<Goods> goodsList = goodsSimp.findGoods(goods);
 
-					goodsDataTable = new JTable();
+					JTable goodsDataTable = new JTable();
 					SetTableCenter.setTableCenter(goodsDataTable);// 设置表格中内容居中
-					goodsmodel = new MyGoodsTableModel(goodsList);
+					MyGoodsTableModel goodsmodel = new MyGoodsTableModel(goodsList);
 					goodsDataTable.setModel(goodsmodel);
 
 					JScrollPane scrollPane = new JScrollPane(goodsDataTable);
@@ -2061,20 +2096,29 @@ public class MainFrame extends JFrame implements Runnable {
 			}
 		}
 	}
-	
+
 	// TODO 刷新房间管理标签
-	static public void refRoomLabel(Long id,JLabel jLabel){
+	static public void refRoomLabel(Long id, JLabel jLabel) {
 		RoomServiceImpl rsi = new RoomServiceImpl();
 		Room room = new Room();
 		try {
 			room = rsi.findRoom(id);
-			
+
 			jLabel.setText(room.getRoomStatus());
+			if(jLabel.getText().equals("使用中")){
+				jLabel.setForeground(Color.RED);
+			}
+			if(jLabel.getText().equals("已预定")){
+				jLabel.setForeground(Color.BLUE);
+			}
+			if(jLabel.getText().equals("未使用")){
+				jLabel.setForeground(Color.BLACK);
+			}
 			
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 }
