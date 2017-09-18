@@ -101,7 +101,6 @@ public class RoomServiceImpl implements IRoomService{
 			conn = ConnectionFactory.getConnection();
 			trans.beginTransaction(conn);
 			room = roomDao.findRoom(id, conn);
-			System.out.println("查找房间成功！");
 			// 提交事务
 			trans.commit(conn);
 		} catch (Exception e) {
