@@ -258,13 +258,13 @@ public class ReserveFrame {
 				for (Member member : list) {
 					if (name.equals(member.getMemName()) && phone.equals(member.getMemPhone())) {
 						memID = member.getMemId();
-					} 
+					}
 				}
-				
-				if(memID == null){
+
+				if (memID == null) {
 					memID = 0L;
 				}
-				
+
 				System.out.println("--------预定单里的会员编号：" + memID);
 				// 获取系统时间---------------------------------------------------------------------------------
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");// 设置日期格式
@@ -316,13 +316,13 @@ public class ReserveFrame {
 
 				if (retyeartxt.equals("")) {
 					retyeartxt = year;
-				} 
+				}
 				if (retmonthtxt.equals("")) {
 					retmonthtxt = month;
-				} 
+				}
 				if (retdaytxt.equals("")) {
 					retdaytxt = day;
-				} 
+				}
 				if (rethourtxt.equals("")) {
 					rethourtxt = hour;
 				}
@@ -337,13 +337,17 @@ public class ReserveFrame {
 
 				System.out.println("------retTime=" + retTime);
 
-//				if ((Integer.parseInt(sysTime) < Integer.parseInt(resTime))) {
-//					JOptionPane.showMessageDialog(contentPane, "预定时间必须大于或等于当前时间！", "提示",
-//							JOptionPane.INFORMATION_MESSAGE);
-//				} else if (Integer.parseInt(resTime) < Integer.parseInt(retTime)) {
-//					JOptionPane.showMessageDialog(contentPane, "保留时间必须大于预定的时间！", "提示", JOptionPane.INFORMATION_MESSAGE);
-//				}
-				
+				// if ((Integer.parseInt(sysTime) < Integer.parseInt(resTime)))
+				// {
+				// JOptionPane.showMessageDialog(contentPane,
+				// "预定时间必须大于或等于当前时间！", "提示",
+				// JOptionPane.INFORMATION_MESSAGE);
+				// } else if (Integer.parseInt(resTime) <
+				// Integer.parseInt(retTime)) {
+				// JOptionPane.showMessageDialog(contentPane, "保留时间必须大于预定的时间！",
+				// "提示", JOptionPane.INFORMATION_MESSAGE);
+				// }
+
 				resTime = resyeartxt + "-" + resmonthtxt + "-" + resdaytxt + " " + reshourtxt + ":" + resmintxt;
 				retTime = retyeartxt + "-" + retmonthtxt + "-" + retdaytxt + " " + rethourtxt + ":" + retmintxt;
 
@@ -366,8 +370,8 @@ public class ReserveFrame {
 					reserveService.addReserve(reserve);
 					JOptionPane.showMessageDialog(contentPane, "预定成功！，房间号为：" + roomIDlabel.getText(), "提示",
 							JOptionPane.INFORMATION_MESSAGE);
-					
-					//下单成功后，更改数据库包房的状态
+
+					// 下单成功后，更改数据库包房的状态
 					IRoomService roomService = new RoomServiceImpl();
 					Room room = new Room();
 					String status = "已预定";
@@ -375,9 +379,11 @@ public class ReserveFrame {
 					room.setRoomPrice(RoomInfoFrame.getRoomPrice);
 					room.setRoomStatus(status);
 					room.setRoomId(Long.parseLong(roomIDlabel.getText()));
-					
+
 					roomService.updateRoom(room);
-					
+					// 预定成功，关闭该窗口
+					closeReserveFrame();
+					RoomInfoFrame.closeRoomInfoFrame();
 				} catch (ServiceException ee) {
 					ee.printStackTrace();
 				}
@@ -389,6 +395,14 @@ public class ReserveFrame {
 		frame.getContentPane().add(reserveokbtn);
 
 		JButton reservenobtn = new JButton("取消预定");
+		reservenobtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// 取消预定，关闭该窗口
+				closeReserveFrame();
+				RoomInfoFrame.closeRoomInfoFrame();
+
+			}
+		});
 		reservenobtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		reservenobtn.setBounds(403, 450, 144, 53);
 		frame.getContentPane().add(reservenobtn);
