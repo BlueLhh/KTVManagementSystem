@@ -102,7 +102,6 @@ public class OrderServiceImpl implements IOrderService {
 			conn = ConnectionFactory.getConnection();
 			trans.beginTransaction(conn);
 			order = orderDao.findOrder(id, conn);
-			System.out.println("查找成功！");
 			// 提交事务
 			trans.commit(conn);
 		} catch (Exception e) {
@@ -159,7 +158,6 @@ public class OrderServiceImpl implements IOrderService {
 			conn = ConnectionFactory.getConnection();
 			trans.beginTransaction(conn);
 			list = orderDao.findOrder(conditions, conn);
-			System.out.println("动态查询成功！");
 			// 提交事务
 			trans.commit(conn);
 		} catch (DataAccessException e) {
