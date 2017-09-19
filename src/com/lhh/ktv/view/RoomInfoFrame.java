@@ -165,8 +165,8 @@ public class RoomInfoFrame {
 			e.printStackTrace();
 		}
 		
-		System.out.println("在房间信息的面板获取的房间ID："+getRoomID);
-		System.out.println("在房间信息的面板获取的类型："+getRoomType);
+		//System.out.println("在房间信息的面板获取的房间ID："+getRoomID);
+		//System.out.println("在房间信息的面板获取的类型："+getRoomType);
 		
 		
 	}
