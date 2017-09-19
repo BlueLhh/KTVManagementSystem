@@ -89,13 +89,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
 					if (employee.getPassword().trim().equals(password)) {
 						ifright = true;
 						name = employee.getEmpName();
-						System.out.println("当前用户为：" + name);
 						if (employee.getEmpPost().trim().equals("0")) {
 							post = "经理";
 						} else {
 							post = "前台";
 						}
-						System.out.println("当前用户职位为：" + post);
 						break;
 					} else {
 						ifright = false;
@@ -205,9 +203,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			conn = ConnectionFactory.getConnection();
 			trans.beginTransaction(conn);
 			list = employeeDao.findEmployees(conn);
-			for (Employee emp : list) {
-				System.out.println(emp);
-			}
+//			for (Employee emp : list) {
+//				System.out.println(emp);
+//			}
 			// 提交事务
 			trans.commit(conn);
 		} catch (DataAccessException e) {
@@ -235,7 +233,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			conn = ConnectionFactory.getConnection();
 			trans.beginTransaction(conn);
 			list = employeeDao.findEmployees(conditions, conn);
-			System.out.println("动态查询成功！");
+			
 			// 提交事务
 			trans.commit(conn);
 		} catch (DataAccessException e) {
