@@ -102,7 +102,6 @@ public class ReserveServiceImpl implements IReserveService {
 			conn = ConnectionFactory.getConnection();
 			trans.beginTransaction(conn);
 			reserve = reserveDao.findReserve(id, conn);
-			System.out.println("查找会员成功！");
 			// 提交事务
 			trans.commit(conn);
 		} catch (Exception e) {
@@ -160,7 +159,6 @@ public class ReserveServiceImpl implements IReserveService {
 			conn = ConnectionFactory.getConnection();
 			trans.beginTransaction(conn);
 			list = reserveDao.findReserve(conditions, conn);
-			System.out.println("动态查询成功！");
 			// 提交事务
 			trans.commit(conn);
 		} catch (DataAccessException e) {
