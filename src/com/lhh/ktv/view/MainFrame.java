@@ -856,7 +856,6 @@ public class MainFrame extends JFrame implements Runnable {
 
 					try {
 						mem.delMem(id);
-						System.out.println("注销会员成功！");
 						JOptionPane.showMessageDialog(contentPane, "注销会员信息成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
 						memIDlabel.setText("");
 						memnametxt.setText("");
@@ -1081,7 +1080,6 @@ public class MainFrame extends JFrame implements Runnable {
 
 					try {
 						goodsService.delGoods(id);
-						System.out.println("删除商品成功！");
 						JOptionPane.showMessageDialog(contentPane, "删除商品成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
 						goodsidlabel.setText("");
 						goodsnametxt.setText("");
@@ -1277,7 +1275,7 @@ public class MainFrame extends JFrame implements Runnable {
 				} else {
 					// TODO 查询刷新
 					JOptionPane.showMessageDialog(contentPane, "查询成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
-					System.out.println(empList);
+					//System.out.println(empList);
 
 					JTable queryTable = new JTable();
 					queryTable.setVisible(true);
@@ -1300,7 +1298,7 @@ public class MainFrame extends JFrame implements Runnable {
 
 								System.out.println("data:" + data);
 								for (Employee employee : empList) {
-									System.out.println(employee.getEmpId());
+									//System.out.println(employee.getEmpId());
 									if (employee.getEmpId().equals(Long.parseLong(data))) {
 										getID = employee.getEmpId();
 										new GetTableFrame();
@@ -1424,7 +1422,7 @@ public class MainFrame extends JFrame implements Runnable {
 				if (goodsList.size() == 0) {
 
 					// TODO 没有找到这个商品，是否要添加！
-					System.out.println("在这里弹出一个对话框，提示是否添加这个商品！");
+					//System.out.println("在这里弹出一个对话框，提示是否添加这个商品！");
 					int result = JOptionPane.showConfirmDialog(contentPane, "没有找到这个商品，是否要添加？", "提示",
 							JOptionPane.OK_CANCEL_OPTION);
 
@@ -1635,7 +1633,7 @@ public class MainFrame extends JFrame implements Runnable {
 						data = String.valueOf(model.getValueAt(row, 0));
 
 						for (Employee employee : empList) {
-							System.out.println(employee.getEmpId());
+							//System.out.println(employee.getEmpId());
 							if (employee.getEmpId().equals(Long.parseLong(data))) {
 								getID = employee.getEmpId();
 								new GetTableFrame();
@@ -1891,7 +1889,6 @@ public class MainFrame extends JFrame implements Runnable {
 			// 将数据显示在面板上
 			GoodsServiceImpl goodsSimp = new GoodsServiceImpl();
 			Goods goods = new Goods();
-			System.out.println("--------------------");
 			goods = goodsSimp.findGoods(getgoodsID);
 
 			goodsidlabel.setText(Long.toString(goods.getGoodsId()));
@@ -1918,7 +1915,6 @@ public class MainFrame extends JFrame implements Runnable {
 			// 将数据显示在面板上
 			MemberServiceImpl memSimp = new MemberServiceImpl();
 			Member member = new Member();
-			System.out.println("--------------------");
 			member = memSimp.findMem(getmemID);
 			if (member.getMemGender().equals("男")) {
 				radmemman.setSelected(true);
@@ -1964,7 +1960,7 @@ public class MainFrame extends JFrame implements Runnable {
 
 							if (goods.getGoodsId().equals(Long.parseLong(data))) {
 								getgoodsID = goods.getGoodsId();
-								System.out.println("getgoodsID:" + getgoodsID);
+							//	System.out.println("getgoodsID:" + getgoodsID);
 								break;
 							} else {
 								continue;
@@ -2014,7 +2010,7 @@ public class MainFrame extends JFrame implements Runnable {
 
 							if (member.getMemId().equals(Long.parseLong(data))) {
 								getmemID = member.getMemId();
-								System.out.println("getmemID:" + getmemID);
+								//System.out.println("getmemID:" + getmemID);
 								break;
 							} else {
 								continue;
