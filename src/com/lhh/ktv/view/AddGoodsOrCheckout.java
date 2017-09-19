@@ -31,6 +31,7 @@ public class AddGoodsOrCheckout {
 
 	private static JFrame frame;
 	private JPanel contentPane;
+	public static String cusName;// 客户的名字
 
 	/**
 	 * Launch the application.
@@ -86,6 +87,29 @@ public class AddGoodsOrCheckout {
 		frame.getContentPane().add(tishilabel);
 
 		JButton addgoodsbtn = new JButton("商品服务");
+		addgoodsbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				// TODO 商品服务是客户服务
+				// 先遍历订单，查询的基础是根据房间号来进行查询，以及判断该订单是状态是0
+				// 未结账的订单便是此时的包房订单
+				// 条件查询订单列表
+				// 通过查询订单表获取客户的名字
+				Long roomID = MainFrame.roomID;
+				String ordStatus = "0";// 查询订单的状态是未结账的
+				OrderServiceImpl orderService = new OrderServiceImpl();
+				List<String> conditions = new ArrayList<String>();
+				conditions.add("order_room_id like '%" + roomID + "%'");
+				conditions.add("order_status like '%" + ordStatus + "%'");
+				List<Order> list = orderService.findOrder(conditions);
+				// TODO 子订单的费用在子订单算出来只有会在这里实现
+				for (Order order : list) {
+					cusName = order.getOrpName();
+				}
+				new AddGoodsServiceFrame();
+
+			}
+		});
 		addgoodsbtn.setFont(new Font("微软雅黑", Font.PLAIN, 15));
 		addgoodsbtn.setBounds(22, 125, 112, 45);
 		frame.getContentPane().add(addgoodsbtn);
@@ -151,7 +175,10 @@ public class AddGoodsOrCheckout {
 					orpName = order.getOrpName();
 					ordOpentime = order.getOrdOpentime();
 					ordrmPrice = order.getOrdrmPrice();
+					ordAmtall = order.getOrdAmtall();
 				}
+
+				// TODO 通过订单ID 查询在子订单里的金额
 
 				ordAllamtall = ordrmPrice + ordAmtall;
 
@@ -159,23 +186,18 @@ public class AddGoodsOrCheckout {
 				// 打9.5折
 				MemberServiceImpl memberService = new MemberServiceImpl();
 				List<String> memconditions = new ArrayList<String>();
-				conditions.add("mem_name like '%" + orpName + "%'");
+				memconditions.add("mem_name like '%" + orpName + "%'");
 				// conditions.add("order_status like '%" + ordStatus + "%'");
 				List<Member> memlist = memberService.findMem(memconditions);
 				// 如果找到，则证明是会员，将进行打折
+				boolean isMember = false;
 				for (Member member : memlist) {
 					if (orpName.equals(member.getMemName())) {
 						ordAllamtall = ordAllamtall * 0.95;
-						JOptionPane.showMessageDialog(
-								contentPane, "尊敬的" + orpName + "客户，您本次共计消费" + (ordrmPrice + ordAmtall)
-										+ "，会员打9.5折，最终消费为：" + ordAllamtall + "元",
-								"提示", JOptionPane.INFORMATION_MESSAGE);
+						isMember = true;
 						break;
-					}
+					} 
 				}
-
-				JOptionPane.showMessageDialog(contentPane, "尊敬的" + orpName + "客户，您本次共计消费" + ordAllamtall + "元", "提示",
-						JOptionPane.INFORMATION_MESSAGE);
 
 				Order order = new Order();
 
@@ -192,6 +214,15 @@ public class AddGoodsOrCheckout {
 
 				try {
 					orderService.updateOrder(order);
+					if (isMember) {
+						JOptionPane.showMessageDialog(
+								contentPane, "尊敬的" + orpName + "客户，您本次共计消费" + (ordrmPrice + ordAmtall)
+										+ "，会员打9.5折，最终消费为：" + ordAllamtall + "元",
+								"提示", JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(contentPane, "尊敬的" + orpName + "客户，您本次共计消费" + ordAllamtall + "元",
+								"提示", JOptionPane.INFORMATION_MESSAGE);
+					}
 					JOptionPane.showMessageDialog(contentPane, "结账成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
 					// 更新房间的状态
 					room.setRoomType(roomType);
