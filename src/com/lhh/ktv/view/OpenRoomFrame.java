@@ -138,7 +138,7 @@ public class OpenRoomFrame {
 					order.setOrdStatus("0");
 					orderService.addOrder(order);
 					
-					System.out.println("添加成功！");
+					//System.out.println("添加成功！");
 					// 更新包房的状态
 					String status = "使用中";
 					room.setRoomType(room.getRoomType());
