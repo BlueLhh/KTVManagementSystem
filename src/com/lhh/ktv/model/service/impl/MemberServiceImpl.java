@@ -103,7 +103,7 @@ public class MemberServiceImpl implements IMemberService{
 			conn = ConnectionFactory.getConnection();
 			trans.beginTransaction(conn);
 			member = memberDao.findsaveEember(id, conn);
-			System.out.println("查找会员成功！");
+			
 			// 提交事务
 			trans.commit(conn);
 		} catch (Exception e) {
@@ -129,9 +129,9 @@ public class MemberServiceImpl implements IMemberService{
 			conn = ConnectionFactory.getConnection();
 			trans.beginTransaction(conn);
 			list = memberDao.findsaveEember(conn);
-			for (Member mem : list) {
-				System.err.println(mem);
-			}
+//			for (Member mem : list) {
+//				System.err.println(mem);
+//			}
 			// 提交事务
 			trans.commit(conn);
 		} catch (DataAccessException e) {
@@ -159,7 +159,6 @@ public class MemberServiceImpl implements IMemberService{
 			conn = ConnectionFactory.getConnection();
 			trans.beginTransaction(conn);
 			list = memberDao.findsaveEember(conditions, conn);
-			System.out.println("动态查询成功！");
 			// 提交事务
 			trans.commit(conn);
 		} catch (DataAccessException e) {
