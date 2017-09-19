@@ -118,7 +118,6 @@ public class LoginFrame extends JFrame {
 				try {
 					if (employeeService.login(loginID, loginPW)) {
 						// TODO 登录成功，在此跳转到新的界面
-						System.out.println("登录成功！跳转至主界面！");
 						setVisible(false);//隐藏本窗口
 						JFrame frame = new JFrame();
 						new MainFrame(frame).setVisible(true);//显示新的窗口
@@ -126,7 +125,6 @@ public class LoginFrame extends JFrame {
 					} else {
 						System.out.println(loginID + "---" + loginPW);
 						JOptionPane.showMessageDialog(contentPane, "用户或密码不正确！","提示",JOptionPane.INFORMATION_MESSAGE);
-						System.out.println("登录失败！");
 					}
 				} catch (ServiceException ee) {
 					// TODO Auto-generated catch block
