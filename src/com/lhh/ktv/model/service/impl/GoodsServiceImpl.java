@@ -103,7 +103,7 @@ public class GoodsServiceImpl implements IGoodsService{
 			conn = ConnectionFactory.getConnection();
 			trans.beginTransaction(conn);
 			goods = goodsDao.findGoods(id, conn);
-			System.out.println("查找房间成功！");
+			
 			// 提交事务
 			trans.commit(conn);
 		} catch (Exception e) {
@@ -130,9 +130,9 @@ public class GoodsServiceImpl implements IGoodsService{
 			conn = ConnectionFactory.getConnection();
 			trans.beginTransaction(conn);
 			list = goodsDao.findGoods(conn);
-			for (Goods gds : list) {
-				System.out.println(gds);
-			}
+//			for (Goods gds : list) {
+//				System.out.println(gds);
+//			}
 			// 提交事务
 			trans.commit(conn);
 		} catch (DataAccessException e) {
@@ -161,7 +161,7 @@ public class GoodsServiceImpl implements IGoodsService{
 			conn = ConnectionFactory.getConnection();
 			trans.beginTransaction(conn);
 			list = goodsDao.findGoods(conditions, conn);
-			System.out.println("动态查询成功！");
+			
 			// 提交事务
 			trans.commit(conn);
 		} catch (DataAccessException e) {
