@@ -247,8 +247,6 @@ public class DelEmpFrame {
 					getUser.setText(employee.getUsername());
 					getPass.setText(employee.getPassword());
 					
-					System.out.println(employee);
-					
 				} catch (Exception ee) {
 					// TODO Auto-generated catch block
 					errinfoLable.setVisible(true);
