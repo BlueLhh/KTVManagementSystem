@@ -30,12 +30,14 @@ import com.lhh.ktv.exception.ServiceException;
 import com.lhh.ktv.model.entity.Employee;
 import com.lhh.ktv.model.entity.Goods;
 import com.lhh.ktv.model.entity.Member;
+import com.lhh.ktv.model.entity.Order;
 import com.lhh.ktv.model.entity.Room;
 import com.lhh.ktv.model.service.IGoodsService;
 import com.lhh.ktv.model.service.IMemberService;
 import com.lhh.ktv.model.service.impl.EmployeeServiceImpl;
 import com.lhh.ktv.model.service.impl.GoodsServiceImpl;
 import com.lhh.ktv.model.service.impl.MemberServiceImpl;
+import com.lhh.ktv.model.service.impl.OrderServiceImpl;
 import com.lhh.ktv.model.service.impl.RoomServiceImpl;
 import com.lhh.ktv.util.BGJPanel;
 import com.lhh.ktv.util.BorderHide;
@@ -43,6 +45,7 @@ import com.lhh.ktv.util.BtnEvent;
 import com.lhh.ktv.util.MyEmpTableModel;
 import com.lhh.ktv.util.MyGoodsTableModel;
 import com.lhh.ktv.util.MyMemTableModel;
+import com.lhh.ktv.util.MyOrderTableModel;
 import com.lhh.ktv.util.SetTableCenter;
 import com.lhh.ktv.util.WindowMove;
 import javax.swing.JRadioButton;
@@ -66,9 +69,13 @@ public class MainFrame extends JFrame implements Runnable {
 	private static JTable memDataTable;
 	private static JTable goodsDataTable;
 
+	private static JTable allOrderDataTable;
+	private static JTable histOrderDataTable;
+
 	private static MyEmpTableModel model;
 	private static MyMemTableModel memmodel;
 	private static MyGoodsTableModel goodsmodel;
+	private static MyOrderTableModel ordermodel;
 
 	// 装数据的panel要设置一个静态变量，和本身就有的无关！
 	static JPanel dataPanel = new JPanel();
@@ -101,6 +108,8 @@ public class MainFrame extends JFrame implements Runnable {
 	static private JTextField goodsnametxt;
 	static private JTextField goodspricetxt;
 	static private JTextField goodscounttxt;
+	
+	//static private JLabel showallmoneylabel;
 
 	public static Long roomID;
 
@@ -497,7 +506,7 @@ public class MainFrame extends JFrame implements Runnable {
 					}
 					if (room388label.getText().equals("已预定")) {
 						new OpenOrCancelFrame();
-						
+
 					}
 					if (room388label.getText().equals("使用中")) {
 						new AddGoodsOrCheckout();
@@ -974,31 +983,37 @@ public class MainFrame extends JFrame implements Runnable {
 		JButton addgoodsokbtn = new JButton("确认");
 		addgoodsokbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				// TODO 添加商品如果输入为空的话！
 				String name;
 				double price;
 				int count;
 
-				// 建立服务接口类类 服务实现类
-				IGoodsService goodsService = new GoodsServiceImpl();
-				Goods goods = new Goods();
+				if ("".equals(addgoodsnametxt.getText()) || "".equals(addgoodspricetxt.getText())
+						|| "".equals(addgoodscounttxt.getText())) {
+					JOptionPane.showMessageDialog(contentPane, "请输入信息！", "提示", JOptionPane.INFORMATION_MESSAGE);
+				} else {
 
-				name = addgoodsnametxt.getText();
+					// 建立服务接口类类 服务实现类
+					IGoodsService goodsService = new GoodsServiceImpl();
+					Goods goods = new Goods();
 
-				price = Double.parseDouble(addgoodspricetxt.getText());
+					name = addgoodsnametxt.getText();
 
-				count = Integer.parseInt(addgoodscounttxt.getText());
+					price = Double.parseDouble(addgoodspricetxt.getText());
 
-				goods.setGoodsName(name);
-				goods.setGoodsPrice(price);
-				goods.setGoodsCount(count);
+					count = Integer.parseInt(addgoodscounttxt.getText());
 
-				try {
-					goodsService.addGoods(goods);
-					JOptionPane.showMessageDialog(contentPane, "商品添加成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
-					goodsRefresh();
-				} catch (ServiceException ee) {
-					ee.printStackTrace();
+					goods.setGoodsName(name);
+					goods.setGoodsPrice(price);
+					goods.setGoodsCount(count);
+
+					try {
+						goodsService.addGoods(goods);
+						JOptionPane.showMessageDialog(contentPane, "商品添加成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+						goodsRefresh();
+					} catch (ServiceException ee) {
+						ee.printStackTrace();
+					}
 				}
 			}
 		});
@@ -1275,7 +1290,7 @@ public class MainFrame extends JFrame implements Runnable {
 				} else {
 					// TODO 查询刷新
 					JOptionPane.showMessageDialog(contentPane, "查询成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
-					//System.out.println(empList);
+					// System.out.println(empList);
 
 					JTable queryTable = new JTable();
 					queryTable.setVisible(true);
@@ -1298,7 +1313,7 @@ public class MainFrame extends JFrame implements Runnable {
 
 								System.out.println("data:" + data);
 								for (Employee employee : empList) {
-									//System.out.println(employee.getEmpId());
+									// System.out.println(employee.getEmpId());
 									if (employee.getEmpId().equals(Long.parseLong(data))) {
 										getID = employee.getEmpId();
 										new GetTableFrame();
@@ -1422,7 +1437,7 @@ public class MainFrame extends JFrame implements Runnable {
 				if (goodsList.size() == 0) {
 
 					// TODO 没有找到这个商品，是否要添加！
-					//System.out.println("在这里弹出一个对话框，提示是否添加这个商品！");
+					// System.out.println("在这里弹出一个对话框，提示是否添加这个商品！");
 					int result = JOptionPane.showConfirmDialog(contentPane, "没有找到这个商品，是否要添加？", "提示",
 							JOptionPane.OK_CANCEL_OPTION);
 
@@ -1633,7 +1648,7 @@ public class MainFrame extends JFrame implements Runnable {
 						data = String.valueOf(model.getValueAt(row, 0));
 
 						for (Employee employee : empList) {
-							//System.out.println(employee.getEmpId());
+							// System.out.println(employee.getEmpId());
 							if (employee.getEmpId().equals(Long.parseLong(data))) {
 								getID = employee.getEmpId();
 								new GetTableFrame();
@@ -1705,12 +1720,135 @@ public class MainFrame extends JFrame implements Runnable {
 		busJpanel.add(busdatapaneltoppanel);
 		busdatapaneltoppanel.setLayout(null);
 
+		// TODO 订单
+		JPanel orderdatapanel = new JPanel();
+		orderdatapanel.setBackground(Color.LIGHT_GRAY);
+		orderdatapanel.setBounds(0, 84, 1000, 413);
+		busJpanel.add(orderdatapanel);
+		CardLayout cardorder = new CardLayout(0, 0);
+		orderdatapanel.setLayout(cardorder);
+
+		// TODO 订单信息管理
+		JPanel allorderpanel = new JPanel();
+		allorderpanel.setBackground(Color.PINK);
+		allorderpanel.setForeground(Color.LIGHT_GRAY);
+		orderdatapanel.add(allorderpanel, "allorderpanel");
+		allorderpanel.setLayout(null);
+
+		JPanel historderpanel = new JPanel();
+		historderpanel.setBackground(Color.LIGHT_GRAY);
+		orderdatapanel.add(historderpanel, "historderpanel");
+		historderpanel.setLayout(null);
+
+		/**
+		 * 
+		 * TODO 将历史订单显示在表格上
+		 * 
+		 */
+		double allMoney = 0;
+		try {
+
+			//Order order = new Order();
+			OrderServiceImpl orderSimpl = new OrderServiceImpl();
+			String ordStatus = "1";// 查询订单的状态是已结账
+			List<String> conditions = new ArrayList<String>();
+			conditions.add("order_status = '" + ordStatus + "'");
+			List<Order> list = orderSimpl.findOrder(conditions);
+			
+			for (Order order : list) {
+				allMoney += order.getOrdAllamtall();
+			}
+			System.out.println(allMoney);
+			
+			histOrderDataTable = new JTable();
+			SetTableCenter.setTableCenter(histOrderDataTable);// 居中
+			ordermodel = new MyOrderTableModel(list);
+			histOrderDataTable.setModel(ordermodel);
+
+			JScrollPane historderdatatscollPanel = new JScrollPane(histOrderDataTable);
+			historderdatatscollPanel.setBounds(0, 0, 1000, 413);
+			historderpanel.add(historderdatatscollPanel);
+
+			// 设置点击事件
+			histOrderDataTable.addMouseListener(new MouseAdapter() {
+
+				public void mouseClicked(MouseEvent evt) {
+					if (evt.getClickCount() == 2) {
+
+						int row = histOrderDataTable.getSelectedRow();
+
+						String data;
+						data = String.valueOf(ordermodel.getValueAt(row, 0));
+						System.out.println(data);// 获取第一列的数据。
+
+					}
+				}
+
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//showallmoneylabel.setText(String.valueOf(allMoney));
+		/**
+		 * 
+		 * TODO 将全部订单的数据显示在表格上
+		 * 
+		 */
+		try {
+
+			Order order = new Order();
+			OrderServiceImpl orderSimpl = new OrderServiceImpl();
+			List<Order> orderList = orderSimpl.findOrder(order);
+			allOrderDataTable = new JTable();
+			SetTableCenter.setTableCenter(allOrderDataTable);// 居中
+			ordermodel = new MyOrderTableModel(orderList);
+			allOrderDataTable.setModel(ordermodel);
+
+			JScrollPane allorderdatascollPanel = new JScrollPane(allOrderDataTable);
+			allorderdatascollPanel.setBounds(0, 0, 1000, 413);
+			allorderpanel.add(allorderdatascollPanel);
+
+			// 设置点击事件
+			allOrderDataTable.addMouseListener(new MouseAdapter() {
+
+				public void mouseClicked(MouseEvent evt) {
+					if (evt.getClickCount() == 2) {
+
+						int row = allOrderDataTable.getSelectedRow();
+
+						String data;
+						data = String.valueOf(ordermodel.getValueAt(row, 0));
+						System.out.println(data);// 获取第一列的数据。
+
+					}
+				}
+
+			});
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		JButton findallorderbtn = new JButton("查看全部订单");
+		findallorderbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				cardorder.show(orderdatapanel, "allorderpanel");
+
+			}
+		});
 		findallorderbtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		findallorderbtn.setBounds(137, 18, 150, 46);
 		busdatapaneltoppanel.add(findallorderbtn);
 
 		JButton findolddorderbtn = new JButton("查看历史订单");
+		findolddorderbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				cardorder.show(orderdatapanel, "historderpanel");
+
+			}
+		});
 		findolddorderbtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		findolddorderbtn.setBounds(424, 18, 150, 46);
 		busdatapaneltoppanel.add(findolddorderbtn);
@@ -1720,22 +1858,12 @@ public class MainFrame extends JFrame implements Runnable {
 		exportorderbtn.setBounds(711, 18, 150, 46);
 		busdatapaneltoppanel.add(exportorderbtn);
 
-		JPanel orderdatapanel = new JPanel();
-		orderdatapanel.setBackground(Color.LIGHT_GRAY);
-		orderdatapanel.setBounds(0, 84, 1000, 413);
-		busJpanel.add(orderdatapanel);
-		orderdatapanel.setLayout(null);
-
-		JScrollPane orderscrollPane = new JScrollPane();
-		orderscrollPane.setBounds(0, 0, 1000, 413);
-		orderdatapanel.add(orderscrollPane);
-
 		JLabel busallmonelabel = new JLabel("营业总额：");
 		busallmonelabel.setFont(new Font("微软雅黑", Font.PLAIN, 20));
 		busallmonelabel.setBounds(506, 510, 100, 43);
 		busJpanel.add(busallmonelabel);
-
-		JLabel showallmoneylabel = new JLabel("");
+		
+		JLabel showallmoneylabel = new JLabel(String.valueOf(allMoney));
 		showallmoneylabel.setFont(new Font("微软雅黑", Font.PLAIN, 20));
 		showallmoneylabel.setBounds(611, 510, 162, 43);
 		busJpanel.add(showallmoneylabel);
@@ -1960,7 +2088,8 @@ public class MainFrame extends JFrame implements Runnable {
 
 							if (goods.getGoodsId().equals(Long.parseLong(data))) {
 								getgoodsID = goods.getGoodsId();
-							//	System.out.println("getgoodsID:" + getgoodsID);
+								// System.out.println("getgoodsID:" +
+								// getgoodsID);
 								break;
 							} else {
 								continue;
@@ -2010,7 +2139,7 @@ public class MainFrame extends JFrame implements Runnable {
 
 							if (member.getMemId().equals(Long.parseLong(data))) {
 								getmemID = member.getMemId();
-								//System.out.println("getmemID:" + getmemID);
+								// System.out.println("getmemID:" + getmemID);
 								break;
 							} else {
 								continue;
@@ -2101,20 +2230,19 @@ public class MainFrame extends JFrame implements Runnable {
 			room = rsi.findRoom(id);
 
 			jLabel.setText(room.getRoomStatus());
-			if(jLabel.getText().equals("使用中")){
+			if (jLabel.getText().equals("使用中")) {
 				jLabel.setForeground(Color.RED);
 			}
-			if(jLabel.getText().equals("已预定")){
+			if (jLabel.getText().equals("已预定")) {
 				jLabel.setForeground(Color.BLUE);
 			}
-			if(jLabel.getText().equals("未使用")){
+			if (jLabel.getText().equals("未使用")) {
 				jLabel.setForeground(Color.BLACK);
 			}
-			
+
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
 }
