@@ -265,11 +265,11 @@ public class ReserveFrame {
 					memID = 0L;
 				}
 
-				System.out.println("--------预定单里的会员编号：" + memID);
+				//System.out.println("--------预定单里的会员编号：" + memID);
 				// 获取系统时间---------------------------------------------------------------------------------
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");// 设置日期格式
 				String time = df.format(new Date()).trim();
-				System.out.println(time);
+				//System.out.println(time);
 				// 截取时间
 				String year = time.substring(0, 4);
 				String month = time.substring(5, 7);
@@ -306,7 +306,7 @@ public class ReserveFrame {
 				}
 
 				String resTime = resyeartxt + resmonthtxt + resdaytxt + reshourtxt + resmintxt;
-				System.out.println("------resTime=" + resTime);
+				//System.out.println("------resTime=" + resTime);
 				// 保留时间
 				String retyeartxt = retainyeartxt.getText();
 				String retmonthtxt = retainmonthtxt.getText();
@@ -335,7 +335,7 @@ public class ReserveFrame {
 
 				String retTime = retyeartxt + retmonthtxt + retdaytxt + rethourtxt + retmintxt;
 
-				System.out.println("------retTime=" + retTime);
+				//System.out.println("------retTime=" + retTime);
 
 				// if ((Integer.parseInt(sysTime) < Integer.parseInt(resTime)))
 				// {
