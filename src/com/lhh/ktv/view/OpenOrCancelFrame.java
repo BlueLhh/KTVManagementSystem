@@ -104,7 +104,7 @@ public class OpenOrCancelFrame {
 				double price;// 包房费用
 				// 获取当前系统时间
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");// 设置日期格式
-				System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
+				//System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
 				String time = df.format(new Date()).trim();
 				String year = time.substring(0, 4);
 				String month = time.substring(5, 7);
@@ -137,7 +137,7 @@ public class OpenOrCancelFrame {
 						break;
 					}
 				}
-				System.out.println("name = " + name);
+				//System.out.println("name = " + name);
 
 				try {
 					room = roomService.findRoom(id);
@@ -150,7 +150,7 @@ public class OpenOrCancelFrame {
 					order.setOrdStatus("0");
 					orderService.addOrder(order);
 
-					System.out.println("添加成功！");
+					//System.out.println("添加成功！");
 					// 更新包房的状态
 					String status = "使用中";
 					room.setRoomType(room.getRoomType());
@@ -200,7 +200,7 @@ public class OpenOrCancelFrame {
 						break;
 					}
 				}
-				System.out.println("resID = " + resID);
+			//	System.out.println("resID = " + resID);
 
 				try {
 
