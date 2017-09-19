@@ -127,9 +127,9 @@ public class OrderServiceImpl implements IOrderService {
 			conn = ConnectionFactory.getConnection();
 			trans.beginTransaction(conn);
 			list = orderDao.findOrder(conn);
-			for (Order ord : list) {
-				System.out.println(ord);
-			}
+//			for (Order ord : list) {
+//				System.out.println(ord);
+//			}
 			// 提交事务
 			trans.commit(conn);
 		} catch (DataAccessException e) {
