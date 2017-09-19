@@ -360,8 +360,6 @@ public class GetTableFrame {
 			usertxt.setText(employee.getUsername());
 			passtxt.setText(employee.getPassword());
 			
-			System.out.println(employee);
-			
 		} catch (ServiceException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
