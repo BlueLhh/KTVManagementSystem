@@ -102,7 +102,7 @@ public class EOrderServiceImpl implements IEOrderService{
 			conn = ConnectionFactory.getConnection();
 			trans.beginTransaction(conn);
 			eOrder = eOrderDao.findEOrder(id, conn);
-			System.out.println("查找会员成功！");
+			
 			// 提交事务
 			trans.commit(conn);
 		} catch (Exception e) {
