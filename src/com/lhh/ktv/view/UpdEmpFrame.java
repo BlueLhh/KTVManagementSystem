@@ -353,7 +353,7 @@ public class UpdEmpFrame {
 					getUser.setText(employee.getUsername());
 					getPass.setText(employee.getPassword());
 
-					System.out.println(employee);
+					//System.out.println(employee);
 
 				} catch (Exception E) {
 					// TODO Auto-generated catch block
