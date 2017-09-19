@@ -220,7 +220,6 @@ public class AddEmpFrame {
 				try {
 					employeeService.addEmployee(employee);
 					JOptionPane.showMessageDialog(contentPane, "添加员工成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
-					System.out.println("添加员工成功！");
 					MainFrame.refresh();
 					frame.setVisible(false);
 					frame.dispose();
