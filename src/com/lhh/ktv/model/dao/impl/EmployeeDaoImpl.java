@@ -82,7 +82,6 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 	@Override
 	public void deleteEmployee(Long id, Connection conn) throws DataAccessException {
 		// TODO Auto-generated method stub
-		System.out.println("deleteEmployee id=" + id);
 
 		JdbcTemplate jt = new JdbcTemplate(conn);
 		String sql = "delete from k_emp where emp_id = ?";
