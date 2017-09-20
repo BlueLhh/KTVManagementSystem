@@ -11,6 +11,7 @@ import com.lhh.ktv.model.entity.Reserve;
 import com.lhh.ktv.model.entity.Room;
 import com.lhh.ktv.model.service.IOrderService;
 import com.lhh.ktv.model.service.IReserveService;
+import com.lhh.ktv.model.service.impl.EmployeeServiceImpl;
 import com.lhh.ktv.model.service.impl.OrderServiceImpl;
 import com.lhh.ktv.model.service.impl.ReserveServiceImpl;
 import com.lhh.ktv.model.service.impl.RoomServiceImpl;
@@ -98,13 +99,21 @@ public class OpenOrCancelFrame {
 		openokbtn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				Long id = MainFrame.roomID;// 获取点击后的数据
+				Long id;//
+
+				if ("经理".equals(EmployeeServiceImpl.getPost())) {
+					id = MainFrame.roomID;// 获取点击后的数据
+				} else {
+					id = Test.roomID;
+				}
+
 				String name = null;// 客户的名字
 				Long resID = null;// 预订单的编号
 				double price;// 包房费用
 				// 获取当前系统时间
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");// 设置日期格式
-				//System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
+				// System.out.println(df.format(new Date()));// new
+				// Date()为获取当前系统时间
 				String time = df.format(new Date()).trim();
 				String year = time.substring(0, 4);
 				String month = time.substring(5, 7);
@@ -137,7 +146,7 @@ public class OpenOrCancelFrame {
 						break;
 					}
 				}
-				//System.out.println("name = " + name);
+				// System.out.println("name = " + name);
 
 				try {
 					room = roomService.findRoom(id);
@@ -150,7 +159,7 @@ public class OpenOrCancelFrame {
 					order.setOrdStatus("0");
 					orderService.addOrder(order);
 
-					//System.out.println("添加成功！");
+					// System.out.println("添加成功！");
 					// 更新包房的状态
 					String status = "使用中";
 					room.setRoomType(room.getRoomType());
@@ -158,8 +167,8 @@ public class OpenOrCancelFrame {
 					room.setRoomStatus(status);
 					room.setRoomId(id);
 					roomService.updateRoom(room);
-					
-					//更新包房状态之后把原预定订单删除
+
+					// 更新包房状态之后把原预定订单删除
 					// 删除预定的订单
 					reserveService.delReserve(resID);
 					JOptionPane.showMessageDialog(contentPane, "开箱成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
@@ -180,7 +189,13 @@ public class OpenOrCancelFrame {
 			public void actionPerformed(ActionEvent e) {
 				// 取消订单，恢复房间为未使用状态，然后删除该预定订单。
 
-				Long id = MainFrame.roomID;// 后去点击后的数据
+				Long id;//
+
+				if ("经理".equals(EmployeeServiceImpl.getPost())) {
+					id = MainFrame.roomID;// 获取点击后的数据
+				} else {
+					id = Test.roomID;
+				}
 				Long resID = null;// 预订单的编号
 				String status = "未使用";
 				RoomServiceImpl roomService = new RoomServiceImpl();
@@ -200,7 +215,7 @@ public class OpenOrCancelFrame {
 						break;
 					}
 				}
-			//	System.out.println("resID = " + resID);
+				// System.out.println("resID = " + resID);
 
 				try {
 
@@ -226,10 +241,10 @@ public class OpenOrCancelFrame {
 		opennobtn.setBounds(138, 146, 121, 48);
 		frame.getContentPane().add(opennobtn);
 	}
-	
-	public static void closeOpenOrCancelFrame(){
+
+	public static void closeOpenOrCancelFrame() {
 		frame.setVisible(false);
 		frame.dispose();
 	}
-	
+
 }
