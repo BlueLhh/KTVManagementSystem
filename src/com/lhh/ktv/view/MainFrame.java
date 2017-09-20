@@ -3,12 +3,18 @@ package com.lhh.ktv.view;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.FileDialog;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,6 +31,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableModel;
 
 import com.lhh.ktv.exception.ServiceException;
 import com.lhh.ktv.model.entity.Employee;
@@ -42,12 +49,21 @@ import com.lhh.ktv.model.service.impl.RoomServiceImpl;
 import com.lhh.ktv.util.BGJPanel;
 import com.lhh.ktv.util.BorderHide;
 import com.lhh.ktv.util.BtnEvent;
+import com.lhh.ktv.util.JTableToExcel;
 import com.lhh.ktv.util.MyEmpTableModel;
+import com.lhh.ktv.util.MyGoodsOnRoomTableModel;
 import com.lhh.ktv.util.MyGoodsTableModel;
 import com.lhh.ktv.util.MyMemTableModel;
 import com.lhh.ktv.util.MyOrderTableModel;
 import com.lhh.ktv.util.SetTableCenter;
 import com.lhh.ktv.util.WindowMove;
+
+import jxl.Workbook;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
+
 import javax.swing.JRadioButton;
 
 public class MainFrame extends JFrame implements Runnable {
@@ -76,6 +92,7 @@ public class MainFrame extends JFrame implements Runnable {
 	private static MyMemTableModel memmodel;
 	private static MyGoodsTableModel goodsmodel;
 	private static MyOrderTableModel ordermodel;
+	private static MyGoodsOnRoomTableModel goodsrmodel;
 
 	// 装数据的panel要设置一个静态变量，和本身就有的无关！
 	static JPanel dataPanel = new JPanel();
@@ -99,6 +116,7 @@ public class MainFrame extends JFrame implements Runnable {
 
 	static private JLabel memIDlabel;
 	static private JLabel goodsidlabel;
+	static private JTable goodsRoomDataTable;
 	static private JRadioButton radmemman;
 	static private JRadioButton radmemwom;
 	static private JTextField findgoodstxt;
@@ -108,8 +126,9 @@ public class MainFrame extends JFrame implements Runnable {
 	static private JTextField goodsnametxt;
 	static private JTextField goodspricetxt;
 	static private JTextField goodscounttxt;
-	
-	//static private JLabel showallmoneylabel;
+	static public Long eorderDataID;
+
+	// static private JLabel showallmoneylabel;
 
 	public static Long roomID;
 
@@ -264,6 +283,9 @@ public class MainFrame extends JFrame implements Runnable {
 				super.mouseClicked(e);
 				if (e.getClickCount() == 1) {
 					refRoomLabel(168L, room168label);
+					// if("使用中".equals(room168label.getText())){
+					//
+					// }
 				}
 				if (e.getClickCount() == 2) {
 					roomID = Long.parseLong(room168btn.getText());
@@ -294,6 +316,9 @@ public class MainFrame extends JFrame implements Runnable {
 
 				if (e.getClickCount() == 1) {
 					refRoomLabel(178L, room178label);
+					// if("使用中".equals(room178label.getText())){
+					// //new RoomOrderFrame();
+					// }
 				}
 
 				if (e.getClickCount() == 2) {
@@ -1748,18 +1773,18 @@ public class MainFrame extends JFrame implements Runnable {
 		double allMoney = 0;
 		try {
 
-			//Order order = new Order();
+			// Order order = new Order();
 			OrderServiceImpl orderSimpl = new OrderServiceImpl();
 			String ordStatus = "1";// 查询订单的状态是已结账
 			List<String> conditions = new ArrayList<String>();
 			conditions.add("order_status = '" + ordStatus + "'");
 			List<Order> list = orderSimpl.findOrder(conditions);
-			
+
 			for (Order order : list) {
 				allMoney += order.getOrdAllamtall();
 			}
 			System.out.println(allMoney);
-			
+
 			histOrderDataTable = new JTable();
 			SetTableCenter.setTableCenter(histOrderDataTable);// 居中
 			ordermodel = new MyOrderTableModel(list);
@@ -1779,8 +1804,8 @@ public class MainFrame extends JFrame implements Runnable {
 
 						String data;
 						data = String.valueOf(ordermodel.getValueAt(row, 0));
-						System.out.println(data);// 获取第一列的数据。
-
+						eorderDataID = Long.parseLong(data);
+						new EOrderFrame();
 					}
 				}
 
@@ -1788,7 +1813,7 @@ public class MainFrame extends JFrame implements Runnable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//showallmoneylabel.setText(String.valueOf(allMoney));
+		// showallmoneylabel.setText(String.valueOf(allMoney));
 		/**
 		 * 
 		 * TODO 将全部订单的数据显示在表格上
@@ -1819,7 +1844,8 @@ public class MainFrame extends JFrame implements Runnable {
 						String data;
 						data = String.valueOf(ordermodel.getValueAt(row, 0));
 						System.out.println(data);// 获取第一列的数据。
-
+						eorderDataID = Long.parseLong(data);
+						new EOrderFrame();
 					}
 				}
 
@@ -1834,7 +1860,7 @@ public class MainFrame extends JFrame implements Runnable {
 			public void actionPerformed(ActionEvent e) {
 
 				cardorder.show(orderdatapanel, "allorderpanel");
-
+				allOrderData();
 			}
 		});
 		findallorderbtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
@@ -1846,14 +1872,32 @@ public class MainFrame extends JFrame implements Runnable {
 			public void actionPerformed(ActionEvent e) {
 
 				cardorder.show(orderdatapanel, "historderpanel");
-
+				histOrderData();
 			}
 		});
 		findolddorderbtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		findolddorderbtn.setBounds(424, 18, 150, 46);
 		busdatapaneltoppanel.add(findolddorderbtn);
 
+		// TODO 将数据导出
 		JButton exportorderbtn = new JButton("导出订单");
+		exportorderbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// File file = new File("C:\\Users\\46512\\Downloads");
+				// try {
+				// exportTable(histOrderDataTable, file);
+				// } catch (IOException ee) {
+				// // TODO Auto-generated catch block
+				// ee.printStackTrace();
+				// }
+				JFrame frame = new JFrame();
+				FileDialog fd = new FileDialog(frame, "保存记录", FileDialog.SAVE);
+				fd.setLocation(400, 250);
+				fd.setVisible(true);
+				String stringfile = fd.getDirectory() + fd.getFile() + ".xls";
+				new JTableToExcel().export(new File(stringfile), "海文KTV营业清单", "", histOrderDataTable);
+			}
+		});
 		exportorderbtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		exportorderbtn.setBounds(711, 18, 150, 46);
 		busdatapaneltoppanel.add(exportorderbtn);
@@ -1862,7 +1906,7 @@ public class MainFrame extends JFrame implements Runnable {
 		busallmonelabel.setFont(new Font("微软雅黑", Font.PLAIN, 20));
 		busallmonelabel.setBounds(506, 510, 100, 43);
 		busJpanel.add(busallmonelabel);
-		
+
 		JLabel showallmoneylabel = new JLabel(String.valueOf(allMoney));
 		showallmoneylabel.setFont(new Font("微软雅黑", Font.PLAIN, 20));
 		showallmoneylabel.setBounds(611, 510, 162, 43);
@@ -1898,12 +1942,12 @@ public class MainFrame extends JFrame implements Runnable {
 
 					List<Goods> goodsList = goodsSimp.findGoods(goods);
 
-					JTable goodsDataTable = new JTable();
-					SetTableCenter.setTableCenter(goodsDataTable);// 设置表格中内容居中
-					MyGoodsTableModel goodsmodel = new MyGoodsTableModel(goodsList);
-					goodsDataTable.setModel(goodsmodel);
+					goodsRoomDataTable = new JTable();
+					SetTableCenter.setTableCenter(goodsRoomDataTable);// 设置表格中内容居中
+					goodsrmodel = new MyGoodsOnRoomTableModel(goodsList);
+					goodsRoomDataTable.setModel(goodsrmodel);
 
-					JScrollPane scrollPane = new JScrollPane(goodsDataTable);
+					JScrollPane scrollPane = new JScrollPane(goodsRoomDataTable);
 					scrollPane.setBounds(0, 0, 371, 460);
 					roomgoodsdatapanel.add(scrollPane);
 
@@ -2003,6 +2047,33 @@ public class MainFrame extends JFrame implements Runnable {
 
 	}
 
+	// 刷新历史订单
+	static public void histOrderData() {
+		OrderServiceImpl orderSimpl = new OrderServiceImpl();
+		String ordStatus = "1";// 查询订单的状态是已结账
+		List<String> conditions = new ArrayList<String>();
+		conditions.add("order_status = '" + ordStatus + "'");
+		List<Order> list = orderSimpl.findOrder(conditions);
+		System.out.println("历史订单刷新");
+		ordermodel.updateList(list);
+		histOrderDataTable.updateUI();
+
+	}
+
+	// 刷新全部订单
+	static public void allOrderData() {
+		Order order = new Order();
+		OrderServiceImpl orderSimpl = new OrderServiceImpl();
+		try {
+			List<Order> orderList = orderSimpl.findOrder(order);
+			ordermodel.updateList(orderList);
+			allOrderDataTable.updateUI();
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * 
 	 * TODO 将商品信息显示在面板上
@@ -2053,6 +2124,26 @@ public class MainFrame extends JFrame implements Runnable {
 			memnametxt.setText(member.getMemName());
 			memagetxt.setText(Integer.toString(member.getMemAge()));
 			memphonetxt.setText(member.getMemPhone());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 *
+	 * TODO 刷新在房间里的商品信息
+	 *
+	 */
+	static public void roomGoodsFresh() {
+		Goods goods = new Goods();
+		GoodsServiceImpl goodsSimp = new GoodsServiceImpl();
+		try {
+
+			List<Goods> goodsList = goodsSimp.findGoods(goods);
+
+			goodsrmodel.updateList(goodsList);
+			goodsRoomDataTable.updateUI();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -2245,4 +2336,49 @@ public class MainFrame extends JFrame implements Runnable {
 			e.printStackTrace();
 		}
 	}
+
+	public static void exportTable(JTable table, File file) throws IOException {
+		try {
+			OutputStream out = new FileOutputStream(file);
+			TableModel model = table.getModel();
+			WritableWorkbook wwb = Workbook.createWorkbook(out);
+			// 创建字表，并写入数据
+			WritableSheet ws = wwb.createSheet("中文", 0);
+			// 添加标题
+			for (int i = 0; i < model.getColumnCount(); i++) {
+				jxl.write.Label labelN = new jxl.write.Label(i, 0, model.getColumnName(i));
+				try {
+					ws.addCell(labelN);
+				} catch (RowsExceededException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (WriteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			// 添加列
+			for (int i = 0; i < model.getColumnCount(); i++) {
+				for (int j = 1; j <= model.getRowCount(); j++) {
+					jxl.write.Label labelN = new jxl.write.Label(i, j, model.getValueAt(j - 1, i).toString());
+					try {
+						ws.addCell(labelN);
+					} catch (RowsExceededException e) {
+						e.printStackTrace();
+					} catch (WriteException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			wwb.write();
+			try {
+				wwb.close();
+			} catch (WriteException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "导入数据前请关闭工作表");
+		}
+	}
+
 }
