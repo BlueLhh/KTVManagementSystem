@@ -145,7 +145,6 @@ public class MemberDaoImpl implements IMemberDao {
 				sql += condition;
 			}
 		}
-		System.out.println(sql);
 		jt.query(sql, new RowCallBackHandler() {
 
 			@Override
