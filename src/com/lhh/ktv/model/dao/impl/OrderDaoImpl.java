@@ -168,7 +168,6 @@ public class OrderDaoImpl implements IOrderDao {
 				sql += condition;
 			}
 		}
-		System.out.println(sql);
 		jt.query(sql, new RowCallBackHandler() {
 
 			@Override
