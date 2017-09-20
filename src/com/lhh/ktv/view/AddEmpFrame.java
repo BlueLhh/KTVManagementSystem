@@ -187,45 +187,51 @@ public class AddEmpFrame {
 				String username;
 				String password;
 
-				name = addNameField.getText();
-				// gender = addGenderField.getText();
-
-				if (radman.isSelected()) {
-					gender = "男";
+				if ("".equals(addNameField.getText()) || "".equals(addAgeField.getText())) {
+					JOptionPane.showMessageDialog(contentPane, "请输入完整的信息！", "提示", JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					gender = "女";
-				}
 
-				age = (byte) Integer.parseInt(addAgeField.getText());
-				phone = addPhoneField.getText();
-				if (radEmp.isSelected()) {
-					post = "1";
-				} else {
-					post = "0";
-				}
-				username = addUserField.getText();
-				password = addPassField.getText();
+					name = addNameField.getText();
+					// gender = addGenderField.getText();
 
-				IEmployeeService employeeService = new EmployeeServiceImpl();
-				Employee employee = new Employee();
+					if (radman.isSelected()) {
+						gender = "男";
+					} else {
+						gender = "女";
+					}
 
-				employee.setEmpName(name);
-				employee.setEmpGender(gender);
-				employee.setEmpAge(age);
-				employee.setEmpPhone(phone);
-				employee.setEmpPost(post);
-				employee.setUsername(username);
-				employee.setPassword(password);
+					age = (byte) Integer.parseInt(addAgeField.getText());
 
-				try {
-					employeeService.addEmployee(employee);
-					JOptionPane.showMessageDialog(contentPane, "添加员工成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
-					MainFrame.refresh();
-					frame.setVisible(false);
-					frame.dispose();
-				} catch (Exception ee) {
-					JOptionPane.showMessageDialog(contentPane, "添加失败！", "提示", JOptionPane.INFORMATION_MESSAGE);
-					ee.printStackTrace();
+					phone = addPhoneField.getText();
+					if (radEmp.isSelected()) {
+						post = "1";
+					} else {
+						post = "0";
+					}
+					username = addUserField.getText();
+					password = addPassField.getText();
+
+					IEmployeeService employeeService = new EmployeeServiceImpl();
+					Employee employee = new Employee();
+
+					employee.setEmpName(name);
+					employee.setEmpGender(gender);
+					employee.setEmpAge(age);
+					employee.setEmpPhone(phone);
+					employee.setEmpPost(post);
+					employee.setUsername(username);
+					employee.setPassword(password);
+
+					try {
+						employeeService.addEmployee(employee);
+						JOptionPane.showMessageDialog(contentPane, "添加员工成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+						MainFrame.refresh();
+						frame.setVisible(false);
+						frame.dispose();
+					} catch (Exception ee) {
+						JOptionPane.showMessageDialog(contentPane, "添加失败！", "提示", JOptionPane.INFORMATION_MESSAGE);
+						ee.printStackTrace();
+					}
 				}
 			}
 		});
