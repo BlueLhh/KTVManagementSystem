@@ -707,29 +707,35 @@ public class MainFrame extends JFrame implements Runnable {
 				IMemberService memberService = new MemberServiceImpl();
 				Member member = new Member();
 
-				name = addnametxt.getText();
-
-				if (radMan.isSelected()) {
-					gender = "男";
+				if ("".equals(addnametxt.getText()) || "".equals(addagetxt.getText())) {
+					JOptionPane.showMessageDialog(contentPane, "请输入完整的信息！", "提示", JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					gender = "女";
+
+					name = addnametxt.getText();
+
+					if (radMan.isSelected()) {
+						gender = "男";
+					} else {
+						gender = "女";
+					}
+
+					age = (byte) Integer.parseInt(addagetxt.getText());
+					phone = addphonetxt.getText();
+
+					member.setMemName(name);
+					member.setMemGender(gender);
+					member.setMemAge(age);
+					member.setMemPhone(phone);
+
+					try {
+						memberService.addMem(member);
+						JOptionPane.showMessageDialog(contentPane, "会员注册成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+						memRefresh();
+					} catch (ServiceException ee) {
+						ee.printStackTrace();
+					}
+
 				}
-				age = (byte) Integer.parseInt(addagetxt.getText());
-				phone = addphonetxt.getText();
-
-				member.setMemName(name);
-				member.setMemGender(gender);
-				member.setMemAge(age);
-				member.setMemPhone(phone);
-
-				try {
-					memberService.addMem(member);
-					JOptionPane.showMessageDialog(contentPane, "会员注册成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
-					memRefresh();
-				} catch (ServiceException ee) {
-					ee.printStackTrace();
-				}
-
 			}
 		});
 		addokbtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
