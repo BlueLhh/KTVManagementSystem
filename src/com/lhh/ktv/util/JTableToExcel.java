@@ -100,8 +100,6 @@ public class JTableToExcel {
 	 */
 	private void fillHeading(WritableSheet sheet, String heading, int colNum) throws WriteException {
 
-		System.out.println("执行填写标题成功！");
-
 		WritableFont font = new WritableFont(WritableFont.ARIAL, 14, WritableFont.BOLD, false,
 				UnderlineStyle.NO_UNDERLINE, Colour.RED);// 定义字体
 
@@ -141,7 +139,6 @@ public class JTableToExcel {
 			Label colName = new Label(col, 1, table.getModel().getColumnName(col), format);
 			sheet.addCell(colName);
 		}
-		System.out.println("执行列成功！");
 	}
 
 	/**
@@ -169,7 +166,6 @@ public class JTableToExcel {
 		sheet.mergeCells(0, rowNum + 3, colNum - 1, rowNum + 3);// 合并单元格
 
 		sheet.addCell(new Label(0, rowNum + 3, inscribe, format));// 填写工作表
-		System.out.println("生成落款！");
 	}
 
 	/**
@@ -202,8 +198,5 @@ public class JTableToExcel {
 			}
 
 		}
-		System.out.println("列数：" + colNum);
-		System.out.println("行数：" + rowNum);
-		System.out.println("填写数据成功！");
 	}
 }
