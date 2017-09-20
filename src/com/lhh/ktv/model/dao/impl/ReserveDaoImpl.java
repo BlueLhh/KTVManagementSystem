@@ -35,26 +35,7 @@ public class ReserveDaoImpl implements IReserveDao {
 			}
 		});
 
-		// String sqlFormat = "select to_date(?,'yyyy-mm-dd
-		// hh24:mi'),to_date(?,'yyyy-mm-dd hh24:mi') from dual";
-		// jt.query(sqlFormat, new PreparedStatementSetter() {
-		//
-		// @Override
-		// public void setValues(PreparedStatement pstmt) throws SQLException {
-		// pstmt.setString(1, "2017-6-19 11:30");
-		// pstmt.setString(2, "2017-6-19 11:50");
-		// }
-		// }, new RowCallBackHandler() {
-		//
-		// @Override
-		// public void processRow(ResultSet rs) throws SQLException {
-		// if(rs.next()){
-		// d1=rs.getDate(1);
-		// d2=rs.getDate(2);
-		// }
-		// }
-		// });
-		// new java.sql.Date(reserve.getResTime().getTime())
+		
 		String insertSQL = "insert into k_reserve values(?,?,?,?,?,?,?)";
 		jt.update(insertSQL, new PreparedStatementSetter() {
 			public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -174,7 +155,6 @@ public class ReserveDaoImpl implements IReserveDao {
 				sql += condition;
 			}
 		}
-		System.out.println(sql);
 		jt.query(sql, new RowCallBackHandler() {
 
 			@Override
