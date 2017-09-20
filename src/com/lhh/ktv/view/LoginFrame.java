@@ -119,8 +119,17 @@ public class LoginFrame extends JFrame {
 					if (employeeService.login(loginID, loginPW)) {
 						// TODO 登录成功，在此跳转到新的界面
 						setVisible(false);//隐藏本窗口
-						JFrame frame = new JFrame();
-						new MainFrame(frame).setVisible(true);//显示新的窗口
+						
+						//如果登录的人是经理 则跳转到主面板。否则跳转到普通员工的面板
+						if("经理".equals(EmployeeServiceImpl.getPost())){
+							JFrame frame = new JFrame();
+							new MainFrame(frame).setVisible(true);//显示新的窗口
+						}else{
+							System.out.println("跳转Test");
+							JFrame frame = new JFrame();
+							new Test(frame);
+						}
+						
 						dispose();//本窗口销毁，释放内存！
 					} else {
 						System.out.println(loginID + "---" + loginPW);
