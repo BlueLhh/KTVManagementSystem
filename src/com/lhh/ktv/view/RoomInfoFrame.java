@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 
 import com.lhh.ktv.exception.ServiceException;
 import com.lhh.ktv.model.entity.Room;
+import com.lhh.ktv.model.service.impl.EmployeeServiceImpl;
 import com.lhh.ktv.model.service.impl.RoomServiceImpl;
 import com.lhh.ktv.util.BorderHide;
 import com.lhh.ktv.util.BtnEvent;
@@ -149,7 +150,13 @@ public class RoomInfoFrame {
 		RoomServiceImpl roomService = new RoomServiceImpl();
 		Room room = new Room();
 		try {
-			room = roomService.findRoom(MainFrame.roomID);
+			
+			if("经理".equals(EmployeeServiceImpl.getPost())){
+				room = roomService.findRoom(MainFrame.roomID);
+			}else{
+				room = roomService.findRoom(Test.roomID);
+			}
+			//room = roomService.findRoom(MainFrame.roomID);
 			
 			showroomIDlabel.setText(String.valueOf(room.getRoomId()));//Long强转String
 			showroomtypelabel.setText(room.getRoomType());
