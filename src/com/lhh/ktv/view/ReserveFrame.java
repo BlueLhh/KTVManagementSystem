@@ -265,11 +265,11 @@ public class ReserveFrame {
 					memID = 0L;
 				}
 
-				//System.out.println("--------预定单里的会员编号：" + memID);
+				// System.out.println("--------预定单里的会员编号：" + memID);
 				// 获取系统时间---------------------------------------------------------------------------------
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");// 设置日期格式
 				String time = df.format(new Date()).trim();
-				//System.out.println(time);
+				// System.out.println(time);
 				// 截取时间
 				String year = time.substring(0, 4);
 				String month = time.substring(5, 7);
@@ -281,32 +281,66 @@ public class ReserveFrame {
 				System.out.println("sysTime=" + sysTime);
 				// 预定时间
 				String resyeartxt = reserveyeartxt.getText();
+
 				String resmonthtxt = reservemothtxt.getText();
+
 				String resdaytxt = reservedaytxt.getText();
+
 				String reshourtxt = resevehourtxt.getText();
+
 				String resmintxt = resevemintxt.getText();
 
 				if (resyeartxt.equals("")) {
 					resyeartxt = year;
 				}
+				// if (Integer.parseInt(resyeartxt) < Integer.parseInt(year)) {
+				// JOptionPane.showMessageDialog(contentPane, "输入的年份不得小于当前年份",
+				// "提示", JOptionPane.INFORMATION_MESSAGE);
+				// }
 				if (resmonthtxt.equals("")) {
 					resmonthtxt = month;
 				}
+				// if (Integer.parseInt(resmonthtxt) < Integer.parseInt(month))
+				// {
+				// JOptionPane.showMessageDialog(contentPane, "输入的月份不得小于当前月份",
+				// "提示", JOptionPane.INFORMATION_MESSAGE);
+				// }
 				if (resdaytxt.equals("")) {
 					resdaytxt = day;
 				}
+				// if (Integer.parseInt(resdaytxt) < Integer.parseInt(day)) {
+				// JOptionPane.showMessageDialog(contentPane, "输入的天不得小于当前日期",
+				// "提示", JOptionPane.INFORMATION_MESSAGE);
+				// }
 				if (reshourtxt.equals("")) {
 					reshourtxt = hour;
 				}
+				// if (Integer.parseInt(reshourtxt) < Integer.parseInt(hour)) {
+				// JOptionPane.showMessageDialog(contentPane, "输入的小时份不得小于当前时间",
+				// "提示", JOptionPane.INFORMATION_MESSAGE);
+				// }
 				if (resmintxt.equals("")) {
 					resmintxt = min;
 				}
+				// if (Integer.parseInt(resmintxt) < Integer.parseInt(min)) {
+				// JOptionPane.showMessageDialog(contentPane, "输入的分钟不得小于当前时间",
+				// "提示", JOptionPane.INFORMATION_MESSAGE);
+				// }
 				if (resmonthtxt.length() < 2) {
 					resmonthtxt = "0" + resmonthtxt;
 				}
+				if (resdaytxt.length() < 2) {
+					resdaytxt = "0" + resdaytxt;
+				}
+				if (reshourtxt.length() < 2) {
+					reshourtxt = "0" + reshourtxt;
+				}
+				if (resmintxt.length() < 2) {
+					resmintxt = "0" + resmintxt;
+				}
 
 				String resTime = resyeartxt + resmonthtxt + resdaytxt + reshourtxt + resmintxt;
-				//System.out.println("------resTime=" + resTime);
+				// System.out.println("------resTime=" + resTime);
 				// 保留时间
 				String retyeartxt = retainyeartxt.getText();
 				String retmonthtxt = retainmonthtxt.getText();
@@ -317,77 +351,109 @@ public class ReserveFrame {
 				if (retyeartxt.equals("")) {
 					retyeartxt = year;
 				}
+				// if (Integer.parseInt(retyeartxt) <
+				// Integer.parseInt(resyeartxt)) {
+				// JOptionPane.showMessageDialog(contentPane, "输入的年份不得小于预定的年份",
+				// "提示", JOptionPane.INFORMATION_MESSAGE);
+				// }
 				if (retmonthtxt.equals("")) {
 					retmonthtxt = month;
 				}
+				// if (Integer.parseInt(retmonthtxt) <
+				// Integer.parseInt(resmonthtxt)) {
+				// JOptionPane.showMessageDialog(contentPane, "输入的月份不得小于预定的月份",
+				// "提示", JOptionPane.INFORMATION_MESSAGE);
+				// }
 				if (retdaytxt.equals("")) {
 					retdaytxt = day;
 				}
+				// if (Integer.parseInt(retdaytxt) <
+				// Integer.parseInt(resdaytxt)) {
+				// JOptionPane.showMessageDialog(contentPane, "输入的天数不得小于预定的日期",
+				// "提示", JOptionPane.INFORMATION_MESSAGE);
+				// }
 				if (rethourtxt.equals("")) {
 					rethourtxt = hour;
 				}
+				// if (Integer.parseInt(rethourtxt) <
+				// Integer.parseInt(reshourtxt)) {
+				// JOptionPane.showMessageDialog(contentPane, "输入的小时数不得小于预定的时间",
+				// "提示",
+				// JOptionPane.INFORMATION_MESSAGE);
+				// }
 				if (retmintxt.equals("")) {
 					retmintxt = min;
 				}
+				// if (Integer.parseInt(retmintxt) <
+				// Integer.parseInt(resmintxt)) {
+				// JOptionPane.showMessageDialog(contentPane, "输入的分钟数不得小于预定的时间",
+				// "提示",
+				// JOptionPane.INFORMATION_MESSAGE);
+				// }
 				if (retmonthtxt.length() < 2) {
 					retmonthtxt = "0" + retmonthtxt;
+				}
+				if (retdaytxt.length() < 2) {
+					retdaytxt = "0" + retdaytxt;
+				}
+				if (rethourtxt.length() < 2) {
+					rethourtxt = "0" + rethourtxt;
+				}
+				if (retmintxt.length() < 2) {
+					retmintxt = "0" + retmintxt;
 				}
 
 				String retTime = retyeartxt + retmonthtxt + retdaytxt + rethourtxt + retmintxt;
 
-				//System.out.println("------retTime=" + retTime);
+				// System.out.println("------retTime=" + retTime);
 
-				// if ((Integer.parseInt(sysTime) < Integer.parseInt(resTime)))
-				// {
-				// JOptionPane.showMessageDialog(contentPane,
-				// "预定时间必须大于或等于当前时间！", "提示",
-				// JOptionPane.INFORMATION_MESSAGE);
-				// } else if (Integer.parseInt(resTime) <
-				// Integer.parseInt(retTime)) {
-				// JOptionPane.showMessageDialog(contentPane, "保留时间必须大于预定的时间！",
-				// "提示", JOptionPane.INFORMATION_MESSAGE);
-				// }
-
-				resTime = resyeartxt + "-" + resmonthtxt + "-" + resdaytxt + " " + reshourtxt + ":" + resmintxt;
-				retTime = retyeartxt + "-" + retmonthtxt + "-" + retdaytxt + " " + rethourtxt + ":" + retmintxt;
-
-				System.out.println(resTime);
-				System.out.println(retTime);
-
-				IReserveService reserveService = new ReserveServiceImpl();
-				Reserve reserve = new Reserve();
-
-				reserve.getRoom().setRoomId(Long.parseLong(roomIDlabel.getText()));
-				reserve.setResTime(resTime);
-				reserve.setResendTime(retTime);
-				// reserve.setResPname(reservepnametxt.getText());
-				reserve.setResPname(name);
-				reserve.setResmemId(memID);
-				// reserve.setResPhone(resevephonetxt.getText());
-				reserve.setResPhone(phone);
-
-				try {
-					reserveService.addReserve(reserve);
-					JOptionPane.showMessageDialog(contentPane, "预定成功！，房间号为：" + roomIDlabel.getText(), "提示",
+				if ((Long.parseLong(sysTime) > Long.parseLong(resTime))) {
+					JOptionPane.showMessageDialog(contentPane, "预定时间必须大于或等于当前时间！", "提示",
 							JOptionPane.INFORMATION_MESSAGE);
+				} else if (Long.parseLong(resTime) > Long.parseLong(retTime)) {
+					JOptionPane.showMessageDialog(contentPane, "保留时间必须大于预定的时间！", "提示", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					resTime = resyeartxt + "-" + resmonthtxt + "-" + resdaytxt + " " + reshourtxt + ":" + resmintxt;
+					retTime = retyeartxt + "-" + retmonthtxt + "-" + retdaytxt + " " + rethourtxt + ":" + retmintxt;
 
-					// 下单成功后，更改数据库包房的状态
-					IRoomService roomService = new RoomServiceImpl();
-					Room room = new Room();
-					String status = "已预定";
-					room.setRoomType(roomTypelabel.getText());
-					room.setRoomPrice(RoomInfoFrame.getRoomPrice);
-					room.setRoomStatus(status);
-					room.setRoomId(Long.parseLong(roomIDlabel.getText()));
+					System.out.println(resTime);
+					System.out.println(retTime);
 
-					roomService.updateRoom(room);
-					// 预定成功，关闭该窗口
-					closeReserveFrame();
-					RoomInfoFrame.closeRoomInfoFrame();
-				} catch (ServiceException ee) {
-					ee.printStackTrace();
+					IReserveService reserveService = new ReserveServiceImpl();
+					Reserve reserve = new Reserve();
+
+					reserve.getRoom().setRoomId(Long.parseLong(roomIDlabel.getText()));
+					reserve.setResTime(resTime);
+					reserve.setResendTime(retTime);
+					// reserve.setResPname(reservepnametxt.getText());
+					reserve.setResPname(name);
+					reserve.setResmemId(memID);
+					// reserve.setResPhone(resevephonetxt.getText());
+					reserve.setResPhone(phone);
+
+					try {
+						reserveService.addReserve(reserve);
+						JOptionPane.showMessageDialog(contentPane, "预定成功！，房间号为：" + roomIDlabel.getText(), "提示",
+								JOptionPane.INFORMATION_MESSAGE);
+
+						// 下单成功后，更改数据库包房的状态
+						IRoomService roomService = new RoomServiceImpl();
+						Room room = new Room();
+						String status = "已预定";
+						room.setRoomType(roomTypelabel.getText());
+						room.setRoomPrice(RoomInfoFrame.getRoomPrice);
+						room.setRoomStatus(status);
+						room.setRoomId(Long.parseLong(roomIDlabel.getText()));
+
+						roomService.updateRoom(room);
+						// 预定成功，关闭该窗口
+						closeReserveFrame();
+						RoomInfoFrame.closeRoomInfoFrame();
+					} catch (ServiceException ee) {
+						ee.printStackTrace();
+					}
+
 				}
-
 			}
 		});
 		reserveokbtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
