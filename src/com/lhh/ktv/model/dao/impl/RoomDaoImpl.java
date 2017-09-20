@@ -137,7 +137,6 @@ public class RoomDaoImpl implements IRoomDao {
 				sql += condition;
 			}
 		}
-		System.out.println(sql);
 		jt.query(sql, new RowCallBackHandler() {
 
 			@Override
