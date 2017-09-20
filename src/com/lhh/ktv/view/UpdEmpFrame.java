@@ -2,6 +2,7 @@ package com.lhh.ktv.view;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -29,6 +30,7 @@ public class UpdEmpFrame {
 	private JTextField getAge;
 	private JTextField getUser;
 	private JTextField getPass;
+	private JPanel contentPane;
 
 	static private String getUpdName;
 	static private String getUpdGender;
@@ -326,43 +328,47 @@ public class UpdEmpFrame {
 				updPanel.setVisible(true);// 初始化不可见
 				Long id = null;
 
-				id = Long.parseLong(InputIDtxt.getText());
+				if ("".equals(InputIDtxt.getText())) {
+					JOptionPane.showMessageDialog(contentPane, "请输入ID！", "提示", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					id = Long.parseLong(InputIDtxt.getText());
 
-				EmployeeServiceImpl emp = new EmployeeServiceImpl();
-				Employee employee = new Employee();
+					EmployeeServiceImpl emp = new EmployeeServiceImpl();
+					Employee employee = new Employee();
 
-				try {
-					employee = emp.findEmployee(id);
+					try {
+						employee = emp.findEmployee(id);
 
-					if (employee.getEmpGender().equals("男")) {
-						radMan.setSelected(true);
-					} else {
-						radWom.setSelected(true);
+						if (employee.getEmpGender().equals("男")) {
+							radMan.setSelected(true);
+						} else {
+							radWom.setSelected(true);
+						}
+
+						if (employee.getEmpPost().equals("1")) {
+							radEmp.setSelected(true);
+						} else {
+							radMage.setSelected(true);
+						}
+
+						getID.setText(Long.toString(employee.getEmpId()));
+						getName.setText(employee.getEmpName());
+						getAge.setText(Integer.toString(employee.getEmpAge()));
+						getPhone.setText(employee.getEmpPhone());
+						getUser.setText(employee.getUsername());
+						getPass.setText(employee.getPassword());
+
+						// System.out.println(employee);
+
+					} catch (Exception E) {
+						// TODO Auto-generated catch block
+
+						promptLabel.setVisible(true);
+
+						E.printStackTrace();
 					}
 
-					if (employee.getEmpPost().equals("1")) {
-						radEmp.setSelected(true);
-					} else {
-						radMage.setSelected(true);
-					}
-
-					getID.setText(Long.toString(employee.getEmpId()));
-					getName.setText(employee.getEmpName());
-					getAge.setText(Integer.toString(employee.getEmpAge()));
-					getPhone.setText(employee.getEmpPhone());
-					getUser.setText(employee.getUsername());
-					getPass.setText(employee.getPassword());
-
-					//System.out.println(employee);
-
-				} catch (Exception E) {
-					// TODO Auto-generated catch block
-
-					promptLabel.setVisible(true);
-
-					E.printStackTrace();
 				}
-
 			}
 		});
 		OKbtn.setFont(new Font("微软雅黑", Font.PLAIN, 20));
