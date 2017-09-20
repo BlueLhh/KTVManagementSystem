@@ -61,7 +61,7 @@ public class AddGoodsOrCheckout {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 279, 253);
+		frame.setBounds(100, 100, 279, 355);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		BorderHide.setJFrameHide(frame);// 设置边框隐藏
@@ -83,7 +83,7 @@ public class AddGoodsOrCheckout {
 
 		JLabel tishilabel = new JLabel("请选择你的操作");
 		tishilabel.setFont(new Font("微软雅黑", Font.PLAIN, 20));
-		tishilabel.setBounds(55, 44, 150, 45);
+		tishilabel.setBounds(61, 44, 150, 45);
 		frame.getContentPane().add(tishilabel);
 
 		JButton addgoodsbtn = new JButton("商品服务");
@@ -111,7 +111,7 @@ public class AddGoodsOrCheckout {
 			}
 		});
 		addgoodsbtn.setFont(new Font("微软雅黑", Font.PLAIN, 15));
-		addgoodsbtn.setBounds(22, 125, 112, 45);
+		addgoodsbtn.setBounds(80, 118, 112, 45);
 		frame.getContentPane().add(addgoodsbtn);
 
 		JButton checkoutbtn = new JButton("结账");
@@ -196,7 +196,7 @@ public class AddGoodsOrCheckout {
 						ordAllamtall = ordAllamtall * 0.95;
 						isMember = true;
 						break;
-					} 
+					}
 				}
 
 				Order order = new Order();
@@ -239,13 +239,24 @@ public class AddGoodsOrCheckout {
 			}
 		});
 		checkoutbtn.setFont(new Font("微软雅黑", Font.PLAIN, 15));
-		checkoutbtn.setBounds(156, 125, 93, 45);
+		checkoutbtn.setBounds(90, 262, 93, 45);
 		frame.getContentPane().add(checkoutbtn);
+
+		JButton orderbtn = new JButton("消费详情");
+		orderbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				new RoomOrderFrame();
+
+			}
+		});
+		orderbtn.setFont(new Font("微软雅黑", Font.PLAIN, 15));
+		orderbtn.setBounds(80, 191, 112, 45);
+		frame.getContentPane().add(orderbtn);
 	}
 
 	public static void closeAddGoodsOrCheckoutFrame() {
 		frame.setVisible(false);
 		frame.dispose();
 	}
-
 }
