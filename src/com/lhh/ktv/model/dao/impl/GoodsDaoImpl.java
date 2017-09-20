@@ -50,7 +50,6 @@ public class GoodsDaoImpl implements IGoodsDao {
 	@Override
 	public void deleteGoods(Long id, Connection conn) throws DataAccessException {
 		// TODO Auto-generated method stub
-		System.out.println("deletesaveEember id=" + id);
 		JdbcTemplate jt = new JdbcTemplate(conn);
 		String sql = "delete from k_goods where goods_id = ?";
 		jt.update(sql, new PreparedStatementSetter() {
@@ -140,7 +139,6 @@ public class GoodsDaoImpl implements IGoodsDao {
 				sql += condition;
 			}
 		}
-		System.out.println(sql);
 		jt.query(sql, new RowCallBackHandler() {
 
 			@Override
