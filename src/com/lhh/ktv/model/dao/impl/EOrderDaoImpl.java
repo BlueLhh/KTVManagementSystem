@@ -52,7 +52,6 @@ public class EOrderDaoImpl implements IEOrderDao{
 	@Override
 	public void deleteEOrder(Long id, Connection conn) throws DataAccessException {
 		// TODO Auto-generated method stub
-		System.out.println("deletesaveEember id=" + id);
 		JdbcTemplate jt = new JdbcTemplate(conn);
 		String sql = "delete from k_eorder where eorder_id = ?";
 		jt.update(sql, new PreparedStatementSetter() {
@@ -149,7 +148,6 @@ public class EOrderDaoImpl implements IEOrderDao{
 				sql += condition;
 			}
 		}
-		System.out.println(sql);
 		jt.query(sql, new RowCallBackHandler() {
 
 			@Override
