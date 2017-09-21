@@ -23,6 +23,41 @@ public class BGJPanel extends JPanel {
 	ImageIcon icon;
 	Image img;
 
+	public void roomsrBG() {
+		icon = new ImageIcon(getClass().getResource("/images/roomsr.jpg"));// 在src文件下
+		img = icon.getImage();
+	}
+
+	public void roomsBG() {
+		icon = new ImageIcon(getClass().getResource("/images/rooms.png"));// 在src文件下
+		img = icon.getImage();
+	}
+
+	public void memtopBG() {
+		icon = new ImageIcon(getClass().getResource("/images/memtopbg.jpg"));// 在src文件下
+		img = icon.getImage();
+	}
+
+	public void goodstopBG() {
+		icon = new ImageIcon(getClass().getResource("/images/goodstoppanel.jpg"));// 在src文件下
+		img = icon.getImage();
+	}
+
+	public void mainBG() {
+		icon = new ImageIcon(getClass().getResource("/images/mainbg.jpg"));// 在src文件下
+		img = icon.getImage();
+	}
+
+	public void empTopBG() {
+		icon = new ImageIcon(getClass().getResource("/images/emptop.jpg"));// 在src文件下
+		img = icon.getImage();
+	}
+
+	public void empRigthBG() {
+		icon = new ImageIcon(getClass().getResource("/images/rightbg.jpg"));// 在src文件下
+		img = icon.getImage();
+	}
+
 	public void busOrderBG() {
 		icon = new ImageIcon(getClass().getResource("/images/ordertopbg.jpg"));// 在src文件下
 		img = icon.getImage();
