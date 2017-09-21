@@ -73,7 +73,7 @@ public class JTableToExcel {
 			// 写入工作表
 			workbook.write();
 			workbook.close();
-			// fos.close();
+			//fos.close();
 
 			// 导出成功提示框
 			int dialog = JOptionPane.showConfirmDialog(null, "统计表导出成功！是否现在打开？", "提示", JOptionPane.YES_NO_OPTION);
@@ -85,8 +85,8 @@ public class JTableToExcel {
 			// e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "导入数据前请关闭工作表");
 		} catch (Exception e) {
-			// e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "没有进行筛选");
+			e.printStackTrace();
+			//JOptionPane.showMessageDialog(null, "没有进行筛选");
 		}
 	}
 
@@ -178,7 +178,6 @@ public class JTableToExcel {
 	 * @throws WriteException
 	 */
 	private void fillCell(WritableSheet sheet, JTable table, int rowNum, int colNum) throws WriteException {
-
 		WritableFont font = new WritableFont(WritableFont.ARIAL, 10, WritableFont.NO_BOLD, false,
 				UnderlineStyle.NO_UNDERLINE, Colour.BLACK);// 定义字体
 
@@ -198,5 +197,7 @@ public class JTableToExcel {
 			}
 
 		}
+		System.out.println("列："+colNum);
+		System.out.println("行："+rowNum);
 	}
 }
