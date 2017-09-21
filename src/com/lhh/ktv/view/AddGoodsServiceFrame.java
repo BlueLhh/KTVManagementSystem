@@ -107,7 +107,7 @@ public class AddGoodsServiceFrame {
 		if ("经理".equals(EmployeeServiceImpl.getPost())) {
 			roomIDshow = MainFrame.roomID;
 		} else {
-			roomIDshow = Test.roomID;
+			roomIDshow = EmpMainFrame.roomID;
 		}
 		JLabel showroomIDlabel = new JLabel(String.valueOf(roomIDshow));
 		showroomIDlabel.setFont(new Font("微软雅黑", Font.PLAIN, 20));
@@ -172,182 +172,190 @@ public class AddGoodsServiceFrame {
 		JButton addgoodsokbtn = new JButton("确认");
 		addgoodsokbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Long goodsID;
-				if ("".equals(addgoodsIDtxt.getText())) {
-					goodsID = -1L;
+				if ("".equals(addgoodscounttxt.getText())) {
+					JOptionPane.showMessageDialog(contentPane, "请按要求输入信息！", "提示", JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					goodsID = Long.parseLong(addgoodsIDtxt.getText());
-				}
 
-				String goodsName = addgoodsnametxt.getText();
-				int addgoodsCount = Integer.parseInt(addgoodscounttxt.getText());
-				int goodsCount = 0; // 商品的库存
-				@SuppressWarnings("unused")
-				Long getGoodsID;// 万一没有输入要查询的商品ID，则需要通过名称查询，再获取商品的ID
-				double goodsPrice = 0;// 商品的价格
-
-				// 先根据商品的编号进行查询商品。如果商品存在并且商品的数量不小于0，则可以添加
-				GoodsServiceImpl goodsService = new GoodsServiceImpl();
-				List<String> goodsconditions = new ArrayList<String>();
-				if (goodsID == -1L) {
-					goodsconditions.add("goods_name like '%" + goodsName + "%'");
-				} else if (goodsID != -1 && !("".equals(goodsName))) {
-					goodsconditions.add("goods_id like '%" + goodsID + "%'");
-					goodsconditions.add("goods_name like '%" + goodsName + "%'");
-				} else if (goodsID != -1) {
-					goodsconditions.add("goods_id = '" + goodsID + "'");
-				} else {
-					JOptionPane.showMessageDialog(contentPane, "温馨提醒，建议商品编号不为空", "提示", JOptionPane.INFORMATION_MESSAGE);
-					goodsconditions.add("goods_id like '%" + goodsID + "%'");
-					goodsconditions.add("goods_name like '%" + goodsName + "%'");
-				}
-
-				// conditions.add("order_status like '%" + ordStatus + "%'");
-				List<Goods> goodslist = goodsService.findGoods(goodsconditions);
-				for (Goods goods : goodslist) {
-					if (goodsName.equals(goods.getGoodsName()) || (goodsID == goods.getGoodsId())) {
-						getGoodsID = goods.getGoodsId();
-						goodsName = goods.getGoodsName();
-						goodsPrice = goods.getGoodsPrice();
-						goodsCount = goods.getGoodsCount();
+					Long goodsID;
+					if ("".equals(addgoodsIDtxt.getText())) {
+						goodsID = -1L;
+					} else {
+						goodsID = Long.parseLong(addgoodsIDtxt.getText());
 					}
-					break;
-				}
 
-				if (goodsCount < 0) {
-					// TODO 弹出该商品没有了的信息
-					JOptionPane.showMessageDialog(contentPane,
-							"商品：" + goodsName + "库存为：" + goodsCount + "，没有这件商品啦，快去叫经理添加吧！", "提示",
-							JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					if (goodsCount < addgoodsCount) {
-						JOptionPane.showMessageDialog(contentPane, "该商品不足，你只能添加" + goodsCount + "件该商品", "提示",
+					String goodsName = addgoodsnametxt.getText();
+					int addgoodsCount = Integer.parseInt(addgoodscounttxt.getText());
+					int goodsCount = 0; // 商品的库存
+					@SuppressWarnings("unused")
+					Long getGoodsID;// 万一没有输入要查询的商品ID，则需要通过名称查询，再获取商品的ID
+					double goodsPrice = 0;// 商品的价格
+
+					// 先根据商品的编号进行查询商品。如果商品存在并且商品的数量不小于0，则可以添加
+					GoodsServiceImpl goodsService = new GoodsServiceImpl();
+					List<String> goodsconditions = new ArrayList<String>();
+					if (goodsID == -1L) {
+						goodsconditions.add("goods_name like '%" + goodsName + "%'");
+					} else if (goodsID != -1 && !("".equals(goodsName))) {
+						goodsconditions.add("goods_id like '%" + goodsID + "%'");
+						goodsconditions.add("goods_name like '%" + goodsName + "%'");
+					} else if (goodsID != -1) {
+						goodsconditions.add("goods_id = '" + goodsID + "'");
+					} else {
+						JOptionPane.showMessageDialog(contentPane, "温馨提醒，建议商品编号不为空", "提示",
+								JOptionPane.INFORMATION_MESSAGE);
+						goodsconditions.add("goods_id like '%" + goodsID + "%'");
+						goodsconditions.add("goods_name like '%" + goodsName + "%'");
+					}
+
+					// conditions.add("order_status like '%" + ordStatus +
+					// "%'");
+					List<Goods> goodslist = goodsService.findGoods(goodsconditions);
+					for (Goods goods : goodslist) {
+						if (goodsName.equals(goods.getGoodsName()) || (goodsID == goods.getGoodsId())) {
+							getGoodsID = goods.getGoodsId();
+							goodsName = goods.getGoodsName();
+							goodsPrice = goods.getGoodsPrice();
+							goodsCount = goods.getGoodsCount();
+						}
+						break;
+					}
+
+					if (goodsCount < 0) {
+						// TODO 弹出该商品没有了的信息
+						JOptionPane.showMessageDialog(contentPane,
+								"商品：" + goodsName + "库存为：" + goodsCount + "，没有这件商品啦，快去叫经理添加吧！", "提示",
 								JOptionPane.INFORMATION_MESSAGE);
 					} else {
-						// 查询订单的信息
-						// 根据房间号和客户的名字确定订单的名称
-						// 查询订单，获取订单的信息，后期完成之后添加到订单
-						Long orderID = null;
-						Long roomId;
-						if ("经理".equals(EmployeeServiceImpl.getPost())) {
-							roomId = MainFrame.roomID;
+						if (goodsCount < addgoodsCount) {
+							JOptionPane.showMessageDialog(contentPane, "该商品不足，你只能添加" + goodsCount + "件该商品", "提示",
+									JOptionPane.INFORMATION_MESSAGE);
 						} else {
-							roomId = Test.roomID;
-						}
-						String orpName = showcusnamelabel.getText();// 消费者姓名
-						String ordOpentime = null;// 开包时间
-						String ordEndtime = null;// 结账时间
-						double ordrmPrice = 0;// 包房费用
-						double ordAmtall = 0;// 商品消费总额
-						double ordAllamtall = 0;// 消费合计
-						String ordStatus = "0";// 订单状态。0是初始状态，为未结账。1为已经结账
-						String operator = null;// 操作人员
-
-						// 根据添加查询的订单信息 并且获取这条数据的信息
-						OrderServiceImpl orderService = new OrderServiceImpl();
-						List<String> conditions = new ArrayList<String>();
-						conditions.add("order_room_id like '%" + roomId + "%'");
-						conditions.add("order_status like '%" + ordStatus + "%'");
-						List<Order> list = orderService.findOrder(conditions);
-
-						for (Order order : list) {
-							orderID = order.getOrderId();
-							// orpName = order.getOrpName();
-							ordOpentime = order.getOrdOpentime();
-							ordEndtime = order.getOrdEndtime();
-							ordrmPrice = order.getOrdrmPrice();
-							operator = order.getOperator();
-						}
-
-						// 生成一条子订单，将现在的订单ID插入到子订单中
-						IEOrderService eOrderService = new EOrderServiceImpl();
-						EOrder eOrder = new EOrder();
-
-						double eOrderMoney = addgoodsCount * (goodsPrice + MyGoodsOnRoomTableModel.addMoney);// 子订单的金钱
-
-						// goodsPrice +=
-						// MyGoodsOnRoomTableModel.addMoney;//添加的价钱
-
-						eOrder.getOrder().setOrderId(orderID);// 订单编号
-						eOrder.setEgName(goodsName);// 商品名称
-						eOrder.seteCount(addgoodsCount);// 添加的数量
-						eOrder.setEgPrice(goodsPrice);// 添加商品的单价
-						eOrder.seteMoney(eOrderMoney);
-
-						// 生成子订单
-						try {
-							eOrderService.addIEorder(eOrder);
-							// 生成订单成功。
-
-							// 更改商品库存
-							IGoodsService gsi = new GoodsServiceImpl();
-							Goods goods = new Goods();
-							goodsCount = goodsCount - addgoodsCount;
-							goods.setGoodsName(goodsName);
-							goods.setGoodsPrice(goodsPrice);
-							goods.setGoodsCount(goodsCount);
-							goods.setGoodsId(goodsID);
-							gsi.updateGoods(goods);
-							// 更新商品库存成功！
-
-							// 遍历子订单，以订单的ID去查询，然后获取金额。
-							// EOrderServiceImpl orderService = new
-							// EOrderServiceImpl();
-							List<String> eOrderconditions = new ArrayList<String>();
-							eOrderconditions.add("eorder_order_id = '" + orderID + "'");
-							// conditions.add("order_status like '%" + ordStatus
-							// +
-							// "%'");
-							List<EOrder> eOrderlist = eOrderService.findIEorder(eOrderconditions);
-
-							for (EOrder eOd : eOrderlist) {
-								ordAmtall += eOd.geteMoney();
-							}
-							System.out.println("子订单的消费情况：" + ordAmtall);
-
-							// 更新订单内容
-							Order order = new Order();
-							ordAllamtall = ordAmtall + ordrmPrice;
-							order.getRoomId().setRoomId(roomId);
-							order.setOrpName(orpName);
-							order.setOrdOpentime(ordOpentime);
-							order.setOrdEndtime(ordEndtime);
-							order.setOrdrmPrice(ordrmPrice);
-							order.setOrdAmtall(ordAmtall);// 消费的商品
-							order.setOrdAllamtall(ordAllamtall);
-							order.setOrdStatus(ordStatus);
-							order.setOperator(operator);
-							order.setOrderId(orderID);
-							orderService.updateOrder(order);
-							// 更新订单金额成功！
-							// 弹出提示框
-							int result = JOptionPane.showConfirmDialog(contentPane,
-									"添加" + addgoodsCount + "件" + goodsName + "成功，是否要继续添加？", "提示",
-									JOptionPane.OK_CANCEL_OPTION);
-							if (result == 0) {
-								closeAddGoodsSericeFrame();
-								new AddGoodsServiceFrame();
-								if("经理".equals(EmployeeServiceImpl.getPost())){
-									MainFrame.roomGoodsFresh();
-								}else{
-									Test.roomGoodsFresh();
-								}
-								
+							// 查询订单的信息
+							// 根据房间号和客户的名字确定订单的名称
+							// 查询订单，获取订单的信息，后期完成之后添加到订单
+							Long orderID = null;
+							Long roomId;
+							if ("经理".equals(EmployeeServiceImpl.getPost())) {
+								roomId = MainFrame.roomID;
 							} else {
-								if("经理".equals(EmployeeServiceImpl.getPost())){
-									MainFrame.roomGoodsFresh();
-								}else{
-									Test.roomGoodsFresh();
-								}
-								closeAddGoodsSericeFrame();
+								roomId = EmpMainFrame.roomID;
 							}
-						} catch (ServiceException E) {
-							// TODO Auto-generated catch block
-							E.printStackTrace();
-						}
-					} // 添加判断
-				}
+							String orpName = showcusnamelabel.getText();// 消费者姓名
+							String ordOpentime = null;// 开包时间
+							String ordEndtime = null;// 结账时间
+							double ordrmPrice = 0;// 包房费用
+							double ordAmtall = 0;// 商品消费总额
+							double ordAllamtall = 0;// 消费合计
+							String ordStatus = "0";// 订单状态。0是初始状态，为未结账。1为已经结账
+							String operator = null;// 操作人员
 
+							// 根据添加查询的订单信息 并且获取这条数据的信息
+							OrderServiceImpl orderService = new OrderServiceImpl();
+							List<String> conditions = new ArrayList<String>();
+							conditions.add("order_room_id like '%" + roomId + "%'");
+							conditions.add("order_status like '%" + ordStatus + "%'");
+							List<Order> list = orderService.findOrder(conditions);
+
+							for (Order order : list) {
+								orderID = order.getOrderId();
+								// orpName = order.getOrpName();
+								ordOpentime = order.getOrdOpentime();
+								ordEndtime = order.getOrdEndtime();
+								ordrmPrice = order.getOrdrmPrice();
+								operator = order.getOperator();
+							}
+
+							// 生成一条子订单，将现在的订单ID插入到子订单中
+							IEOrderService eOrderService = new EOrderServiceImpl();
+							EOrder eOrder = new EOrder();
+
+							double eOrderMoney = addgoodsCount * (goodsPrice + MyGoodsOnRoomTableModel.addMoney);// 子订单的金钱
+
+							// goodsPrice +=
+							// MyGoodsOnRoomTableModel.addMoney;//添加的价钱
+
+							eOrder.getOrder().setOrderId(orderID);// 订单编号
+							eOrder.setEgName(goodsName);// 商品名称
+							eOrder.seteCount(addgoodsCount);// 添加的数量
+							eOrder.setEgPrice(goodsPrice);// 添加商品的单价
+							eOrder.seteMoney(eOrderMoney);
+
+							// 生成子订单
+							try {
+								eOrderService.addIEorder(eOrder);
+								// 生成订单成功。
+
+								// 更改商品库存
+								IGoodsService gsi = new GoodsServiceImpl();
+								Goods goods = new Goods();
+								goodsCount = goodsCount - addgoodsCount;
+								goods.setGoodsName(goodsName);
+								goods.setGoodsPrice(goodsPrice);
+								goods.setGoodsCount(goodsCount);
+								goods.setGoodsId(goodsID);
+								gsi.updateGoods(goods);
+								// 更新商品库存成功！
+
+								// 遍历子订单，以订单的ID去查询，然后获取金额。
+								// EOrderServiceImpl orderService = new
+								// EOrderServiceImpl();
+								List<String> eOrderconditions = new ArrayList<String>();
+								eOrderconditions.add("eorder_order_id = '" + orderID + "'");
+								// conditions.add("order_status like '%" +
+								// ordStatus
+								// +
+								// "%'");
+								List<EOrder> eOrderlist = eOrderService.findIEorder(eOrderconditions);
+
+								for (EOrder eOd : eOrderlist) {
+									ordAmtall += eOd.geteMoney();
+								}
+								System.out.println("子订单的消费情况：" + ordAmtall);
+
+								// 更新订单内容
+								Order order = new Order();
+								ordAllamtall = ordAmtall + ordrmPrice;
+								order.getRoomId().setRoomId(roomId);
+								order.setOrpName(orpName);
+								order.setOrdOpentime(ordOpentime);
+								order.setOrdEndtime(ordEndtime);
+								order.setOrdrmPrice(ordrmPrice);
+								order.setOrdAmtall(ordAmtall);// 消费的商品
+								order.setOrdAllamtall(ordAllamtall);
+								order.setOrdStatus(ordStatus);
+								order.setOperator(operator);
+								order.setOrderId(orderID);
+								orderService.updateOrder(order);
+								// 更新订单金额成功！
+								// 弹出提示框
+								int result = JOptionPane.showConfirmDialog(contentPane,
+										"添加" + addgoodsCount + "件" + goodsName + "成功，是否要继续添加？", "提示",
+										JOptionPane.OK_CANCEL_OPTION);
+								if (result == 0) {
+									closeAddGoodsSericeFrame();
+									new AddGoodsServiceFrame();
+									if ("经理".equals(EmployeeServiceImpl.getPost())) {
+										MainFrame.roomGoodsFresh();
+									} else {
+										EmpMainFrame.roomGoodsFresh();
+									}
+
+								} else {
+									if ("经理".equals(EmployeeServiceImpl.getPost())) {
+										MainFrame.roomGoodsFresh();
+									} else {
+										EmpMainFrame.roomGoodsFresh();
+									}
+									closeAddGoodsSericeFrame();
+								}
+							} catch (ServiceException E) {
+								// TODO Auto-generated catch block
+								E.printStackTrace();
+							}
+						} // 添加判断
+					}
+
+				}
 			}
 		});
 		addgoodsokbtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
