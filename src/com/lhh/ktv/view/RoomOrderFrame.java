@@ -107,22 +107,20 @@ public class RoomOrderFrame {
 		frame.getContentPane().add(orderdatapanel);
 		orderdatapanel.setLayout(null);
 
-		
-		
-		//条件查询
+		// 条件查询
 		String status = "0";
 		String name = null;
 		Long roomID;
-		
-		if("经理".equals(EmployeeServiceImpl.getPost())){
+
+		if ("经理".equals(EmployeeServiceImpl.getPost())) {
 			roomID = MainFrame.roomID;
-		}else{
-			roomID = Test.roomID;
+		} else {
+			roomID = EmpMainFrame.roomID;
 		}
-		
-		//123
+
+		// 123
 		Long orderID = null;
-		//条件查询ORDER订单表 获取ID和名字
+		// 条件查询ORDER订单表 获取ID和名字
 		OrderServiceImpl orderService = new OrderServiceImpl();
 		List<String> conditions = new ArrayList<String>();
 		conditions.add("order_room_id = '" + roomID + "'");
@@ -133,18 +131,18 @@ public class RoomOrderFrame {
 			name = order.getOrpName();
 			orderID = order.getOrderId();
 		}
-		System.out.println("订单ID="+orderID);
+		System.out.println("订单ID=" + orderID);
 		roomIDlabel.setText(String.valueOf(roomID));
 		getcustnamelabel.setText(name);
-		
-		//写表格
-		try{
-			
+
+		// 写表格
+		try {
+
 			EOrderServiceImpl eOrderSimpl = new EOrderServiceImpl();
 			List<String> eodconditions = new ArrayList<String>();
-			
+
 			eodconditions.add("eorder_order_id = '" + orderID + "'");
-			
+
 			List<EOrder> eodList = eOrderSimpl.findIEorder(eodconditions);
 			for (EOrder eOrder : eodList) {
 				money += eOrder.geteMoney();
@@ -153,30 +151,30 @@ public class RoomOrderFrame {
 			SetTableCenter.setTableCenter(eordTable);
 			MyEOrderTableModel model = new MyEOrderTableModel(eodList);
 			eordTable.setModel(model);
-			
+
 			JScrollPane scrollPane = new JScrollPane(eordTable);
 			scrollPane.setBounds(0, 0, 494, 398);
 			orderdatapanel.add(scrollPane);
-			
+
 			JLabel nowmonylabel = new JLabel("当前消费金额为：");
 			nowmonylabel.setFont(new Font("微软雅黑", Font.PLAIN, 15));
 			nowmonylabel.setBounds(14, 589, 120, 36);
 			frame.getContentPane().add(nowmonylabel);
-			
+
 			JLabel getnowmonylabel = new JLabel(String.valueOf(money));
 			getnowmonylabel.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 			getnowmonylabel.setBounds(134, 585, 84, 45);
 			frame.getContentPane().add(getnowmonylabel);
-			
+
 			JLabel yuanlabel = new JLabel("元");
 			yuanlabel.setFont(new Font("微软雅黑", Font.PLAIN, 15));
 			yuanlabel.setBounds(217, 589, 30, 36);
 			frame.getContentPane().add(yuanlabel);
-			 
-		}catch(Exception e){
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	static public void closeRoomOrderFrame() {
