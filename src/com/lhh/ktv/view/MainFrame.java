@@ -86,7 +86,7 @@ public class MainFrame extends JFrame implements Runnable {
 	private static JTable goodsDataTable;
 
 	private static JTable allOrderDataTable;
-	private static JTable histOrderDataTable;
+	private JTable histOrderDataTable;
 
 	private static MyEmpTableModel model;
 	private static MyMemTableModel memmodel;
@@ -129,7 +129,7 @@ public class MainFrame extends JFrame implements Runnable {
 	static public Long eorderDataID;
 
 	// static private JLabel showallmoneylabel;
-	// private double allMoney = 0;
+	private double allMoney = 0;
 
 	public static Long roomID;
 	private JTextField checkmonthtxt;
@@ -220,12 +220,13 @@ public class MainFrame extends JFrame implements Runnable {
 		frist.setOpaque(false);
 		mainPanel.add(frist, "frist");
 
-		JPanel roomJpanel = new JPanel();
-		roomJpanel.setBackground(Color.LIGHT_GRAY);
+		BGJPanel roomJpanel = new BGJPanel();
+		roomJpanel.mainBG();
 		mainPanel.add(roomJpanel, "room");
 		roomJpanel.setLayout(null);
 
-		JPanel roominfopanel = new JPanel();
+		BGJPanel roominfopanel = new BGJPanel();
+		roominfopanel.roomsBG();
 		roominfopanel.setBounds(0, 0, 630, 563);
 		roomJpanel.add(roominfopanel);
 		roominfopanel.setLayout(null);
@@ -545,14 +546,16 @@ public class MainFrame extends JFrame implements Runnable {
 		room388btn.setBounds(443, 392, 112, 112);
 		roominfopanel.add(room388btn);
 
-		JPanel roomgoodsinfopanel = new JPanel();
+		BGJPanel roomgoodsinfopanel = new BGJPanel();
+		roomgoodsinfopanel.roomsrBG();
 		roomgoodsinfopanel.setBounds(630, 0, 371, 563);
 		roomJpanel.add(roomgoodsinfopanel);
 		roomgoodsinfopanel.setLayout(null);
 
 		JLabel goodslabel = new JLabel("商品清单表");
-		goodslabel.setFont(new Font("微软雅黑", Font.PLAIN, 18));
-		goodslabel.setBounds(134, 32, 102, 56);
+		goodslabel.setForeground(Color.WHITE);
+		goodslabel.setFont(new Font("微软雅黑", Font.PLAIN, 20));
+		goodslabel.setBounds(134, 32, 113, 56);
 		roomgoodsinfopanel.add(goodslabel);
 
 		JPanel roomgoodsdatapanel = new JPanel();
@@ -560,18 +563,19 @@ public class MainFrame extends JFrame implements Runnable {
 		roomgoodsinfopanel.add(roomgoodsdatapanel);
 		roomgoodsdatapanel.setLayout(null);
 
-		JPanel memJpanel = new JPanel();
-		memJpanel.setBackground(Color.LIGHT_GRAY);
+		BGJPanel memJpanel = new BGJPanel();
+		memJpanel.mainBG();
 		mainPanel.add(memJpanel, "mem");
 		memJpanel.setLayout(null);
 
-		JPanel findadd = new JPanel();
-		findadd.setBackground(Color.LIGHT_GRAY);
+		BGJPanel findadd = new BGJPanel();
+		findadd.memtopBG();
 		findadd.setBounds(0, 0, 643, 139);
 		memJpanel.add(findadd);
 		findadd.setLayout(null);
 
 		JLabel findnamelabel = new JLabel("名字查询：");
+		findnamelabel.setForeground(Color.WHITE);
 		findnamelabel.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		findnamelabel.setBounds(53, 44, 96, 51);
 		findadd.add(findnamelabel);
@@ -666,12 +670,14 @@ public class MainFrame extends JFrame implements Runnable {
 		addnametxt.setColumns(10);
 
 		JRadioButton radMan = new JRadioButton("男");
+		radMan.setBackground(Color.LIGHT_GRAY);
 		radMan.setSelected(true);
 		radMan.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		radMan.setBounds(122, 239, 47, 27);
 		addpanel.add(radMan);
 
 		JRadioButton radWom = new JRadioButton("女");
+		radWom.setBackground(Color.LIGHT_GRAY);
 		radWom.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		radWom.setBounds(175, 239, 47, 27);
 		addpanel.add(radWom);
@@ -928,17 +934,19 @@ public class MainFrame extends JFrame implements Runnable {
 		rturumembtn.setBounds(249, 483, 75, 47);
 		delandupd.add(rturumembtn);
 
-		JPanel goodsJpanel = new JPanel();
-		// goodsJpanel.setBackground(Color.RED);
+		BGJPanel goodsJpanel = new BGJPanel();
+		goodsJpanel.mainBG();
 		mainPanel.add(goodsJpanel, "goods");
 		goodsJpanel.setLayout(null);
 
-		JPanel goodstoppanel = new JPanel();
+		BGJPanel goodstoppanel = new BGJPanel();
+		goodstoppanel.goodstopBG();
 		goodstoppanel.setBounds(0, 0, 655, 138);
 		goodsJpanel.add(goodstoppanel);
 		goodstoppanel.setLayout(null);
 
 		JLabel findgoodsnamelabel = new JLabel("商品名称：");
+		findgoodsnamelabel.setForeground(Color.WHITE);
 		findgoodsnamelabel.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		findgoodsnamelabel.setBounds(44, 54, 95, 38);
 		goodstoppanel.add(findgoodsnamelabel);
@@ -1262,17 +1270,19 @@ public class MainFrame extends JFrame implements Runnable {
 		addgoodsbtn.setBounds(460, 54, 113, 38);
 		goodstoppanel.add(addgoodsbtn);
 
-		JPanel empJpanel = new JPanel();
+		BGJPanel empJpanel = new BGJPanel();
+		empJpanel.mainBG();
 		mainPanel.add(empJpanel, "emp");
 		empJpanel.setLayout(null);
 
-		JPanel functionPanel = new JPanel();
-		functionPanel.setBackground(Color.LIGHT_GRAY);
+		BGJPanel functionPanel = new BGJPanel();
+		functionPanel.empTopBG();
 		functionPanel.setBounds(0, 0, 1000, 78);
 		empJpanel.add(functionPanel);
 		functionPanel.setLayout(null);
 
 		JLabel queryName = new JLabel("姓名：");
+		queryName.setForeground(Color.WHITE);
 		queryName.setFont(new Font("微软雅黑", Font.PLAIN, 20));
 		queryName.setBounds(101, 13, 64, 40);
 		functionPanel.add(queryName);
@@ -1284,6 +1294,7 @@ public class MainFrame extends JFrame implements Runnable {
 		querytxtName.setColumns(10);
 
 		JLabel queryNum = new JLabel("账号：");
+		queryNum.setForeground(Color.WHITE);
 		queryNum.setFont(new Font("微软雅黑", Font.PLAIN, 20));
 		queryNum.setBounds(388, 13, 64, 40);
 		functionPanel.add(queryNum);
@@ -1324,7 +1335,12 @@ public class MainFrame extends JFrame implements Runnable {
 					querytxtNum.setText("");
 				} else {
 					// TODO 查询刷新
-					JOptionPane.showMessageDialog(contentPane, "查询成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+					if ("".equals(querytxtName.getText()) && "".equals(querytxtNum.getText())) {
+						JOptionPane.showMessageDialog(contentPane, "不输入信息默认查询全部！", "提示",
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(contentPane, "查询成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+					}
 					// System.out.println(empList);
 
 					JTable queryTable = new JTable();
@@ -1700,8 +1716,8 @@ public class MainFrame extends JFrame implements Runnable {
 			e.printStackTrace();
 		}
 
-		JPanel rightJPanel = new JPanel();
-		rightJPanel.setBackground(Color.LIGHT_GRAY);
+		BGJPanel rightJPanel = new BGJPanel();
+		rightJPanel.empRigthBG();
 		rightJPanel.setBounds(859, 91, 141, 470);
 		empJpanel.add(rightJPanel);
 		rightJPanel.setLayout(null);
@@ -1826,7 +1842,7 @@ public class MainFrame extends JFrame implements Runnable {
 		 * TODO 将历史订单显示在表格上
 		 * 
 		 */
-		double allMoney = 0;
+		// double allMoney = 0;
 		try {
 
 			// Order order = new Order();
@@ -1839,8 +1855,6 @@ public class MainFrame extends JFrame implements Runnable {
 			for (Order order : list) {
 				allMoney += order.getOrdAllamtall();
 			}
-
-			// -------------------------------------------------------------------------------------------历史订单
 
 			histOrderDataTable = new JTable();
 			SetTableCenter.setTableCenter(histOrderDataTable);// 居中
@@ -1871,8 +1885,6 @@ public class MainFrame extends JFrame implements Runnable {
 			ee.printStackTrace();
 		}
 
-		// ----------------------------------------------------------------------------------------------------
-
 		JButton findallorderbtn = new JButton("查看全部订单");
 		findallorderbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1885,7 +1897,6 @@ public class MainFrame extends JFrame implements Runnable {
 		findallorderbtn.setBounds(137, 18, 150, 46);
 		busdatapaneltoppanel.add(findallorderbtn);
 
-		// --------------------------------------------------------------------------------------总金额
 		JLabel showallmoneylabel = new JLabel(String.valueOf(allMoney));
 		showallmoneylabel.setForeground(Color.WHITE);
 		showallmoneylabel.setFont(new Font("微软雅黑", Font.PLAIN, 20));
@@ -1894,59 +1905,15 @@ public class MainFrame extends JFrame implements Runnable {
 
 		JButton findolddorderbtn = new JButton("查看历史订单");
 		findolddorderbtn.addActionListener(new ActionListener() {
-			double allMoney = 0;
+			// double allMoney = 0;
 
 			public void actionPerformed(ActionEvent e) {
 
-				try {
-
-					// Order order = new Order();
-					OrderServiceImpl orderSimpl = new OrderServiceImpl();
-					String ordStatus = "1";// 查询订单的状态是已结账
-					List<String> conditions = new ArrayList<String>();
-					conditions.add("order_status = '" + ordStatus + "'");
-					List<Order> list = orderSimpl.findOrder(conditions);
-
-					for (Order order : list) {
-						allMoney += order.getOrdAllamtall();
-					}
-
-					showallmoneylabel.setText(String.valueOf(allMoney));
-
-					// -------------------------------------------------------------------------------------------历史订单
-
-					JTable histOrderDataTable = new JTable();
-					SetTableCenter.setTableCenter(histOrderDataTable);// 居中
-					ordermodel = new MyOrderTableModel(list);
-					histOrderDataTable.setModel(ordermodel);
-
-					JScrollPane historderdatatscollPanel = new JScrollPane(histOrderDataTable);
-					historderdatatscollPanel.setBounds(0, 0, 1000, 413);
-					historderpanel.add(historderdatatscollPanel);
-
-					// 设置点击事件
-					histOrderDataTable.addMouseListener(new MouseAdapter() {
-
-						public void mouseClicked(MouseEvent evt) {
-							if (evt.getClickCount() == 2) {
-
-								int row = histOrderDataTable.getSelectedRow();
-
-								String data;
-								data = String.valueOf(ordermodel.getValueAt(row, 0));
-								eorderDataID = Long.parseLong(data);
-								new EOrderFrame();
-							}
-						}
-
-					});
-				} catch (Exception ee) {
-					ee.printStackTrace();
-				}
-
 				cardorder.show(orderdatapanel, "historderpanel");
 
-				// histOrderData();
+				histOrderData();
+
+				showallmoneylabel.setText(String.valueOf(allMoney + AddGoodsOrCheckout.money));
 			}
 		});
 		findolddorderbtn.setFont(new Font("微软雅黑", Font.PLAIN, 18));
@@ -1969,6 +1936,7 @@ public class MainFrame extends JFrame implements Runnable {
 				fd.setLocation(400, 250);
 				fd.setVisible(true);
 				String stringfile = fd.getDirectory() + fd.getFile() + ".xls";
+
 				new JTableToExcel().export(new File(stringfile), "海文KTV营业清单", "", histOrderDataTable);
 			}
 		});
@@ -2008,7 +1976,6 @@ public class MainFrame extends JFrame implements Runnable {
 
 				String time = checkmonthtxt.getText();
 				if (time.length() < 6) {
-					// -----------------------------------------------------------------------查询
 					JOptionPane.showMessageDialog(contentPane, "请输入正确的格式！如查询2017年9月份的营业额：201709", "提示",
 							JOptionPane.INFORMATION_MESSAGE);
 				} else {
@@ -2037,11 +2004,6 @@ public class MainFrame extends JFrame implements Runnable {
 								JOptionPane.INFORMATION_MESSAGE);
 					}
 
-					// ordermodel.updateList(list);
-					// histOrderDataTable.updateUI();
-
-					// -------------------------------------------------------------------------------------------历史订单
-
 					JTable histOrderDataTable = new JTable();
 					SetTableCenter.setTableCenter(histOrderDataTable);// 居中
 					MyOrderTableModel ordermodel = new MyOrderTableModel(list);
@@ -2068,6 +2030,19 @@ public class MainFrame extends JFrame implements Runnable {
 
 					});
 
+					int result = JOptionPane.showConfirmDialog(contentPane, "是否打印该月的营业单？", "提示",
+							JOptionPane.OK_CANCEL_OPTION);
+					if (result == 0) {
+						// 选择确定则打印该月的营业情况
+						JFrame frame = new JFrame();
+						FileDialog fd = new FileDialog(frame, "保存记录", FileDialog.SAVE);
+						fd.setLocation(400, 250);
+						fd.setVisible(true);
+						String stringfile = fd.getDirectory() + fd.getFile() + ".xls";
+
+						new JTableToExcel().export(new File(stringfile), "海文KTV营业清单", "", histOrderDataTable);
+					}
+
 				}
 
 			}
@@ -2085,6 +2060,7 @@ public class MainFrame extends JFrame implements Runnable {
 		JButton fristbtn = new JButton("首页");
 		BtnEvent.btnFrist(fristbtn);
 		fristbtn.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 				cardmain.show(mainPanel, "frist");
 			}
@@ -2213,7 +2189,7 @@ public class MainFrame extends JFrame implements Runnable {
 	}
 
 	// 刷新历史订单
-	static public void histOrderData() {
+	public void histOrderData() {
 		OrderServiceImpl orderSimpl = new OrderServiceImpl();
 		String ordStatus = "1";// 查询订单的状态是已结账
 		List<String> conditions = new ArrayList<String>();
