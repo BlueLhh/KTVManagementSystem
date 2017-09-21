@@ -48,7 +48,7 @@ public class LoginFrame extends JFrame {
 					BorderHide.setJFrameHide(frame);// 设置边框隐藏
 					new WindowMove().install(frame);// 边框隐藏之后可以移动
 					frame.setVisible(true);
-					//frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+					// frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -70,8 +70,8 @@ public class LoginFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		//登录
+
+		// 登录
 		BGJPanel loginPanel = new BGJPanel();
 		loginPanel.loginPanel();
 		loginPanel.setBounds(375, 180, 420, 380);
@@ -118,22 +118,21 @@ public class LoginFrame extends JFrame {
 				try {
 					if (employeeService.login(loginID, loginPW)) {
 						// TODO 登录成功，在此跳转到新的界面
-						setVisible(false);//隐藏本窗口
-						
-						//如果登录的人是经理 则跳转到主面板。否则跳转到普通员工的面板
-						if("经理".equals(EmployeeServiceImpl.getPost())){
+						setVisible(false);// 隐藏本窗口
+
+						// 如果登录的人是经理 则跳转到主面板。否则跳转到普通员工的面板
+						if ("经理".equals(EmployeeServiceImpl.getPost())) {
 							JFrame frame = new JFrame();
-							new MainFrame(frame).setVisible(true);//显示新的窗口
-						}else{
-							System.out.println("跳转Test");
+							new MainFrame(frame).setVisible(true);// 显示新的窗口
+						} else {
 							JFrame frame = new JFrame();
-							new Test(frame);
+							new EmpMainFrame(frame);
 						}
-						
-						dispose();//本窗口销毁，释放内存！
+
+						dispose();// 本窗口销毁，释放内存！
 					} else {
 						System.out.println(loginID + "---" + loginPW);
-						JOptionPane.showMessageDialog(contentPane, "用户或密码不正确！","提示",JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(contentPane, "用户或密码不正确！", "提示", JOptionPane.INFORMATION_MESSAGE);
 					}
 				} catch (ServiceException ee) {
 					// TODO Auto-generated catch block
@@ -155,7 +154,7 @@ public class LoginFrame extends JFrame {
 		});
 		BorderHide.setBtnBorderHide(btnClose);
 
-		//退出按钮
+		// 退出按钮
 		JButton btnExit = new JButton();
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
