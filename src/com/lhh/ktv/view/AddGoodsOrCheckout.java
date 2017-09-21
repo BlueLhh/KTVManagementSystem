@@ -32,6 +32,7 @@ public class AddGoodsOrCheckout {
 	private static JFrame frame;
 	private JPanel contentPane;
 	public static String cusName;// 客户的名字
+	public static double money;
 
 	/**
 	 * Launch the application.
@@ -199,6 +200,8 @@ public class AddGoodsOrCheckout {
 					}
 				}
 
+				money = ordAllamtall;
+				
 				Order order = new Order();
 
 				order.getRoomId().setRoomId(roomId);
