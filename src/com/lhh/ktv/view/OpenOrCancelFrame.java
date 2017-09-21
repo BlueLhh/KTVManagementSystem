@@ -104,7 +104,7 @@ public class OpenOrCancelFrame {
 				if ("经理".equals(EmployeeServiceImpl.getPost())) {
 					id = MainFrame.roomID;// 获取点击后的数据
 				} else {
-					id = Test.roomID;
+					id = EmpMainFrame.roomID;
 				}
 
 				String name = null;// 客户的名字
@@ -194,7 +194,7 @@ public class OpenOrCancelFrame {
 				if ("经理".equals(EmployeeServiceImpl.getPost())) {
 					id = MainFrame.roomID;// 获取点击后的数据
 				} else {
-					id = Test.roomID;
+					id = EmpMainFrame.roomID;
 				}
 				Long resID = null;// 预订单的编号
 				String status = "未使用";
