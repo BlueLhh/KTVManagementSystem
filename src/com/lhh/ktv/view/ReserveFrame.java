@@ -278,7 +278,6 @@ public class ReserveFrame {
 				String min = time.substring(14, 16);
 
 				String sysTime = year + month + day + hour + min;
-				System.out.println("sysTime=" + sysTime);
 				// 预定时间
 				String resyeartxt = reserveyeartxt.getText();
 
@@ -415,9 +414,6 @@ public class ReserveFrame {
 				} else {
 					resTime = resyeartxt + "-" + resmonthtxt + "-" + resdaytxt + " " + reshourtxt + ":" + resmintxt;
 					retTime = retyeartxt + "-" + retmonthtxt + "-" + retdaytxt + " " + rethourtxt + ":" + retmintxt;
-
-					System.out.println(resTime);
-					System.out.println(retTime);
 
 					IReserveService reserveService = new ReserveServiceImpl();
 					Reserve reserve = new Reserve();
