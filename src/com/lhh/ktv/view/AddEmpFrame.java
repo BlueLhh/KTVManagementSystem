@@ -224,14 +224,14 @@ public class AddEmpFrame {
 
 					try {
 						employeeService.addEmployee(employee);
-						JOptionPane.showMessageDialog(contentPane, "添加员工成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
 						MainFrame.refresh();
 						frame.setVisible(false);
 						frame.dispose();
 					} catch (Exception ee) {
 						JOptionPane.showMessageDialog(contentPane, "添加失败！", "提示", JOptionPane.INFORMATION_MESSAGE);
-						ee.printStackTrace();
+						//ee.printStackTrace();
 					}
+					JOptionPane.showMessageDialog(contentPane, "添加员工成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});
