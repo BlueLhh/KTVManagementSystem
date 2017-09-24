@@ -148,7 +148,7 @@ public class OpenRoomFrame {
 					roomService.updateRoom(room);
 					JOptionPane.showMessageDialog(contentPane, "开箱成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
 					closeOpenRoomFrame();
-					
+					RoomInfoFrame.closeRoomInfoFrame();
 				} catch (ServiceException E) {
 					// TODO Auto-generated catch block
 					E.printStackTrace();
