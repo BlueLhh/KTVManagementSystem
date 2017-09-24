@@ -70,14 +70,23 @@ public class ConfirmDelFrame {
 				Long delID = null;
 				if (DelEmpFrame.getGetDelID() != null) {
 					delID = DelEmpFrame.getGetDelID();
+					// GetTableFrame.closeGetFrame();
 				} else {
 					delID = MainFrame.getGetID();
+					// DelEmpFrame.closeDelEmp();
 				}
 				DelInformation.delEmpInfo(delID);
 				JOptionPane.showMessageDialog(contentPane, "删除成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
 				MainFrame.refresh();
-				//DelEmpFrame.closeDelEmp();
-				GetTableFrame.closeGetFrame();
+
+				if (DelEmpFrame.getGetDelID() != null) {
+					GetTableFrame.closeGetFrame();
+				} else {
+					DelEmpFrame.closeDelEmp();
+				}
+
+				// -----这里是加入是从表格中获取的ID进行的删除的
+
 				frame.setVisible(false);
 				frame.dispose();
 			}
