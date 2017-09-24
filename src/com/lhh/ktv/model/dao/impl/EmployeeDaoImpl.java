@@ -185,7 +185,6 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 			}
 		}
 		
-		System.out.println(sql);
 		jt.query(sql, new RowCallBackHandler() {
 
 			@Override
